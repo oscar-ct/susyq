@@ -4,7 +4,7 @@ import { TiStarOutline } from "react-icons/ti";
 import { TiTabsOutline } from "react-icons/ti";
 import { TiMail } from "react-icons/ti";
 import NavbarMobile from "@/components/NavbarMobile";
-import NavScrollToButton from "@/components/ScrollTo";
+import NavScrollToButton from "@/components/NavScrollToButton";
 
 
 const Navbar = () => {
