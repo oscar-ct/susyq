@@ -1,6 +1,6 @@
 import Image from "next/image";
 import susy from "/public/images/susyQCleaningServices.png"
-import speech from "../../public/images/FreeVector-Speech-Bubble-Vector-removebg-preview.png"
+// import speech from "../../public/images/FreeVector-Speech-Bubble-Vector-removebg-preview.png"
 import { HiLightningBolt } from "react-icons/hi";
 import IntroductionSwiper from "@/components/IntroductionSwiper";
 import IntroductionBackground from "@/components/IntroductionBackground";
@@ -25,9 +25,8 @@ const Introduction = () => {
                         <div className={"pt-5 w-full sm:w-min"}>
                             <IntroductionSwiper/>
                         </div>
-
-                        <div className={"z-10 -translate-y-24 translate-x-8 sm:translate-y-14 sm:translate-x-0"}>
-                            <div className={"flex"}>
+                        <div className={"z-10 -translate-y-20 translate-x-8 sm:translate-y-12 sm:translate-x-0"}>
+                            {/*<div className={"flex"}>*/}
                                 {/*<Image*/}
                                 {/*    priority*/}
                                 {/*    className={"hidden object-scale-down w-full h-[200px] translate-x-40 -translate-y-5 md:block"}*/}
@@ -39,13 +38,13 @@ const Introduction = () => {
                                 {/*<span className={"hidden md:block absolute pl-48 pt-8 text-xl text-gray-500 w-[400px] leading-tight text-center"}>I specialize in cleaning homes and businesses in Austin, TX</span>*/}
                                 <Image
                                     priority
-                                    className={"w-full h-[420px] object-scale-down"}
+                                    className={"w-max h-max object-cover sm:object-scale-down"}
                                     width={420}
                                     height={420}
                                     src={susy}
                                     alt={"susy"}
                                 />
-                            </div>
+                            {/*</div>*/}
                         </div>
                     </div>
                 </div>
