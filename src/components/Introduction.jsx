@@ -38,9 +38,9 @@ const Introduction = () => {
                                 {/*<span className={"hidden md:block absolute pl-48 pt-8 text-xl text-gray-500 w-[400px] leading-tight text-center"}>I specialize in cleaning homes and businesses in Austin, TX</span>*/}
                                 <Image
                                     priority
-                                    className={"w-max h-max object-cover sm:object-scale-down"}
+                                    className={"w-[358px] sm:w-[420px] h-[375px] sm:h-[440px] object-cover sm:object-scale-down"}
                                     width={420}
-                                    height={420}
+                                    height={440}
                                     src={susy}
                                     alt={"susy"}
                                 />
