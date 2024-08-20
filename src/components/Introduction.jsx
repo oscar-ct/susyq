@@ -21,22 +21,25 @@ const Introduction = () => {
         <IntroductionBackground>
             <div className={"h-[42rem] relative"}>
                 <div className={"max-w-screen-xl px-4 lg:px-8 mx-auto relative h-full"}>
-                    <div className={"w-full flex"}>
-                        <IntroductionSwiper/>
-                        <div className={"absolute right-0 z-10 translate-y-8 md:translate-y-14 lg:-translate-x-10"}>
+                    <div className={"w-full flex flex-col items-center sm:flex-row sm:justify-start"}>
+                        <div className={"pt-5 w-full sm:w-min"}>
+                            <IntroductionSwiper/>
+                        </div>
+
+                        <div className={"z-10 -translate-y-24 translate-x-8 sm:translate-y-14 sm:translate-x-0"}>
                             <div className={"flex"}>
+                                {/*<Image*/}
+                                {/*    priority*/}
+                                {/*    className={"hidden object-scale-down w-full h-[200px] translate-x-40 -translate-y-5 md:block"}*/}
+                                {/*    width={300}*/}
+                                {/*    height={200}*/}
+                                {/*    src={speech}*/}
+                                {/*    alt={"susy"}*/}
+                                {/*/>*/}
+                                {/*<span className={"hidden md:block absolute pl-48 pt-8 text-xl text-gray-500 w-[400px] leading-tight text-center"}>I specialize in cleaning homes and businesses in Austin, TX</span>*/}
                                 <Image
                                     priority
-                                    className={"hidden object-scale-down w-full h-[200px] translate-x-40 -translate-y-5 md:block"}
-                                    width={300}
-                                    height={200}
-                                    src={speech}
-                                    alt={"susy"}
-                                />
-                                <span className={"hidden md:block absolute pl-48 pt-8 text-xl text-gray-500 w-[400px] leading-tight text-center"}>I specialize in cleaning homes and businesses in Austin, TX</span>
-                                <Image
-                                    priority
-                                    className={"w-full h-auto"}
+                                    className={"w-full h-[420px] object-scale-down"}
                                     width={420}
                                     height={420}
                                     src={susy}
