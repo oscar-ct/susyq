@@ -27,7 +27,7 @@ const Introduction = () => {
                             <div className={"flex"}>
                                 <Image
                                     priority
-                                    className={"hidden object-cover w-full h-[200px] translate-x-40 -translate-y-5 md:block"}
+                                    className={"hidden object-scale-down w-full h-[200px] translate-x-40 -translate-y-5 md:block"}
                                     width={300}
                                     height={200}
                                     src={speech}
@@ -37,7 +37,7 @@ const Introduction = () => {
                                     className={"hidden md:block absolute pl-48 pt-8 text-xl text-gray-500 w-[400px] leading-tight text-center"}>I specialize in cleaning homes and businesses in Austin, TX</span>
                                 <Image
                                     priority
-                                    className={"object-cover w-full h-[400px] lg:h-[420px]"}
+                                    className={"object-scale-down w-full h-[400px] lg:h-[420px]"}
                                     width={420}
                                     height={420}
                                     src={susy}
