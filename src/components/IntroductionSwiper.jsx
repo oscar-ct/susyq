@@ -15,10 +15,10 @@ const IntroductionSwiper = () => {
         <div className={"z-20 h-full w-[14rem] sm:w-[20rem] md:w-[20rem] lg:w-[30rem] xl:w-[48rem]  xl:pl-20"}>
             <Swiper
                 slidesPerView={1}
-                // autoplay={{
-                //     delay: 10500,
-                //     disableOnInteraction: false
-                // }}
+                autoplay={{
+                    delay: 10500,
+                    disableOnInteraction: false
+                }}
                 modules={[EffectFade, Autoplay]}
                 effect={"fade"}
                 fadeEffect={{crossFade: true}}
