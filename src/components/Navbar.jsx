@@ -13,37 +13,45 @@ const Navbar = () => {
 
     return (
         <>
-            <div className={"z-40 fixed right-0 top-0 md:hidden"}>
+            <div className={"z-40 fixed right-0 top-0 sm:hidden"}>
                 <NavbarMobile/>
             </div>
-            <div className={"fixed h-[58px] md:h-[76px] bg-white inset-0 z-30"}>
+
+
+            <div className={"fixed h-[58px] sm:h-[76px] bg-white inset-0 z-30"}>
                 <div className={"h-full flex justify-between max-w-screen-xl mx-auto px-4 lg:px-8 relative"}>
+
+
                     <div className={"flex items-center"}>
                         <span className={"py-1 text-2xl md:text-4xl text-gray-500 font-light truncate"}>Susy Q Cleaning </span>
                         <TiLeaf size={36} className={"text-lime-400 rotate-12 pl-1"}/>
                     </div>
-                    <div className={"hidden text-gray-500 cursor-pointer md:flex md:items-center"}>
+
+
+                    <div className={"hidden text-gray-500 cursor-pointer sm:flex sm:items-center"}>
                         <NavScrollToButton id={"home"}>
                             <TiHomeOutline size={iconSize}/>
-                            <span className={"font-light"}>Home</span>
+                            Home
                         </NavScrollToButton>
                         <NavScrollToButton id={"services"}>
                             <TiThumbsUp size={iconSize}/>
-                            <span className={"font-light"}>Services</span>
+                            Services
                         </NavScrollToButton>
                         <NavScrollToButton id={"about"}>
                             <TiStarOutline size={iconSize}/>
-                            <span className={"font-light"}>About</span>
+                            About
                         </NavScrollToButton>
                         <NavScrollToButton id={"faq"}>
                             <TiTabsOutline size={iconSize}/>
-                            <span className={"font-light"}>FAQ</span>
+                            FAQ
                         </NavScrollToButton>
                         <NavScrollToButton id={"contact"}>
                             <TiMail size={iconSize}/>
-                            <span className={"font-light"}>Contact</span>
+                            Contact
                         </NavScrollToButton>
                     </div>
+
+
                 </div>
             </div>
         </>
