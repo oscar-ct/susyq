@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
 
-const NavbarMobileMenuItem = ({ children, textColorClass = "text-white", id, toggle}) => {
+const NavbarMobileMenuItem = ({ children }) => {
     const variants = {
         open: {
             y: 0,
@@ -19,19 +19,17 @@ const NavbarMobileMenuItem = ({ children, textColorClass = "text-white", id, tog
         }
     };
 
-
-    const handleScroll = () => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth', block: "center"});
-        }
-        toggle();
-    };
+    // const handleScroll = () => {
+    //     const element = document.getElementById(id);
+    //     if (element) {
+    //         element.scrollIntoView({ behavior: 'smooth', block: "center"});
+    //     }
+    //     toggle();
+    // };
 
     return (
         <motion.li
-            onClick={handleScroll}
-            className={`mb-8 flex items-center cursor-pointer ${textColorClass}`}
+            className={`mb-8 w-full cursor-pointer text-white`}
             variants={variants}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
