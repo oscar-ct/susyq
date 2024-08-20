@@ -15,7 +15,7 @@ const NavbarMobile = () => {
                 type: "spring",
                 stiffness: 20,
                 restDelta: 2
-            }
+            },
         }),
         closed: {
             clipPath: "circle(0px at 265px 30px)",
@@ -24,7 +24,7 @@ const NavbarMobile = () => {
                 type: "spring",
                 stiffness: 400,
                 damping: 40
-            }
+            },
         }
     };
 
@@ -32,7 +32,6 @@ const NavbarMobile = () => {
     const containerRef = useRef(null);
 
     const { height } = useDimensions(containerRef);
-
 
     return (
         <motion.nav
