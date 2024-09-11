@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const Test = mongoose.Schema(
     {
-        goHighLevelTriggerData: Schema.Types.Mixed,
+        goHighLevelTriggerData: {},
     },
     {
         timestamps: true,
