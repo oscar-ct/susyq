@@ -2,13 +2,12 @@ const axios = require('axios');
 const qs = require('qs');
 
 export async function GET (req) {
-
     const code =  req.nextUrl.searchParams.get('code');
     if (code) {
         const data = qs.stringify({
-            'client_secret': 'XBwNT1qrUz2ls12hSlLq4CnF0c3Q0Brh',
+            'client_secret': `${process.env.SERVICE_FUSION_CLIENT_SECRET}`,
             "grant_type": "authorization_code",
-            'client_id': 'zI1mK1mtureNyvoHkP',
+            'client_id': `${process.env.SERVICE_FUSION_CLIENT_ID}`,
             'code': code,
             'redirect_uri': 'https://susyq.vercel.app/api/oauth/callback'
         });
