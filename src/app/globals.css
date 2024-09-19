@@ -32,7 +32,34 @@
 /*  }*/
 /*}*/
 
+.button {
+    transition: all .1s cubic-bezier(.4, 0, .2, 1);
+}
 
+
+.loading {
+    border-radius: 100%;
+    right: 6px;
+    top: 50%;
+    width: 0;
+    height: 0;
+    margin-top: -2px;
+    border: 2px solid rgba(255,255,255,0.5);
+    border-left-color: #FFF;
+    border-top-color: #FFF;
+    animation: spin .6s infinite linear, grow .3s forwards ease-out;
+}
+@keyframes spin {
+    to {
+        transform: rotate(359deg);
+    }
+}
+@keyframes grow {
+    to {
+        width: 16px;
+        height: 16px;
+    }
+}
 
 .splash {
     color: #38a2b7;
