@@ -1,7 +1,10 @@
 import quotes from "@/assets/svg/quotation-mark.svg";
 import Image from "next/image";
+import { TiStar } from "react-icons/ti";
+
 
 const TestimonialsCard = ({children, author = ""}) => {
+    const iconSize = 28;
     return (
         <div className={"bg-white rounded-xl shadow-xl relative"}>
             <Image
@@ -13,6 +16,13 @@ const TestimonialsCard = ({children, author = ""}) => {
                 alt={"quotes"}
             />
             <div className={"p-8 flex flex-col text-gray-500"}>
+                <div className={"flex justify-center pb-2"}>
+                    <TiStar size={iconSize} className={"text-amber-400"}/>
+                    <TiStar size={iconSize} className={"text-amber-400"}/>
+                    <TiStar size={iconSize} className={"text-amber-400"}/>
+                    <TiStar size={iconSize} className={"text-amber-400"}/>
+                    <TiStar size={iconSize} className={"text-amber-400"}/>
+                </div>
                 <p className={"w-56 text-xl font-light"}>
                     {children}
                 </p>
