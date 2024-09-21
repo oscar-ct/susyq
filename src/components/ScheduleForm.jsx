@@ -14,16 +14,27 @@ const ScheduleForm = () => {
     const { tabs, activeTab, serviceSubmitted } = useContext(GlobalContext);
 
     return (
-        <div className={"min-h-[34rem]"}>
-            <div className="w-full flex h-20">
+        <div className={"min-h-[34rem] lg:pr-10"}>
+            <div className="w-full flex gap-2 md:gap-4 h-16">
                 {
                     tabs?.map((tab, index) => {
                         return <ScheduleFormTab tabName={tab.name} key={index} id={tab.id} disabled={tab.disabled} error={tab.error}/>
                     })
                 }
             </div>
-            <div className={"p-2 h-full"}>
-                <div className={`${serviceSubmitted ? "" : "border"} h-full`}>
+            <div className={"py-2 h-full w-full md:py-2"}>
+                <div className={"h-8 mb-2 flex justify-center items-center"}>
+                    {
+                        tabs.map((tab) => {
+                            if (tab.error && activeTab === tab.id) {
+                                return (
+                                    <div key={tab.id} className={"text-center leading-4 text-red-500 font-semibold"}>{tab.errorMsg}</div>
+                                )
+                            }
+                        })
+                    }
+                </div>
+                <div className={`${serviceSubmitted || activeTab === 0 ? "" : "border"} h-full`}>
                     {
                         activeTab === 0 ? <ScheduleFormPanelService/> : activeTab === 1 ?
                             <ScheduleFormPanelDetails/> : activeTab === 2 ? <ScheduleFormPanelContact/> :
@@ -31,16 +42,16 @@ const ScheduleForm = () => {
                     }
                 </div>
             </div>
-            <div className={"w-full flex items-end justify-end pt-4 px-2 gap-4"}>
-                {
-                    tabs.map((tab) => {
-                        if (tab.error && activeTab === tab.id) {
-                            return (
-                                <span key={tab.id} className={"flex-grow text-center leading-4 md:text-xl text-red-500 font-semibold"}>{tab.errorMsg}</span>
-                            )
-                        }
-                    })
-                }
+            <div className={"w-full flex items-end justify-center pt-4 gap-4 md:justify-end"}>
+                {/*{*/}
+                {/*    tabs.map((tab) => {*/}
+                {/*        if (tab.error && activeTab === tab.id) {*/}
+                {/*            return (*/}
+                {/*                <span key={tab.id} className={"flex-grow text-center leading-4 md:text-xl text-red-500 font-semibold"}>{tab.errorMsg}</span>*/}
+                {/*            )*/}
+                {/*        }*/}
+                {/*    })*/}
+                {/*}*/}
                 <ServiceFormButtons/>
             </div>
         </div>
