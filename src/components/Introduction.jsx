@@ -48,7 +48,7 @@ const Introduction = () => {
                         </div>
                     </div>
                 </div>
-                <div className={"absolute bottom-0 w-full bg-susy shadow-2xl md:bottom-16"}>
+                <div className={"absolute bottom-0 w-full bg-cyan-600 shadow-2xl md:bottom-16"}>
                     <div className={"py-8 px-4 w-full h-full max-w-screen-xl mx-auto md:py-8 lg:px-8"}>
                         <div
                             className={"gap-4 h-full flex flex-col items-center text-white md:flex-row md:justify-between"}>
