@@ -3,7 +3,7 @@ import Image from "next/image";
 
 
 const TestimonialsCard = ({children, author = ""}) => {
-    const iconSize = 28;
+    // const iconSize = 28;
     return (
         <div className={"bg-white rounded-xl shadow-xl relative"}>
             <Image
