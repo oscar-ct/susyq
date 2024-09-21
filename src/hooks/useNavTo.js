@@ -5,7 +5,15 @@ const UseNavTo = () => {
 
     const { services, tabs, activeTab, dispatch, serviceContact, serviceSubmitted } = useContext(GlobalContext);
 
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        })
+    };
+
     const navToServiceDetails = () => {
+        scrollToTop();
         if (!serviceSubmitted) {
             if (services.length !== 0) {
                 dispatch({ type: "SET_TAB_STATUS", payload: {id: 0, error: "false"} });
@@ -22,6 +30,7 @@ const UseNavTo = () => {
     };
 
     const navToServiceContact = () => {
+        scrollToTop();
         if (!serviceSubmitted) {
             if (services.length !== 0) {
                 dispatch({type: "SET_TAB_STATUS", payload: {id: 0, error: "false"}});
@@ -41,6 +50,7 @@ const UseNavTo = () => {
     };
 
     const navToServiceNotes = () => {
+        scrollToTop();
         if (!serviceSubmitted) {
             if (services.length !== 0) {
                 dispatch({type: "SET_TAB_STATUS", payload: {id: 0, error: "false"}});
@@ -75,6 +85,7 @@ const UseNavTo = () => {
     };
 
     const navToPrev = () => {
+        scrollToTop();
         dispatch({ type: "SET_ACTIVE_TAB", payload: activeTab - 1 });
     };
 
