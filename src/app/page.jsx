@@ -5,7 +5,6 @@ import About from "@/components/About";
 import FAQ from "@/components/FAQ";
 import Contact from "@/components/Contact";
 import KeepAustinWeird from "@/components/KeepAustinWeird";
-import SmoothScroller from "@/components/SmoothScroller";
 import ErmaBombeck from "@/components/ErmaBombeck";
 import EasyLife from "@/components/EasyLife";
 import RefTo from "@/components/RefTo";
@@ -15,7 +14,7 @@ const Home = () => {
 
   return (
       <>
-          <SmoothScroller/>
+          {/*<SmoothScroller/>*/}
           <RefTo id={"home"}>
               <Introduction/>
           </RefTo>
