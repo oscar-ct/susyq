@@ -80,7 +80,7 @@ const NavbarMobileMenu = ({toggle}) => {
             <NavbarMobileMenuItem>
                 <CustomButton customClass={"h-14 bg-white"} onClick={navigate}>
                     <div className={"text-xl flex items-center uppercase truncate"}>
-                        <span className={"text-cyan-600"}>Schedule Now</span>
+                        <span className={"text-susy"}>Schedule Now</span>
                     </div>
                 </CustomButton>
             </NavbarMobileMenuItem>

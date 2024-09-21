@@ -113,7 +113,7 @@ const ScheduleFormPanelDetails = () => {
                     </div>
                 </div>
 
-                <div className={"md:pb-6 flex flex-col items-center gap-4 md:flex-row"}>
+                <div className={"pb-6 flex flex-col items-center gap-4 md:flex-row"}>
                     <div className="hidden pr-4 md:block py-3 tracking-wide font-semibold text-gray-700 md:w-2/12">
                         House Size
                     </div>
@@ -179,21 +179,21 @@ const ScheduleFormPanelDetails = () => {
             </div>
 
             <div className={"flex flex-col"}>
-                <div className={"border-b py-2 text-xl text-center font-semibold"}>Need an extra service?</div>
+                <div className={"border-b py-2 text-xl text-center font-semibold text-gray-700"}>Need an extra service?</div>
                 <div className={"w-full px-3 md:px-0"}>
                     <div className={"pt-8 flex flex-col md:flex-row gap-4"}>
                         {
                             extraOptions.map(([title, description]) => {
                                 return (
                                     <div onClick={() => handleExtraChange(description)} key={title}
-                                         className={`${serviceDetails.extras.includes(description) ? "!bg-cyan-600 text-white" : "hover:bg-stone-200"} cursor-pointer flex flex-col items-center gap-4 p-4 rounded text-center bg-stone-100 border border-stone-200 h-44 w-full lg:w-4/12`}>
+                                         className={`${serviceDetails.extras.includes(description) ? "!bg-susy text-white" : "hover:bg-stone-200"} cursor-pointer flex flex-col items-center gap-4 p-4 rounded text-center bg-stone-100 border border-stone-200 h-44 w-full lg:w-4/12`}>
                                         {
                                             title === "Refrigerator" ?
                                                 <CgSmartHomeRefrigerator size={80}/> : title === "Oven" ?
                                                     <PiOven size={80}/> : <GiWindow size={80}/>
                                         }
                                         <span
-                                            className={`${serviceDetails.extras.includes(description) ? "text-white" : "text-cyan-600"}`}>{description}</span>
+                                            className={`${serviceDetails.extras.includes(description) ? "text-white" : "text-susy"}`}>{description}</span>
                                     </div>
                                 )
                             })

@@ -16,7 +16,7 @@ const About = () => {
                     </div>
                     <div className={"md:p-6 flex flex-col text-gray-500 md:w-8/12"}>
                         <p className={"pt-5 text-lg leading-tight text-center font-light md:text-left"}>
-                            <span className={"text-cyan-600 pr-1 text-xl"}>Susy Q Cleaning</span>is a professional company dedicated to be part of your life. Our interest are focused on meeting your needs by offering high quality services and high level satisfaction to our customers. Our green healthy cleaning techniques provide your home with a cleaner healthier environment.
+                            <span className={"text-susy pr-1 text-xl"}>Susy Q Cleaning</span>is a professional company dedicated to be part of your life. Our interest are focused on meeting your needs by offering high quality services and high level satisfaction to our customers. Our green healthy cleaning techniques provide your home with a cleaner healthier environment.
                         </p>
                         <div className={"flex flex-col md:flex-row md:gap-4"}>
                             <div className={"flex flex-col items-center md:items-start pt-8 md:w-6/12"}>
@@ -26,7 +26,7 @@ const About = () => {
                                 </p>
                             </div>
                             <div className={"flex flex-col items-center md:items-start pt-8 md:w-6/12"}>
-                                <span className={"pb-5 text-2xl text-cyan-600 text-center md:text-left"}>100% Satisfaction Guarantee</span>
+                                <span className={"pb-5 text-2xl text-susy text-center md:text-left"}>100% Satisfaction Guarantee</span>
                                 <p className={"text-lg leading-tight font-light text-center md:text-left"}>
                                     If you are not satisfied with the work we have performed in your home, call within 24 hours, and we will re-clean it – at no additional charge! We are focused on making sure that each client is pleased, it is the soul and heart of our business.
                                 </p>

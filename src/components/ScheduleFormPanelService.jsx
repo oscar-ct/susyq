@@ -58,8 +58,8 @@ const ScheduleFormPanelService = () => {
                         return (
                             <div key={index} className={"w-full md:w-6/12"}>
                                 <div className={`px-2 pb-4 h-full`}>
-                                    <div onClick={() => onClick(title)} className={`cursor-pointer bg-stone-100 border border-stone-200 rounded p-5 w-full h-full flex ${services.includes(title) ? "!bg-cyan-600" : "hover:bg-stone-200"}`}>
-                                        <div className={`flex items-center justify-center ${services.includes(title) ? "text-white" : "text-cyan-600"}`}>
+                                    <div onClick={() => onClick(title)} className={`cursor-pointer bg-stone-100 border border-stone-200 rounded p-5 w-full h-full flex ${services.includes(title) ? "!bg-susy" : "hover:bg-stone-200"}`}>
+                                        <div className={`flex items-center justify-center ${services.includes(title) ? "text-white" : "text-susy"}`}>
                                             <ServiceIcon iconName={iconName} iconSize={60}/>
                                         </div>
                                         <div className={`min-h-[120px] px-2 flex flex-col font-light gap-3 justify-center ${services.includes(title) ? "text-white" : "text-gray-700"}`}>

@@ -41,7 +41,7 @@ const NavbarMobile = () => {
             ref={containerRef}
             className={"w-72"}
         >
-            <motion.div className={`fixed top-0 right-0 bottom-0 w-72 bg-cyan-600`} variants={sidebar} />
+            <motion.div className={`fixed top-0 right-0 bottom-0 w-72 bg-susy`} variants={sidebar} />
             <NavbarMobileMenu toggle={() => toggleOpen()}/>
             <NavbarMobileMenuToggle toggle={() => toggleOpen()} />
         </motion.nav>

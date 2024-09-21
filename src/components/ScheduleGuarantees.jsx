@@ -6,7 +6,7 @@ import { TiLockClosed } from "react-icons/ti";
 const ScheduleGuarantees = () => {
     return (
         <div className={"my-8 p-0 flex flex-col gap-4 sm:flex-row lg:flex-col lg:mt-0"}>
-            <div className={"p-4 bg-cyan-600 text-white w-full sm:w-4/12 lg:w-full"}>
+            <div className={"p-4 bg-susy text-white w-full sm:w-4/12 lg:w-full"}>
                 <div className={"text-xl font-light"}>
                     100% Satisfaction Guarantee
                 </div>
@@ -21,7 +21,7 @@ const ScheduleGuarantees = () => {
                     <TiStarOutline size={30}/>
                 </div>
             </div>
-            <div className={"p-4 bg-cyan-600 text-white w-full sm:w-4/12 lg:w-full"}>
+            <div className={"p-4 bg-susy text-white w-full sm:w-4/12 lg:w-full"}>
                 <div className={"text-xl font-light"}>
                     We are committed to your safety
                 </div>

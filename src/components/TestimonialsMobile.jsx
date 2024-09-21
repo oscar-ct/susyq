@@ -31,7 +31,7 @@ const TestimonialsMobile = ({ author, quote, hueA, hueB }) => {
             whileInView="onscreen"
             viewport={{ once: true, amount: 0.8 }}
         >
-            <div className="splash bg-cyan-500"/>
+            <div className="splash bg-susy"/>
             <motion.div variants={cardVariants}>
                 <TestimonialsCard author={author}>
                     {quote}

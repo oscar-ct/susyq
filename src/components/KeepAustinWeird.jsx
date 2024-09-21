@@ -31,7 +31,7 @@ const KeepAustinWeird = () => {
         >
             <div className='z-10 flex flex-col items-center justify-center text-white'>
                 <TiStarOutline size={80}/>
-                <p className='py-10 w-[300px] md:w-[800px] text-7xl uppercase text-center '>Keep austin <span className={"text-cyan-500"}>clean</span> and weird</p>
+                <p className='py-10 w-[300px] md:w-[800px] text-7xl uppercase text-center '>Keep austin <span className={"text-susy"}>clean</span> and weird</p>
                 <CustomButton customClass={"h-16"} onClick={navigate}>
                     <div
                         className={"text-xl flex items-center uppercase truncate"}>
