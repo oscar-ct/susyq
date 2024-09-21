@@ -25,7 +25,7 @@ const ScheduleFormPanelNotes = () => {
                 </div>
                 <textarea
                     onChange={setServiceNotes}
-                    rows={10}
+                    rows={5}
                     className={"w-full border p-4 rounded bg-stone-50 border-stone-100 focus:bg-stone-100 focus:outline-none"}
                     value={serviceNotes}
                 />
