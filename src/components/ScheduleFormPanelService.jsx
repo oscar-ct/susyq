@@ -13,7 +13,7 @@ const ScheduleFormPanelService = () => {
         ["TiShoppingBag", "Organization", "Organization is key to keeping a tidy home, let us help."],
     ];
 
-    const { services, dispatch } = useContext(GlobalContext);
+    const { services, serviceDetails, dispatch } = useContext(GlobalContext);
 
     const onClick = (title) => {
         let globalContextServices;
@@ -26,6 +26,12 @@ const ScheduleFormPanelService = () => {
                 type: "SET_SERVICES",
                 payload: globalContextServices
             });
+            if (title === "Weekly, Bi-Weekly, Monthly") {
+                dispatch({
+                    type: "SET_SERVICE_DETAILS",
+                    payload: {...serviceDetails, frequency: "Bi-Weekly"}
+                });
+            }
             return;
         }
         globalContextServices = services.filter((string) => {
@@ -35,28 +41,40 @@ const ScheduleFormPanelService = () => {
             type: "SET_SERVICES",
             payload: globalContextServices
         });
+        if (title === "Weekly, Bi-Weekly, Monthly") {
+            dispatch({
+                type: "SET_SERVICE_DETAILS",
+                payload: {...serviceDetails, frequency: ""}
+            });
+        }
     };
 
     return (
         <>
-            <div className={"cursor-pointer flex flex-col md:flex-row flex-wrap"}>
+            <div className={""}>
+                <div className={"w-full flex flex-col md:flex-row flex-wrap"}>
                 {
                     serviceList.map(([iconName, title, content], index) => {
                         return (
-                            <div key={index} onClick={() => onClick(title)} className={`border  p-5 w-full md:w-6/12 flex ${services.includes(title) ? "bg-cyan-600" : "hover:bg-zinc-100"}`}>
-                                <div className={`flex items-center justify-center ${services.includes(title) ? "text-white" : "text-cyan-600"}`}>
-                                    <ServiceIcon iconName={iconName} iconSize={60}/>
-                                </div>
-                                <div className={`min-h-[120px] px-2 flex flex-col font-light gap-3 justify-center ${services.includes(title) ? "text-white" : "text-gray-500"}`}>
-                                    <span className={"text-xl"}>{title}</span>
-                                    <p className={"leading-tight"}>
-                                        {content}
-                                    </p>
+                            <div key={index} className={"w-full md:w-6/12"}>
+                                <div className={`px-2 pb-4 h-full`}>
+                                    <div onClick={() => onClick(title)} className={`cursor-pointer bg-stone-100 border border-stone-200 rounded p-5 w-full h-full flex ${services.includes(title) ? "!bg-cyan-600" : "hover:bg-stone-200"}`}>
+                                        <div className={`flex items-center justify-center ${services.includes(title) ? "text-white" : "text-cyan-600"}`}>
+                                            <ServiceIcon iconName={iconName} iconSize={60}/>
+                                        </div>
+                                        <div className={`min-h-[120px] px-2 flex flex-col font-light gap-3 justify-center ${services.includes(title) ? "text-white" : "text-gray-700"}`}>
+                                            <span className={"text-xl"}>{title}</span>
+                                            <p className={"leading-tight"}>
+                                                {content}
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         );
                     })
                 }
+                </div>
             </div>
         </>
     );
