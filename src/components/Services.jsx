@@ -17,7 +17,7 @@ const Services = () => {
             <div className={"flex flex-col items-center"}>
                 <div className={"flex flex-col justify-center pb-8 md:pb-4"}>
                     <span className={"text-center text-5xl uppercase font-light text-gray-500"}>Our Services</span>
-                    <span className={"pt-5 text-center text-2xl font-light text-susy"}>We are doing a couple of things you might be interested in</span>
+                    <span className={"pt-5 text-center text-xl font-light text-susy"}>We are doing a couple of things you might be interested in</span>
                 </div>
                 <div className={"flex flex-col md:flex-row flex-wrap"}>
                     {
