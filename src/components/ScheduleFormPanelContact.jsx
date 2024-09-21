@@ -1,7 +1,6 @@
 import {useCallback, useContext, useEffect, useState} from "react";
 import {phoneNumberAutoFormat} from "@/utils/phoneNumberAutoFormat";
 import GlobalContext from "@/context/GlobalContext";
-import ArrowSvg from "@/components/ArrowSvg";
 
 const ScheduleFormPanelContact = () => {
     const { dispatch, serviceContact } = useContext(GlobalContext);
