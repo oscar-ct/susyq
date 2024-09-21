@@ -88,8 +88,12 @@ export async function POST(req) {
             if (existingCustomer.items.length !== 0) {
                 const newEstimateBody = {
                     customer_name: existingCustomer.items[0].customer_name,
-                    description: `Services Requested: ${services.toString()} - Bedrooms: ${rooms.bedroom} - Bathrooms: ${rooms.bathroom} - Size: ${size ? size : "not provided"} - Extras: ${extras.length !== 0 ? extras.toString() : "not provided"}.`,
-                    tech_notes: serviceNotes,
+                    description: `Services Requested: ${services.toString()} - Bedrooms: ${rooms.bedroom} - Bathrooms: ${rooms.bathroom} - Size: ${size ? size : "not provided"} - Extras: ${extras.length !== 0 ? extras.toString() : "not provided"} - Phone: ${phone ? phone : "n/a"}`,
+                    notes: [
+                        {
+                            notes: serviceNotes
+                        }
+                    ],
                     contact_first_name: firstName,
                     contact_last_name: lastName,
                     status: "Estimate Requested",
@@ -167,7 +171,11 @@ export async function POST(req) {
                     const newEstimateBody = {
                         customer_name: newCustomer.customer_name,
                         description: `Services Requested: ${services.toString()} - Bedrooms: ${rooms.bedroom} - Bathrooms: ${rooms.bathroom} - Size: ${size ? size : "not provided"} - Extras: ${extras.length !== 0 ? extras.toString() : "not provided"}.`,
-                        tech_notes: serviceNotes,
+                        notes: [
+                            {
+                                notes: serviceNotes
+                            }
+                        ],
                         contact_first_name: firstName,
                         contact_last_name: lastName,
                         status: "Estimate Requested",
@@ -193,7 +201,4 @@ export async function POST(req) {
 
 
 // todo: check the following
-
-
-// add estimate notes, remove notes for techs,
 // alternate contact, phone number not displayed!! why
