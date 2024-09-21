@@ -1,6 +1,7 @@
 import {useCallback, useContext, useEffect, useState} from "react";
 import {phoneNumberAutoFormat} from "@/utils/phoneNumberAutoFormat";
 import GlobalContext from "@/context/GlobalContext";
+import ArrowSvg from "@/components/ArrowSvg";
 
 const ScheduleFormPanelContact = () => {
     const { dispatch, serviceContact } = useContext(GlobalContext);
@@ -127,19 +128,18 @@ const ScheduleFormPanelContact = () => {
     };
 
     return (
-        <div className={"px-2 py-8 md:p-8"}>
-            <div className={"w-full pt-3 pb-8 border-b"}>
+        <div className={"px-2 py-8 md:p-8 flex flex-col-reverse md:flex-col"}>
+            <div className={"w-full pt-8 md:pt-3 pb-8 md:border-b"}>
                 <div className={"flex flex-col items-center gap-4 md:flex-row"}>
-                    <div className="tracking-wide font-semibold text-gray-700 md:w-20">
+                    <div className="tracking-wide font-semibold text-gray-700 md:w-2/12">
                         Cleaning Address
                     </div>
-
-                    <div className={"w-full flex flex-col gap-4"}>
+                    <div className={"w-full flex flex-col gap-4 md:w-10/12"}>
                         <div className={"flex flex-col md:flex-row gap-4"}>
                             <div className="relative w-full md:w-9/12">
                                 <input
                                     autoComplete="address 1"
-                                    className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-gray-300"
+                                    className="block appearance-none w-full bg-stone-100 border border-stone-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-stone-200"
                                     id="address1"
                                     type={"text"}
                                     placeholder={"Street Address"}
@@ -150,7 +150,7 @@ const ScheduleFormPanelContact = () => {
                             <div className="relative w-full md:w-3/12">
                                 <input
                                     autoComplete="address 2"
-                                    className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-gray-300"
+                                    className="block appearance-none w-full bg-stone-100 border border-stone-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-stone-200"
                                     id="address2"
                                     type={"text"}
                                     placeholder={"Apt/Suite #"}
@@ -163,7 +163,7 @@ const ScheduleFormPanelContact = () => {
                             <div className="relative w-full md:w-7/12">
                                 <input
                                     autoComplete="home city"
-                                    className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-gray-300"
+                                    className="block appearance-none w-full bg-stone-100 border border-stone-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-stone-200"
                                     id="city"
                                     type={"text"}
                                     placeholder={"City"}
@@ -175,7 +175,7 @@ const ScheduleFormPanelContact = () => {
                                 <div className="relative w-full md:w-4/12">
                                     <input
                                         disabled={true}
-                                        className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight cursor-not-allowed"
+                                        className="block appearance-none w-full bg-stone-100 border border-stone-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight cursor-not-allowed"
                                         id="state"
                                         type={"text"}
                                         placeholder={"Texas"}
@@ -183,7 +183,7 @@ const ScheduleFormPanelContact = () => {
                                 </div>
                                 <div className="relative w-full md:w-8/12">
                                     <input
-                                        className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-gray-300"
+                                        className="block appearance-none w-full bg-stone-100 border border-stone-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-stone-200"
                                         id="zipCode"
                                         type={"text"}
                                         placeholder={"Zip Code"}
@@ -198,22 +198,22 @@ const ScheduleFormPanelContact = () => {
                 </div>
             </div>
 
-            <div className={"pt-8"}>
+            <div className={"border-b pb-8 md:pb-3 md:pt-8 md:border-none"}>
                 <p className={"text-center pb-8 text-gray-500"}>
                     This information will only be used to contact you about your cleaning
                 </p>
                 <div className={"flex flex-col gap-4"}>
                     <div className={"flex flex-col md:flex-row gap-4 items-center"}>
-                        <div className="tracking-wide font-semibold text-gray-700 md:w-20">
-                            Name*
+                        <div className="tracking-wide font-semibold text-gray-700 md:w-2/12">
+                            Full Name*
                         </div>
-                        <div className={"w-full flex gap-4 flex-row"}>
-                            <div className={"w-full flex flex-col gap-2"}>
+                        <div className={"w-full flex gap-4 flex-row md:w-10/12"}>
+                            <div className={"w-full flex flex-col gap-2 md:w-6/12"}>
                                 <div className="relative w-full">
                                     <input
                                         id={"firstName"}
                                         autoComplete={"given name"}
-                                        className={`${ errorFirstName && errorFirstNameMsg ? "bg-red-300 focus:border-red-500" : "bg-gray-200 focus:bg-gray-300 text-gray-700"} block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 rounded leading-tight focus:outline-none `}
+                                        className={`${ errorFirstName && errorFirstNameMsg ? "bg-red-300 focus:border-red-500" : "bg-stone-100 focus:bg-stone-200 text-gray-700"} block appearance-none w-full border border-stone-200 py-3 px-4 pr-8 rounded leading-tight focus:outline-none `}
                                         type={"text"}
                                         placeholder={"First Name"}
                                         onChange={setFirstName}
@@ -228,12 +228,12 @@ const ScheduleFormPanelContact = () => {
                                     )
                                 }
                             </div>
-                            <div className={"w-full flex flex-col gap-2"}>
+                            <div className={"w-full flex flex-col gap-2 md:w-6/12"}>
                                 <div className="relative w-full">
                                     <input
                                         id={"lastName"}
                                         autoComplete={"family name"}
-                                        className={`${ errorLastName && errorLastNameMsg ? "bg-red-300 focus:border-red-500" : "bg-gray-200 focus:bg-gray-300 text-gray-700"} block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 rounded leading-tight focus:outline-none `}
+                                        className={`${ errorLastName && errorLastNameMsg ? "bg-red-300 focus:border-red-500" : "bg-stone-100 focus:bg-stone-200 text-gray-700"} block appearance-none w-full border border-stone-200 py-3 px-4 pr-8 rounded leading-tight focus:outline-none `}
                                         type={"text"}
                                         placeholder={"Last Name"}
                                         onChange={setLastName}
@@ -252,15 +252,15 @@ const ScheduleFormPanelContact = () => {
                         </div>
                     </div>
                     <div className={"flex flex-col md:flex-row gap-4 items-center"}>
-                        <div className="tracking-wide font-semibold text-gray-700 md:w-20">
+                        <div className="tracking-wide font-semibold text-gray-700 md:w-2/12">
                             Email*
                         </div>
-                        <div className={"w-full flex flex-col gap-2"}>
+                        <div className={"w-full flex flex-col gap-2 md:w-10/12"}>
                             <div className="relative w-full">
                                 <input
                                     id={"email"}
                                     autoComplete={"email"}
-                                    className={`${ errorEmail && errorEmailMsg ? "bg-red-300 focus:border-red-500" : "bg-gray-200 focus:bg-gray-300 text-gray-700"} block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 rounded leading-tight focus:outline-none `}
+                                    className={`${ errorEmail && errorEmailMsg ? "bg-red-300 focus:border-red-500" : "bg-stone-100 focus:bg-stone-200 text-gray-700"} block appearance-none w-full border border-stone-200 py-3 px-4 pr-8 rounded leading-tight focus:outline-none `}
                                     type={"email"}
                                     placeholder={"Email Address"}
                                     value={serviceContact.email}
@@ -277,15 +277,15 @@ const ScheduleFormPanelContact = () => {
                         </div>
                     </div>
                     <div className={"flex flex-col md:flex-row gap-4 items-center"}>
-                        <div className="tracking-wide font-semibold text-gray-700 md:w-20">
+                        <div className="tracking-wide font-semibold text-gray-700 md:w-2/12">
                             Phone*
                         </div>
-                        <div className={"w-full flex flex-col gap-2"}>
+                        <div className={"w-full flex flex-col gap-2 md:w-10/12"}>
                             <div className="relative w-full">
                                 <input
                                     id={"phone"}
                                     autoComplete={"tel"}
-                                    className={`${ errorPhone && errorPhoneMsg ? "bg-red-300 focus:border-red-500" : "bg-gray-200 focus:bg-gray-300 text-gray-700"} block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 rounded leading-tight focus:outline-none `}
+                                    className={`${ errorPhone && errorPhoneMsg ? "bg-red-300 focus:border-red-500" : "bg-stone-100 focus:bg-stone-200 text-gray-700"} block appearance-none w-full border border-stone-200 py-3 px-4 pr-8 rounded leading-tight focus:outline-none `}
                                     type={"tel"}
                                     placeholder={"Phone Number"}
                                     maxLength={12}
@@ -304,8 +304,6 @@ const ScheduleFormPanelContact = () => {
                     </div>
                 </div>
             </div>
-
-
         </div>
     );
 };
