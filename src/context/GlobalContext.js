@@ -16,7 +16,8 @@ export function GlobalProvider({ children }) {
                 bathroom: "2"
             },
             size: "",
-            extras: []
+            extras: [],
+            frequency: "",
         },
         serviceContact: {
             validated: false,
@@ -38,7 +39,7 @@ export function GlobalProvider({ children }) {
         tabs: [
             {
                 id: 0,
-                name: "Select Service(s)",
+                name: "Services",
                 disabled: false,
                 error: false,
                 errorMsg: "",
