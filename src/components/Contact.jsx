@@ -22,32 +22,29 @@ const Contact = () => {
     const [messageInputHover, setMessageInputHover] = useState(false);
     const [messageInputActive, setMessageInputActive] = useState(false);
     return (
-        <section className={"py-14 w-full bg-zinc-100"}>
+        <section className={"pb-24 pt-14 w-full bg-zinc-100"}>
             <div className={"max-w-screen-xl mx-auto px-4 lg:px-8 flex flex-col items-center"}>
                 <div className={"flex flex-col justify-center pb-8"}>
                     <span className={"text-center text-5xl uppercase font-light text-gray-500"}>Contact Us</span>
                 </div>
-
                 <div className={"w-full flex flex-col lg:flex-row gap-8"}>
-
-
-                    <div className={"p-8 w-full lg:w-4/12 bg-white rounded-xl shadow-xl flex flex-col"}>
-                        <div className={"pb-14 text-2xl text-gray-500 font-light flex justify-center"}>
+                    <div className={"p-8 w-full lg:w-4/12 bg-white rounded-xl shadow flex flex-col"}>
+                        <div className={"pb-10 text-2xl text-gray-500 flex justify-center"}>
                             Susy Q Cleaning <TiLeaf className={"rotate-12 text-lime-400"}/>
                         </div>
                         <div className={"flex flex-col gap-4"}>
-                            <div className={"text-xl text-gray-500 flex items-center justify-between"}>
+                            <div className={"text-lg text-gray-500 flex items-center justify-between"}>
                                 <TiLocationOutline size={25}/>
                                 <span className={"w-10/12"}>7703 N Lamar Blvd, Ste 119 Austin, Tx 78752</span>
                             </div>
-                            <div className={"text-xl text-gray-500 flex items-center justify-between"}>
+                            <div className={"text-lg text-gray-500 flex items-center justify-between"}>
                                 <TiPhone size={25}/>
                                 <span className={"w-10/12"}>(512) 640-6264</span>
                             </div>
                         </div>
                     </div>
 
-                    <div className={"p-8 w-full lg:w-8/12 bg-white rounded-xl shadow-xl flex flex-col"}>
+                    <div className={"p-8 w-full lg:w-8/12 bg-white rounded-xl shadow flex flex-col"}>
                         <div className={"pb-10 text-center text-2xl text-gray-500"}>
                             Have a question or concern? Send us a message!
                         </div>
