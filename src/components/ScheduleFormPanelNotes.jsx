@@ -20,13 +20,13 @@ const ScheduleFormPanelNotes = () => {
     } else {
         return (
             <div className={"px-2 py-8 md:p-8"}>
-                <div className={"w-full pt-3 pb-8 text-center text-gray-500"}>
+                <div className={"w-full pt-3 pb-8 text-center tracking-wide font-semibold text-gray-700"}>
                     Special Instructions, message or concerns?
                 </div>
                 <textarea
                     onChange={setServiceNotes}
                     rows={10}
-                    className={"w-full border-2 p-4 focus:outline-none"}
+                    className={"w-full border p-4 rounded bg-stone-50 border-stone-100 focus:bg-stone-100 focus:outline-none"}
                     value={serviceNotes}
                 />
             </div>
