@@ -8,19 +8,25 @@ const NavScrollToButton = ({children, id= ""}) => {
 
     const params = useParams();
 
-    // const handleScroll = () => {
-    //     const element = document.getElementById(id);
-    //     if (element) {
-    //         element.scrollIntoView({ behavior: 'smooth', block: "center"});
-    //     }
-    // };
-
     useEffect(() => {
         if (window.location.hash === `#${id}`) {
             const element = document.getElementById(id);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: "center"});
+            if (id === "home") {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                });
+            } else {
+                if (element) {
+                    const elementPosition = element.getBoundingClientRect().top + window.scrollY - 50;
+                    window.scrollTo({
+                        top: elementPosition,
+                        behavior: "smooth",
+                    });
+                    // element.scrollIntoView({ behavior: 'smooth', block: "start" });
+                }
             }
+
         }
     }, [params, id])
 
