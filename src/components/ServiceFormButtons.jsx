@@ -40,10 +40,10 @@ const ServiceFormButtons = () => {
             {
                 activeTab === 0 && (
                     <>
-                        <button className="bg-zinc-100 text-gray-600 opacity-70 py-2 px-4 rounded  cursor-not-allowed">
+                        <button className="bg-stone-200 text-gray-600 opacity-60 py-2 px-4 rounded  cursor-not-allowed">
                             Previous
                         </button>
-                        <button onClick={navToServiceDetails} className={`${services.length !== 0 ? "bg-cyan-600 hover:bg-cyan-700 text-white" : "bg-zinc-100 text-gray-600 cursor-not-allowed opacity-70"} py-2 px-4 rounded`}>
+                        <button onClick={navToServiceDetails} className={`${services.length !== 0 ? "bg-cyan-600 hover:bg-cyan-700 text-white" : "bg-stone-200 text-gray-600 cursor-not-allowed opacity-70"} py-2 px-4 rounded`}>
                             Next
                         </button>
                     </>
@@ -67,7 +67,7 @@ const ServiceFormButtons = () => {
                         <button className={`bg-cyan-600 hover:bg-cyan-700 text-white py-2 px-4 rounded`} onClick={navToPrev}>
                             Previous
                         </button>
-                        <button onClick={navToServiceNotes} className={`${serviceContact.validated ? "bg-cyan-600 hover:bg-cyan-700 text-white" : "bg-zinc-100 text-gray-600 cursor-not-allowed opacity-70"} py-2 px-4 rounded`}>
+                        <button onClick={navToServiceNotes} className={`${serviceContact.validated ? "bg-cyan-600 hover:bg-cyan-700 text-white" : "bg-stone-200 text-gray-600 cursor-not-allowed opacity-70"} py-2 px-4 rounded`}>
                             Next
                         </button>
                     </>
@@ -80,7 +80,7 @@ const ServiceFormButtons = () => {
                                 onClick={navToPrev}>
                             Previous
                         </button>
-                        <button onClick={submitEstimate} disabled={btnLoading} className={`${!btnLoading ? "bg-cyan-600 hover:bg-cyan-700 text-white" : "bg-zinc-300 text-gray-600 cursor-not-allowed"} button py-2 px-4 rounded`}>
+                        <button onClick={submitEstimate} disabled={btnLoading} className={`${!btnLoading ? "bg-cyan-600 hover:bg-cyan-700 text-white" : "bg-stone-200 text-gray-600 cursor-not-allowed"} button py-2 px-4 rounded`}>
                             <div className={"flex items-center"}>
                                 <span>Finish</span>
                                 {
