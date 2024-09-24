@@ -1,5 +1,15 @@
 const globalReducer = (state, action) => {
     switch(action.type) {
+        case "SET_SERVICE_SOURCE":
+            return {
+                ...state,
+                serviceSource: action.payload
+            }
+        case "SUBMIT_IN_PROGRESS":
+            return {
+                ...state,
+                submitInProgress: action.payload
+            }
         case "SUBMIT_SERVICE":
             return {
                 ...state,
