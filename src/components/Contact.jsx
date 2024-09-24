@@ -131,6 +131,7 @@ const Contact = () => {
                             <div className={"flex flex-col items-start w-full md:w-5/12 gap-8"}>
                                 <div className={`relative h-11 w-full md:w-60`}>
                                     <input
+                                        autoComplete={"name"}
                                         id={"name"}
                                         onMouseEnter={() => setNameInputHover(true)}
                                         onMouseLeave={() => setNameInputHover(false)}
@@ -157,6 +158,7 @@ const Contact = () => {
                                 </div>
                                 <div className={`relative h-11 w-full md:w-60`}>
                                     <input
+                                        autoComplete={"email"}
                                         id={"email"}
                                         onMouseEnter={() => setEmailInputHover(true)}
                                         onMouseLeave={() => setEmailInputHover(false)}
