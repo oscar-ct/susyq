@@ -1,34 +1,113 @@
 "use client"
 
-import {useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {TiLeaf, TiPhone, TiLocationOutline} from "react-icons/ti";
-import CustomButton from "@/components/CustomButton";
+import {phoneNumberAutoFormat} from "@/utils/phoneNumberAutoFormat";
 
 const Contact = () => {
+
+    const [validating, setValidating] = useState(false);
 
     const [email, setEmail] = useState("");
     const [emailInputHover, setEmailInputHover] = useState(false);
     const [emailInputActive, setEmailInputActive] = useState(false);
+    const [emailError, setEmailError] = useState(false);
 
     const [phone, setPhone] = useState("");
     const [phoneInputHover, setPhoneInputHover] = useState(false);
     const [phoneInputActive, setPhoneInputActive] = useState(false);
+    const [phoneError, setPhoneError] = useState(false);
 
     const [name, setName] = useState("");
     const [nameInputHover, setNameInputHover] = useState(false);
     const [nameInputActive, setNameInputActive] = useState(false);
+    const [nameError, setNameError] = useState(false);
 
     const [message, setMessage] = useState("");
     const [messageInputHover, setMessageInputHover] = useState(false);
     const [messageInputActive, setMessageInputActive] = useState(false);
+    const [messageError, setMessageError] = useState(false);
+
+    const [btnLoading, setBtnLoading] = useState(false);
+    const [resSuccess, setResSuccess] = useState(false);
+    const [resError,  setResError] = useState(false);
+
+
+    const validateEmail = useCallback((str) => {
+        const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
+        if (!emailRegex.test(str)) {
+            setEmailError(true);
+        } else {
+            setEmailError(false);
+        }
+    }, []);
+    const validateName = useCallback((str) => {
+        if (str.length === 0) {
+            setNameError(true);
+        } else {
+            setNameError(false);
+        }
+    }, []);
+    const validateMessage = useCallback((str) => {
+        if (str.length === 0) {
+            setMessageError(true);
+        } else {
+            setMessageError(false);
+        }
+    }, []);
+    const validatePhone = useCallback((str) => {
+        if (str.length !== 12) {
+            setPhoneError(true);
+        } else {
+            setPhoneError(false);
+        }
+    }, []);
+    useEffect(() => {
+        if (validating) {
+            validateEmail(email);
+            validateName(name);
+            validatePhone(phone);
+            validateMessage(message);
+        }
+    }, [validating, validateEmail, validatePhone, validateName, validateMessage, name, email, phone, message]);
+
+    const submitMessage = () => {
+        setBtnLoading(true);
+        const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
+        if (message.length === 0 || name.length === 0 || phone.length !== 12 || !emailRegex.test(email)) {
+            setValidating(true);
+            setBtnLoading(false);
+        } else {
+            setTimeout(() => {
+                setBtnLoading(false);
+                setResSuccess(true);
+            }, 2000)
+
+            // todo: create fetch call to submit message, handle response/error
+            setTimeout(() => {
+                setResSuccess(false);
+                setValidating(false);
+                setName("");
+                setMessage("");
+                setPhone("");
+                setEmail("");
+            }, 5000)
+        }
+    };
+
+    const setFormatPhone = (e) => {
+        const val = phoneNumberAutoFormat(e.target.value);
+        setPhone(val);
+    };
+
     return (
-        <section className={"pb-24 pt-14 w-full bg-zinc-100"}>
+        <section className={"py-14 w-full bg-zinc-100"}>
             <div className={"max-w-screen-xl mx-auto px-4 lg:px-8 flex flex-col items-center"}>
                 <div className={"flex flex-col justify-center pb-8"}>
                     <span className={"text-center text-5xl uppercase font-light text-gray-500"}>Contact Us</span>
                 </div>
-                <div className={"w-full flex flex-col lg:flex-row gap-8"}>
-                    <div className={"p-8 w-full lg:w-4/12 bg-white rounded-xl shadow flex flex-col"}>
+                <div className={"py-5 w-full flex flex-col lg:flex-row gap-8"}>
+                    <div className={"p-8 w-full lg:w-4/12 bg-white rounded-xl flex flex-col"}>
                         <div className={"pb-10 text-2xl text-gray-500 flex justify-center"}>
                             Susy Q Cleaning <TiLeaf className={"rotate-12 text-lime-400"}/>
                         </div>
@@ -44,8 +123,8 @@ const Contact = () => {
                         </div>
                     </div>
 
-                    <div className={"p-8 w-full lg:w-8/12 bg-white rounded-xl shadow flex flex-col"}>
-                        <div className={"pb-10 text-center text-2xl text-gray-500"}>
+                    <div className={"pt-8 px-8 w-full lg:w-8/12 bg-white rounded-xl flex flex-col"}>
+                        <div className={"pb-6 text-center text-2xl text-gray-500"}>
                             Have a question or concern? Send us a message!
                         </div>
                         <div className={"flex flex-col md:flex-row gap-8"}>
@@ -61,12 +140,20 @@ const Contact = () => {
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
                                         placeholder="Enter name"
-                                        className={`${!nameInputActive ? "cursor-pointer" : ""} text-[16px] lg:text-base peer h-full w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100`}/>
+                                        className={`${!nameInputActive ? "cursor-pointer" : ""} text-[16px] lg:text-base peer h-full w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 ${nameError ? "!border-b-2 !border-b-red-600" : ""}`}/>
                                     <label
                                         htmlFor={"name"}
                                         className={`${nameInputHover ? "text-gray-700" : "text-gray-500"} after:content[''] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-cyan-600 after:transition-transform after:duration-300 peer-placeholder-shown:text-[16px] peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[12px] peer-focus:leading-tight peer-focus:text-cyan-600 peer-focus:after:scale-x-100 peer-focus:after:border-cyan-600 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500`}>
-                                        {nameInputActive ? "Name" : "Enter name"}
+                                        {nameInputActive ? "Name" : "Name"}
                                     </label>
+                                    {
+                                        nameError && (
+                                            <div className={"text-red-500 leading-tight font-semibold text-sm"}>
+                                                Please enter your name
+                                            </div>
+                                        )
+                                    }
+
                                 </div>
                                 <div className={`relative h-11 w-full md:w-60`}>
                                     <input
@@ -79,29 +166,46 @@ const Contact = () => {
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         placeholder="Enter email"
-                                        className={`${!emailInputActive ? "cursor-pointer" : ""} text-[16px] lg:text-base peer h-full w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100`}/>
+                                        className={`${!emailInputActive ? "cursor-pointer" : ""} text-[16px] lg:text-base peer h-full w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 ${emailError ? "!border-b-2 !border-b-red-600" : ""}`}/>
                                     <label
                                         htmlFor={"email"}
                                         className={`${emailInputHover ? "text-gray-700" : "text-gray-500"} after:content[''] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-cyan-600 after:transition-transform after:duration-300 peer-placeholder-shown:text-[16px] peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[12px] peer-focus:leading-tight peer-focus:text-cyan-600 peer-focus:after:scale-x-100 peer-focus:after:border-cyan-600 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500`}>
-                                        {emailInputActive ? "Email" : "Enter email"}
+                                        {emailInputActive ? "Email" : "Email Address"}
                                     </label>
+                                    {
+                                        emailError && (
+                                            <div className={"text-red-500 leading-tight font-semibold text-sm"}>
+                                                Please enter a valid email
+                                            </div>
+                                        )
+                                    }
                                 </div>
                                 <div className={`relative h-11 w-full md:w-60`}>
                                     <input
                                         id={"tel"}
+                                        type={"tel"}
                                         onMouseEnter={() => setPhoneInputHover(true)}
                                         onMouseLeave={() => setPhoneInputHover(false)}
                                         onFocus={() => setPhoneInputActive(true)}
                                         onBlur={() => phone.length === 0 && setPhoneInputActive(false)}
                                         value={phone}
-                                        onChange={(e) => setPhone(e.target.value)}
-                                        placeholder="Enter phone"
-                                        className={`${!phoneInputActive ? "cursor-pointer" : ""} text-[16px] lg:text-base peer h-full w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100`}/>
+                                        autoComplete={"tel"}
+                                        maxLength={12}
+                                        onChange={setFormatPhone}
+                                        placeholder="Enter phone number"
+                                        className={`${!phoneInputActive ? "cursor-pointer" : ""} text-[16px] lg:text-base peer h-full w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 ${phoneError ? "!border-b-2 !border-b-red-600" : ""}`}/>
                                     <label
                                         htmlFor={"tel"}
                                         className={`${phoneInputHover ? "text-gray-700" : "text-gray-500"} after:content[''] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-cyan-600 after:transition-transform after:duration-300 peer-placeholder-shown:text-[16px] peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[12px] peer-focus:leading-tight peer-focus:text-cyan-600 peer-focus:after:scale-x-100 peer-focus:after:border-cyan-600 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500`}>
-                                        {phoneInputActive ? "Phone" : "Enter phone"}
+                                        {phoneInputActive ? "Phone" : "Phone Number"}
                                     </label>
+                                    {
+                                        phoneError && (
+                                            <div className={"text-red-500 leading-tight font-semibold text-sm"}>
+                                                Please enter a 10 digit phone number
+                                            </div>
+                                        )
+                                    }
                                 </div>
                             </div>
 
@@ -109,7 +213,6 @@ const Contact = () => {
                                 <div className={`relative`}>
                                     <textarea
                                         rows={4}
-                                        cols={20}
                                         id={"message"}
                                         onMouseEnter={() => setMessageInputHover(true)}
                                         onMouseLeave={() => setMessageInputHover(false)}
@@ -119,23 +222,61 @@ const Contact = () => {
                                         value={message}
                                         onChange={(e) => setMessage(e.target.value)}
                                         placeholder="Enter message"
-                                        className={`${!messageInputActive ? "cursor-pointer" : ""} text-[16px] lg:text-base peer  w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 h-full`}
+                                        className={`${!messageInputActive ? "cursor-pointer" : ""} text-[16px] lg:text-base peer  w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 h-full ${messageError ? "!border-b-2 !border-b-red-600" : ""}`}
                                     />
                                     <label
                                         htmlFor={"message"}
                                         className={`${messageInputHover ? "text-gray-700" : "text-gray-500"} after:content[''] pointer-events-none absolute left-0 -top-[11px] flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-cyan-600 after:transition-transform after:duration-300 peer-placeholder-shown:text-[16px] peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[12px] peer-focus:leading-tight peer-focus:text-cyan-600 peer-focus:after:scale-x-100 peer-focus:after:border-cyan-600 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500`}>
-                                        {messageInputActive ? "Message" : "Enter message"}
+                                        {messageInputActive ? "Message" : "Your Message"}
                                     </label>
                                 </div>
-                                <div className={"pt-6 flex justify-end items-end"}>
-                                   <CustomButton>
-                                       Send
-                                   </CustomButton>
+                                {
+                                    messageError && (
+                                        <div className={"text-red-500 leading-tight font-semibold text-sm"}>
+                                            Please enter a message
+                                        </div>
+                                    )
+                                }
+                                <div className={"pt-6 pb-8 flex justify-end items-center md:items-end md:pb-0"}>
+                                    <div className={"pr-2 flex-grow items-center md:hidden"}>
+                                        {
+                                            resSuccess && (
+                                                <span className={"text-sm"}>Thank you for your message!</span>
+                                            )
+                                        }
+                                        {
+                                            resError && (
+                                                <p className={"text-sm text-red-500 !leading-tight"}>Sorry, something went
+                                                    wrong please try again later.</p>
+                                            )
+                                        }
+                                    </div>
+                                    <button onClick={submitMessage} disabled={btnLoading}
+                                            className={`${!btnLoading && !resSuccess && !resError ? "hover:bg-susy" : "opacity-60 cursor-not-allowed"} bg-susy text-white button py-2 px-4 rounded`}>
+                                        <div className={"flex items-center"}>
+                                            <span>Send</span>
+                                            {
+                                                btnLoading && (
+                                                    <span className={"ml-[6px] loading"}/>
+                                                )
+                                            }
+                                        </div>
+                                    </button>
                                 </div>
                             </div>
-
                         </div>
-
+                        <div className={"hidden md:flex justify-center items-center h-8 my-3"}>
+                            {
+                            resSuccess && (
+                                    <span>Thank you for your message!</span>
+                                )
+                            }
+                            {
+                                resError && (
+                                    <span className={"text-red-500"}>Sorry, something went wrong please try again later.</span>
+                                )
+                            }
+                        </div>
                     </div>
 
                 </div>
