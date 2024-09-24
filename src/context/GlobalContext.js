@@ -8,6 +8,7 @@ const GlobalContext = createContext();
 
 export function GlobalProvider({ children }) {
     const initialState = {
+        submitInProgress: false,
         serviceSubmitted: false,
         services : [],
         serviceDetails: {
@@ -65,12 +66,15 @@ export function GlobalProvider({ children }) {
                 error: false,
                 errorMsg: "",
             },
-        ]
+        ],
+        serviceSource: "",
     };
     const [state, dispatch] = useReducer(globalReducer, initialState);
     return (
         <GlobalContext.Provider value={{
             dispatch,
+            serviceSource: state.serviceSource,
+            submitInProgress: state.submitInProgress,
             serviceSubmitted: state.serviceSubmitted,
             services: state.services,
             serviceDetails: state.serviceDetails,
