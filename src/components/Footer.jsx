@@ -12,7 +12,7 @@ const Footer = () => {
                             width={50}
                             height={50}
                             priority
-                            className={"w-[50px] md:w-[36px] h-auto"}
+                            className={"w-[50px] md:w-[36px] h-[50px] md:h-[36px]"}
                             src={susy}
                             alt="susy"
                         />
