@@ -60,8 +60,8 @@ const fetchServiceFusionCreateNewEstimate = async (estimate, token) => {
         body: JSON.stringify(estimate),
     });
     if (!res.ok) {
-        // const msg = await res.json()
-        // console.log(msg)
+        const msg = await res.json()
+        console.log(msg)
         return null;
     }
     return await res.json()
@@ -78,7 +78,7 @@ export async function POST(req) {
         credentials.serviceFusionRefreshToken = refresh_token;
         credentials.serviceFusionAccessToken = access_token;
         await credentials.save();
-        const { services, serviceDetails, serviceContact, serviceNotes } = await req.json();
+        const { services, serviceDetails, serviceContact, serviceNotes, serviceSource } = await req.json();
         const { firstName, lastName, email, phone, cleaningAddress } = serviceContact;
         const { rooms, size, extras } = serviceDetails;
         const existingCustomer = await fetchServiceFusionCheckIfCustomerExists(email, access_token);
@@ -88,7 +88,7 @@ export async function POST(req) {
             if (existingCustomer.items.length !== 0) {
                 const newEstimateBody = {
                     customer_name: existingCustomer.items[0].customer_name,
-                    description: `Services Requested: ${services.toString()} - Bedrooms: ${rooms.bedroom} - Bathrooms: ${rooms.bathroom} - Size: ${size ? size : "not provided"} - Extras: ${extras.length !== 0 ? extras.toString() : "not provided"} - Phone: ${phone ? phone : "n/a"}`,
+                    description: `Services Requested: ${services.toString()} - Bedrooms: ${rooms.bedroom} - Bathrooms: ${rooms.bathroom} - Size: ${size ? size : "not provided"} - Extras: ${extras.length !== 0 ? extras.toString() : "not provided"} - Source: ${serviceSource ? serviceSource : "not provided"} - Phone: ${phone ? phone : "n/a"}`,
                     notes: [
                         {
                             notes: serviceNotes
@@ -110,6 +110,9 @@ export async function POST(req) {
                         }
                     ],
                 };
+                if (serviceNotes.length === 0) {
+                    delete newEstimateBody.notes;
+                }
                 const newEstimate = await fetchServiceFusionCreateNewEstimate(newEstimateBody, access_token);
                 if (!newEstimate) {
                     return new Response("Something went wrong (/estimates)", {status: 404});
@@ -117,52 +120,33 @@ export async function POST(req) {
                     return new Response("Estimated created!");
                 }
             } else {
-                let newCustomerBody;
-                if (cleaningAddress.address1.length !== 0) {
-                    newCustomerBody = {
-                        customer_name: `${firstName} ${lastName}`,
-                        contacts: [{
-                            fname: firstName,
-                            lname: lastName,
-                            phones: [{
-                                phone: phone,
-                                type: "Mobile"
-                            }],
-                            emails: [{
-                                email: email,
-                                class: "Personal"
-                            }],
-                            is_primary: "true"
+                let newCustomerBody = {
+                    customer_name: `${firstName} ${lastName}`,
+                    contacts: [{
+                        fname: firstName,
+                        lname: lastName,
+                        phones: [{
+                            phone: phone,
+                            type: "Mobile"
                         }],
-                        locations: [{
-                            street_1: cleaningAddress.address1,
-                            street_2: cleaningAddress.address2 ? cleaningAddress.address2 : "",
-                            city: cleaningAddress.city ? cleaningAddress.city : "",
-                            state_prov: cleaningAddress.city ? "Texas" : "",
-                            postal_code: cleaningAddress.zipCode ? cleaningAddress.zipCode : "",
+                        emails: [{
+                            email: email,
+                            class: "Personal"
                         }],
-                        referral_source: "susyqonline",
-                        is_taxable: true,
-                    };
-                } else {
-                    newCustomerBody = {
-                        customer_name: `${firstName} ${lastName}`,
-                        contacts: [{
-                            fname: firstName,
-                            lname: lastName,
-                            phones: [{
-                                phone: phone,
-                                type: "Mobile"
-                            }],
-                            emails: [{
-                                email: email,
-                                class: "Personal"
-                            }],
-                            is_primary: "true"
-                        }],
-                        referral_source: "susyqonline",
-                        is_taxable: true,
-                    };
+                        is_primary: "true"
+                    }],
+                    locations: [{
+                        street_1: cleaningAddress.address1,
+                        street_2: cleaningAddress.address2,
+                        city: cleaningAddress.city,
+                        state_prov: "Texas",
+                        postal_code: cleaningAddress.zipCode,
+                    }],
+                    referral_source: "susyqonline",
+                    is_taxable: true,
+                };
+                if (cleaningAddress.address1.length === 0) {
+                    delete newCustomerBody.locations;
                 }
                 const newCustomer = await fetchServiceFusionCreateNewCustomer(newCustomerBody, access_token);
                 if (!newCustomer) {
@@ -170,7 +154,7 @@ export async function POST(req) {
                 } else {
                     const newEstimateBody = {
                         customer_name: newCustomer.customer_name,
-                        description: `Services Requested: ${services.toString()} - Bedrooms: ${rooms.bedroom} - Bathrooms: ${rooms.bathroom} - Size: ${size ? size : "not provided"} - Extras: ${extras.length !== 0 ? extras.toString() : "not provided"}.`,
+                        description: `Services Requested: ${services.toString()} - Bedrooms: ${rooms.bedroom} - Bathrooms: ${rooms.bathroom} - Size: ${size ? size : "not provided"} - Extras: ${extras.length !== 0 ? extras.toString() : "not provided"} - Source: ${serviceSource ? serviceSource : "not provided"} - Phone: ${phone ? phone : "n/a"}`,
                         notes: [
                             {
                                 notes: serviceNotes
@@ -187,6 +171,9 @@ export async function POST(req) {
                         source: "susyqonline",
                         opportunity_owner: "Dalia Ballard",
                     };
+                    if (!serviceNotes) {
+                        delete newEstimateBody.notes
+                    }
                     const newEstimate = await fetchServiceFusionCreateNewEstimate(newEstimateBody, access_token);
                     if (!newEstimate) {
                         return new Response("Something went wrong (/estimates/services!!!!!went wrong)", {status: 404});
