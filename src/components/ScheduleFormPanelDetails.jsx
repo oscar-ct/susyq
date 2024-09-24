@@ -84,7 +84,7 @@ const ScheduleFormPanelDetails = () => {
                                 className="cursor-pointer block appearance-none w-full bg-stone-100 border border-stone-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none hover:bg-stone-200"
                                 id="bedroom"
                                 onChange={(e) => setBedrooms(e)}
-                                defaultValue={serviceDetails.rooms.bedroom}
+                                value={serviceDetails.rooms.bedroom}
                             >
                                 <option value={"0"}>0 Bedroom</option>
                                 <option value={"1"}>1 Bedroom</option>
@@ -100,7 +100,7 @@ const ScheduleFormPanelDetails = () => {
                                 className="cursor-pointer block appearance-none w-full bg-stone-100 border border-stone-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none hover:bg-stone-200"
                                 id="bathroom"
                                 onChange={(e) => setBathrooms(e)}
-                                defaultValue={serviceDetails.rooms.bathroom}
+                                value={serviceDetails.rooms.bathroom}
                             >
                                 <option value={"1"}>1 Bathroom</option>
                                 <option value={"2"}>2 Bathroom</option>
@@ -138,7 +138,7 @@ const ScheduleFormPanelDetails = () => {
                                         className="cursor-pointer block appearance-none w-full bg-stone-100 border border-stone-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none hover:bg-stone-200"
                                         id="sq"
                                         onChange={(e) => handleSqFtChange(e)}
-                                        defaultValue={serviceDetails.size}
+                                        value={serviceDetails.size}
                                     >
                                         <option value={"< 500"}>&#60; 500 sq ft</option>
                                         <option value={"500 - 1000"}>500 - 1000 sq ft</option>
@@ -165,7 +165,7 @@ const ScheduleFormPanelDetails = () => {
                                     className="cursor-pointer block appearance-none w-full bg-stone-100 border border-stone-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none hover:bg-stone-200"
                                     id="frequency"
                                     onChange={(e) => setFrequencyChange(e)}
-                                    defaultValue={serviceDetails.frequency}
+                                    value={serviceDetails.frequency}
                                 >
                                     <option value={"Weekly"}>Weekly</option>
                                     <option value={"Bi-Weekly"}>Bi-Weekly</option>
