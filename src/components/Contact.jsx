@@ -107,23 +107,23 @@ const Contact = () => {
                     <span className={"text-center text-5xl uppercase font-light text-gray-500"}>Contact Us</span>
                 </div>
                 <div className={"py-5 w-full flex flex-col lg:flex-row gap-8"}>
-                    <div className={"p-8 w-full lg:w-4/12 bg-white rounded-xl flex flex-col"}>
+                    <div className={"py-8 px-4 w-full lg:w-4/12 bg-white rounded-xl flex flex-col sm:px-8"}>
                         <div className={"pb-10 text-2xl text-gray-500 flex justify-center"}>
                             Susy Q Cleaning <TiLeaf className={"rotate-12 text-lime-400"}/>
                         </div>
                         <div className={"flex flex-col gap-4"}>
                             <div className={"text-lg text-gray-500 flex items-center justify-between"}>
                                 <TiLocationOutline size={25}/>
-                                <span className={"w-10/12"}>7703 N Lamar Blvd, Ste 119 Austin, Tx 78752</span>
+                                <span className={"w-10/12"}>7703 N Lamar Blvd, Ste 119 Austin, TX 78752</span>
                             </div>
                             <div className={"text-lg text-gray-500 flex items-center justify-between"}>
                                 <TiPhone size={25}/>
-                                <span className={"w-10/12"}>(512) 640-6264</span>
+                                <a href={"tel:512-640-6264"} className={"w-10/12 text-susy underline"}>(512) 640-6264</a>
                             </div>
                         </div>
                     </div>
 
-                    <div className={"pt-8 px-8 w-full lg:w-8/12 bg-white rounded-xl flex flex-col"}>
+                    <div className={"pt-8 px-4 w-full lg:w-8/12 bg-white rounded-xl flex flex-col sm:px-8"}>
                         <div className={"pb-6 text-center text-2xl text-gray-500"}>
                             Have a question or concern? Send us a message!
                         </div>
