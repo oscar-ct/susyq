@@ -119,6 +119,7 @@ const ScheduleFormPanelDetails = () => {
                     </div>
                     <div className={"py-3 flex w-full md:w-5/12"}>
                         <input
+                            id={"checkbox"}
                             onChange={handleCheckboxChange}
                             checked={checkboxSelected}
                             type={"checkbox"}

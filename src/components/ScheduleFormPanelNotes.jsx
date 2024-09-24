@@ -28,6 +28,7 @@ const ScheduleFormPanelNotes = () => {
                     Special Instructions, message or concerns?
                 </div>
                 <textarea
+                    id={"notes"}
                     disabled={submitInProgress}
                     onChange={setServiceNotes}
                     rows={5}
