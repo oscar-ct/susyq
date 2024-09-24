@@ -4,13 +4,15 @@ import useNavTo from "@/hooks/useNavTo";
 
 const ServiceFormButtons = () => {
 
-    const { services, activeTab, serviceDetails, serviceContact, serviceNotes, dispatch, serviceSubmitted, tabs } = useContext(GlobalContext);
+    const { services, activeTab, serviceDetails, serviceContact, serviceNotes, dispatch, serviceSubmitted, tabs, submitInProgress, serviceSource } = useContext(GlobalContext);
     const { navToServiceDetails, navToServiceContact, navToPrev, navToServiceNotes } = useNavTo();
     const [btnLoading, setBtnLoading] = useState(false);
 
     const submitEstimate = async () => {
+        dispatch({type: "SUBMIT_IN_PROGRESS", payload: true});
         setBtnLoading(true);
         const data = {
+            serviceSource,
             services,
             serviceDetails,
             serviceContact,
@@ -25,14 +27,20 @@ const ServiceFormButtons = () => {
                 const message = await res.text();
                 dispatch({type: "SET_TAB_STATUS", payload: {id: 3, error: "true", errorMsg: message}});
                 setBtnLoading(false);
+                dispatch({type: "SUBMIT_IN_PROGRESS", payload: false});
                 return;
             }
+            dispatch({type: "SUBMIT_IN_PROGRESS", payload: false});
             setBtnLoading(false);
             if (tabs[3].error) {
                 dispatch({type: "SET_TAB_STATUS", payload: {id: 3, error: "false"}});
             }
             dispatch({type: "SUBMIT_SERVICE"});
         }
+        // setTimeout(() => {
+        //     dispatch({type: "SUBMIT_IN_PROGRESS", payload: false});
+        //     setBtnLoading(false);
+        // }, 3000)
     };
 
     return (
@@ -76,11 +84,10 @@ const ServiceFormButtons = () => {
             {
                 activeTab === 3 && !serviceSubmitted && (
                     <>
-                        <button className={`bg-susy hover:bg-susy text-white py-2 px-4 rounded`}
-                                onClick={navToPrev}>
+                        <button className={`${submitInProgress ? "bg-stone-200 text-gray-600 opacity-60 cursor-not-allowed" : "bg-susy hover:bg-susy text-white"} py-2 px-4 rounded`} onClick={navToPrev}>
                             Previous
                         </button>
-                        <button onClick={submitEstimate} disabled={btnLoading} className={`${!btnLoading ? "bg-susy hover:bg-susy text-white" : "bg-stone-200 text-gray-600 cursor-not-allowed"} button py-2 px-4 rounded`}>
+                        <button onClick={submitEstimate} disabled={btnLoading} className={`${!btnLoading ? "hover:bg-susy" : "opacity-60 cursor-not-allowed"} bg-susy text-white button py-2 px-4 rounded`}>
                             <div className={"flex items-center"}>
                                 <span>Finish</span>
                                 {

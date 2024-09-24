@@ -3,7 +3,7 @@ import GlobalContext from "@/context/GlobalContext";
 
 const UseNavTo = () => {
 
-    const { services, tabs, activeTab, dispatch, serviceContact, serviceSubmitted } = useContext(GlobalContext);
+    const { services, tabs, activeTab, dispatch, serviceContact, serviceSubmitted, submitInProgress } = useContext(GlobalContext);
 
     const scrollToTop = () => {
         window.scrollTo({
@@ -13,8 +13,8 @@ const UseNavTo = () => {
     };
 
     const navToServiceDetails = () => {
-        scrollToTop();
-        if (!serviceSubmitted) {
+        if (!serviceSubmitted && !submitInProgress) {
+            scrollToTop();
             if (services.length !== 0) {
                 dispatch({ type: "SET_TAB_STATUS", payload: {id: 0, error: "false"} });
                 if (tabs[1].disabled) {
@@ -30,8 +30,8 @@ const UseNavTo = () => {
     };
 
     const navToServiceContact = () => {
-        scrollToTop();
-        if (!serviceSubmitted) {
+        if (!serviceSubmitted && !submitInProgress) {
+            scrollToTop();
             if (services.length !== 0) {
                 dispatch({type: "SET_TAB_STATUS", payload: {id: 0, error: "false"}});
                 if (tabs[2].disabled) {
@@ -50,8 +50,8 @@ const UseNavTo = () => {
     };
 
     const navToServiceNotes = () => {
-        scrollToTop();
-        if (!serviceSubmitted) {
+        if (!serviceSubmitted && !submitInProgress) {
+            scrollToTop();
             if (services.length !== 0) {
                 dispatch({type: "SET_TAB_STATUS", payload: {id: 0, error: "false"}});
                 const details = {...serviceContact, validating: true}
@@ -85,8 +85,10 @@ const UseNavTo = () => {
     };
 
     const navToPrev = () => {
-        scrollToTop();
-        dispatch({ type: "SET_ACTIVE_TAB", payload: activeTab - 1 });
+        if (!submitInProgress) {
+            scrollToTop();
+            dispatch({ type: "SET_ACTIVE_TAB", payload: activeTab - 1 });
+        }
     };
 
 
