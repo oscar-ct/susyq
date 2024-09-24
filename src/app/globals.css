@@ -31,6 +31,9 @@
 /*    text-wrap: balance;*/
 /*  }*/
 /*}*/
+html {
+    position: relative;
+}
 
 .button {
     transition: all .1s cubic-bezier(.4, 0, .2, 1);
