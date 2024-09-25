@@ -3,6 +3,7 @@
 import {useCallback, useEffect, useState} from "react";
 import {TiLeaf, TiPhone, TiLocationOutline} from "react-icons/ti";
 import {phoneNumberAutoFormat} from "@/utils/phoneNumberAutoFormat";
+import * as emailjs from "@emailjs/browser";
 
 const Contact = () => {
 
@@ -71,30 +72,56 @@ const Contact = () => {
         }
     }, [validating, validateEmail, validatePhone, validateName, validateMessage, name, email, phone, message]);
 
-    const submitMessage = () => {
+
+    const sendEmail = async (contactMessage) => {
+        try {
+            const res = await emailjs.send(`${process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID}`, `${process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID}`, {from_name: name, from_email: email, from_phone: phone, message: message, res_message: contactMessage}, `${process.env.NEXT_PUBLIC_EMAILJS_KEY}`);
+            return res.status === 200;
+        } catch {
+            return false;
+        }
+    };
+    const submitContact = async (data) => {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/servicefusion/customers/create`, {
+            method: "POST",
+            body: JSON.stringify(data),
+        });
+        if (!res.ok) {
+            return "Error: Service Fusion connection failed.";
+        }
+        const resObj = await res.json();
+        return resObj.message;
+    };
+    const submitMessage = async () => {
         setBtnLoading(true);
         const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
         if (message.length === 0 || name.length === 0 || phone.length !== 12 || !emailRegex.test(email)) {
             setValidating(true);
             setBtnLoading(false);
         } else {
-            setTimeout(() => {
+            const contactMessage = await submitContact({name, email, phone});
+            const res = await sendEmail(contactMessage);
+            if (res) {
                 setBtnLoading(false);
+                setResError(false);
                 setResSuccess(true);
-            }, 2000)
-
-            // todo: create fetch call to submit message, handle response/error
-            setTimeout(() => {
-                setResSuccess(false);
                 setValidating(false);
                 setName("");
                 setMessage("");
                 setPhone("");
                 setEmail("");
-            }, 5000)
+            } else {
+                setBtnLoading(false);
+                setResSuccess(false);
+                setResError(true);
+                setValidating(false);
+            }
+            setTimeout(() => {
+                setResError(false);
+                setResSuccess(false);
+            }, 4000);
         }
     };
-
     const setFormatPhone = (e) => {
         const val = phoneNumberAutoFormat(e.target.value);
         setPhone(val);
@@ -131,8 +158,8 @@ const Contact = () => {
                             <div className={"flex flex-col items-start w-full md:w-5/12 gap-8"}>
                                 <div className={`relative h-11 w-full md:w-60`}>
                                     <input
-                                        autoComplete={"name"}
                                         id={"name"}
+                                        autoComplete={"name"}
                                         onMouseEnter={() => setNameInputHover(true)}
                                         onMouseLeave={() => setNameInputHover(false)}
                                         onFocus={() => setNameInputActive(true)}
@@ -158,8 +185,8 @@ const Contact = () => {
                                 </div>
                                 <div className={`relative h-11 w-full md:w-60`}>
                                     <input
-                                        autoComplete={"email"}
                                         id={"email"}
+                                        autoComplete={"email"}
                                         onMouseEnter={() => setEmailInputHover(true)}
                                         onMouseLeave={() => setEmailInputHover(false)}
                                         onFocus={() => setEmailInputActive(true)}
@@ -214,8 +241,8 @@ const Contact = () => {
                             <div className={"w-full h-full md:w-7/12 flex-col"}>
                                 <div className={`relative`}>
                                     <textarea
-                                        rows={4}
                                         id={"message"}
+                                        rows={4}
                                         onMouseEnter={() => setMessageInputHover(true)}
                                         onMouseLeave={() => setMessageInputHover(false)}
                                         onFocus={() => setMessageInputActive(true)}
@@ -268,7 +295,7 @@ const Contact = () => {
                             </div>
                         </div>
                         <div className={"hidden md:flex justify-center items-center h-8 my-3"}>
-                            {
+                        {
                             resSuccess && (
                                     <span>Thank you for your message!</span>
                                 )
