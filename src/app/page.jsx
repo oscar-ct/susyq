@@ -8,32 +8,34 @@ import KeepAustinWeird from "@/components/KeepAustinWeird";
 import ErmaBombeck from "@/components/ErmaBombeck";
 import EasyLife from "@/components/EasyLife";
 import RefTo from "@/components/RefTo";
+import SmoothScroller from "@/components/SmoothScroller";
 
 
 const Home = () => {
 
   return (
       <>
-          {/*<SmoothScroller/>*/}
-          <RefTo id={"home"}>
-              <Introduction/>
-          </RefTo>
-          <Testimonials/>
-          <RefTo id={"services"}>
-              <Services/>
-          </RefTo>
-          <KeepAustinWeird/>
-          <RefTo id={"about"}>
-              <About/>
-          </RefTo>
-          <ErmaBombeck/>
-          <RefTo id={"faq"}>
-              <FAQ/>
-          </RefTo>
-          <EasyLife/>
-          <RefTo id={"contact"}>
-              <Contact/>
-          </RefTo>
+          <SmoothScroller>
+              <RefTo id={"home"}>
+                  <Introduction/>
+              </RefTo>
+              <Testimonials/>
+              <RefTo id={"services"}>
+                  <Services/>
+              </RefTo>
+              <KeepAustinWeird/>
+              <RefTo id={"about"}>
+                  <About/>
+              </RefTo>
+              <ErmaBombeck/>
+              <RefTo id={"faq"}>
+                  <FAQ/>
+              </RefTo>
+              <EasyLife/>
+              <RefTo id={"contact"}>
+                  <Contact/>
+              </RefTo>
+          </SmoothScroller>
       </>
 
   );
