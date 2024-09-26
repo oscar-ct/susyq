@@ -40,7 +40,7 @@ const KeepAustinWeird = () => {
                     </div>
                 </CustomButton>
             </div>
-            <div className='fixed top-[-10vh] left-0 h-[125vh] w-full'>
+            <div className='fixed top-[-10%] left-0 h-[125%] w-full'>
                 <motion.div style={{y}} className='relative w-full h-full'>
                     <Image src={Background} fill alt="austin" className={"object-cover"}/>
                 </motion.div>
