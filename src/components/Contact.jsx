@@ -135,14 +135,10 @@ const Contact = () => {
                 </div>
                 <div className={"py-5 w-full flex flex-col lg:flex-row gap-8"}>
                     <div className={"py-8 px-4 w-full lg:w-4/12 bg-white rounded-xl flex flex-col sm:px-8"}>
-                        <div className={"pb-10 text-2xl text-gray-500 flex justify-center"}>
-                            Susy Q Cleaning <TiLeaf className={"rotate-12 text-lime-400"}/>
+                        <div className={"text-center pb-10 text-2xl text-gray-500"}>
+                            Susy Q Cleaning
                         </div>
                         <div className={"flex flex-col gap-4"}>
-                            <div className={"text-lg text-gray-500 flex items-center justify-between"}>
-                                <TiLocationOutline size={25}/>
-                                <span className={"w-10/12"}>7703 N Lamar Blvd, Ste 119 Austin, TX 78752</span>
-                            </div>
                             <div className={"text-lg text-gray-500 flex items-center justify-between"}>
                                 <TiPhone size={25}/>
                                 <a href={"tel:512-640-6264"} className={"w-10/12 text-susy underline"}>(512) 640-6264</a>
