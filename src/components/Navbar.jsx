@@ -1,4 +1,4 @@
-import {TiLeaf, TiThumbsUp} from "react-icons/ti";
+import {TiThumbsUp} from "react-icons/ti";
 import { TiHomeOutline } from "react-icons/ti";
 import { TiStarOutline } from "react-icons/ti";
 import { TiTabsOutline } from "react-icons/ti";
@@ -25,7 +25,6 @@ const Navbar = () => {
 
                     <Link href={"/"} className={"flex items-center"}>
                         <span className={"py-1 text-2xl md:text-4xl text-gray-500 font-light truncate"}>Susy Q Cleaning </span>
-                        <TiLeaf size={36} className={"text-lime-400 rotate-12 pl-1"}/>
                     </Link>
 
 
