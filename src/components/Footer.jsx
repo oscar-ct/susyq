@@ -1,6 +1,7 @@
 import Image from "next/image";
 import susy from "../../public/images/susyQCleaningServices.png"
 import { FaLinkedin, FaXTwitter, FaFacebook, FaYelp } from "react-icons/fa6";
+import {FaInstagram} from "react-icons/fa";
 
 const Footer = () => {
     return (
@@ -25,7 +26,8 @@ const Footer = () => {
                 <div className={"text-white pt-10 md:pt-0 flex flex-col justify-center"}>
                     <span className="text-center">Check us out!</span>
                     <div className="pt-5 grid grid-flow-col gap-4 text-xl">
-                        <a aria-label="linkedin" href={"https://www.linkedin.com/in/oscar-ct"} target="_blank"
+                        <a aria-label="linkedin" href={"https://www.linkedin.com/company/susy-q-cleaning/"}
+                           target="_blank"
                            rel="noopener noreferrer">
                             <FaLinkedin/>
                         </a>
@@ -37,9 +39,15 @@ const Footer = () => {
                            rel="noopener noreferrer">
                             <FaFacebook/>
                         </a>
-                        <a aria-label="portfolio" href={"https://www.yelp.com/biz/susy-q-cleaning-austin"} target="_blank"
+                        <a aria-label="portfolio" href={"https://www.yelp.com/biz/susy-q-cleaning-austin"}
+                           target="_blank"
                            rel="noopener noreferrer">
                             <FaYelp/>
+                        </a>
+                        <a aria-label="portfolio" href={"https://www.instagram.com/susyqcleaning/"}
+                           target="_blank"
+                           rel="noopener noreferrer">
+                            <FaInstagram/>
                         </a>
                     </div>
                 </div>
