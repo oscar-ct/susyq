@@ -7,8 +7,8 @@ const About = () => {
         <section className={"py-14 w-full mx-auto px-4 lg:px-8 max-w-screen-xl"}>
             <div className={"flex flex-col items-center"}>
                 <div className={"flex flex-col justify-center pb-8 md:pb-4"}>
-                    <span className={"text-center text-5xl uppercase font-light text-gray-500"}>About Us</span>
-                    <span className={"pt-5 text-center text-2xl font-light text-gray-500"}>We our a local Austin cleaning service company</span>
+                    <h1 className={"text-center text-5xl uppercase font-light text-gray-500"}>About Us</h1>
+                    <h4 className={"pt-5 text-center text-2xl font-light text-gray-500"}>We our a local Austin cleaning service company</h4>
                 </div>
                 <div className={"flex flex-col md:flex-row"}>
                     <div className={"flex justify-center items-center md:w-4/12"}>
@@ -30,7 +30,6 @@ const About = () => {
                                 <p className={"text-lg leading-tight font-light text-center md:text-left"}>
                                     If you are not satisfied with the work we have performed in your home, call within 24 hours, and we will re-clean it – at no additional charge! We are focused on making sure that each client is pleased, it is the soul and heart of our business.
                                 </p>
-
                             </div>
                         </div>
                     </div>
