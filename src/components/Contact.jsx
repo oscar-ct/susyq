@@ -131,24 +131,22 @@ const Contact = () => {
         <section className={"py-14 w-full bg-zinc-100"}>
             <div className={"max-w-screen-xl mx-auto px-4 lg:px-8 flex flex-col items-center"}>
                 <div className={"flex flex-col justify-center pb-8"}>
-                    <span className={"text-center text-5xl uppercase font-light text-gray-500"}>Contact Us</span>
-                </div>
-                <div className={"py-5 w-full flex flex-col lg:flex-row gap-8"}>
-                    <div className={"py-8 px-4 w-full lg:w-4/12 bg-white rounded-xl flex flex-col sm:px-8"}>
-                        <div className={"text-center pb-10 text-2xl text-gray-500"}>
-                            Susy Q Cleaning
-                        </div>
-                        <div className={"flex flex-col gap-4"}>
-                            <div className={"text-lg text-gray-500 flex items-center justify-between"}>
-                                <TiPhone size={25}/>
-                                <a href={"tel:512-640-6264"} className={"w-10/12 text-susy underline"}>(512) 640-6264</a>
-                            </div>
+                    <h1 className={"text-center text-5xl uppercase font-light text-gray-500"}>Contact Us</h1>
+                    <h4 className={"pt-5 text-center text-2xl font-light text-gray-500"}>
+                        Have a question or concern? Send us a message or give us a call. We&apos;d love to hear from
+                        you.
+                    </h4>
+                    <div className={"pt-3 flex justify-center"}>
+                        <div className={"text-lg text-gray-500 flex items-center justify-between"}>
+                            <TiPhone size={25}/>
+                            <a href={"tel:512-640-6264"} className={"text-susy underline"}>(512) 640-6264</a>
                         </div>
                     </div>
-
-                    <div className={"pt-8 px-4 w-full lg:w-8/12 bg-white rounded-xl flex flex-col sm:px-8"}>
+                </div>
+                <div className={"py-5 w-full flex justify-center"}>
+                    <div className={"pt-8 px-4 w-full lg:w-8/12 bg-white shadow-md rounded-xl flex flex-col sm:px-8"}>
                         <div className={"pb-6 text-center text-2xl text-gray-500"}>
-                            Have a question or concern? Send us a message!
+                            Contact Information
                         </div>
                         <div className={"flex flex-col md:flex-row gap-8"}>
                             <div className={"flex flex-col items-start w-full md:w-5/12 gap-8"}>
