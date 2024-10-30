@@ -14,12 +14,12 @@ const Navbar = () => {
 
     return (
         <>
-            <div className={"z-40 fixed right-0 top-0 sm:hidden"}>
+            <div className={"z-40 fixed right-0 top-0 md:hidden"}>
                 <NavbarMobile/>
             </div>
 
 
-            <div className={"fixed h-[58px] sm:h-[76px] bg-white inset-0 z-30 border-b"}>
+            <div className={"fixed h-[58px] md:h-[76px] bg-white inset-0 z-30 border-b"}>
                 <div className={"h-full flex justify-between max-w-screen-xl mx-auto px-4 lg:px-8 relative"}>
 
 
@@ -28,7 +28,7 @@ const Navbar = () => {
                     </Link>
 
 
-                    <div className={"hidden text-gray-500 cursor-pointer sm:flex sm:items-center"}>
+                    <div className={"hidden text-gray-500 cursor-pointer md:flex md:items-center"}>
                         <NavScrollToButton id={"home"}>
                             <TiHomeOutline size={iconSize}/>
                             Home
