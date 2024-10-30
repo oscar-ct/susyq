@@ -5,7 +5,7 @@ import Image from "next/image";
 const TestimonialsCard = ({children, author = ""}) => {
     // const iconSize = 28;
     return (
-        <div className={"bg-white rounded-xl shadow-xl relative"}>
+        <div className={"bg-white rounded-xl shadow-md relative"}>
             <Image
                 className={"left-0 absolute rotate-180 -translate-y-4 translate-x-5 bg-white rounded-full"}
                 priority
@@ -15,13 +15,6 @@ const TestimonialsCard = ({children, author = ""}) => {
                 alt={"quotes"}
             />
             <div className={"p-8 flex flex-col text-gray-500"}>
-                {/*<div className={"flex justify-center pb-2"}>*/}
-                {/*    <TiStar size={iconSize} className={"text-amber-400"}/>*/}
-                {/*    <TiStar size={iconSize} className={"text-amber-400"}/>*/}
-                {/*    <TiStar size={iconSize} className={"text-amber-400"}/>*/}
-                {/*    <TiStar size={iconSize} className={"text-amber-400"}/>*/}
-                {/*    <TiStar size={iconSize} className={"text-amber-400"}/>*/}
-                {/*</div>*/}
                 <p className={"w-56 text-xl font-light"}>
                     {children}
                 </p>
