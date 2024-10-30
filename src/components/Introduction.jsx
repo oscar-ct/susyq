@@ -16,7 +16,7 @@ const Introduction = () => {
                 <div className={"w-full h-full mx-auto max-w-screen-xl"}>
                     <div className={"w-full h-full flex flex-col md:flex-row md:justify-center"}>
                        <div className={"h-full flex items-center w-full md:w-5/12"}>
-                           <div className={"pl-6 w-full pt-5 md:pt-0"}>
+                           <div className={"pl-6 w-full pt-3 md:pt-0"}>
                                <IntroductionSwiper/>
                            </div>
                        </div>
