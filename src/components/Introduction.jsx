@@ -15,13 +15,13 @@ const Introduction = () => {
             <div className={"w-full h-full flex flex-col justify-between"}>
                 <div className={"w-full h-full mx-auto max-w-screen-xl"}>
                     <div className={"w-full h-full flex flex-col md:flex-row md:justify-center"}>
-                       <div className={"h-full flex items-center w-full md:w-5/12"}>
-                           <div className={"pl-6 w-full pt-3 md:pt-0"}>
+                       <div className={"h-full flex items-center w-full md:w-5/12 lg:w-6/12"}>
+                           <div className={"pl-3 w-full pt-3 md:pl-5 lg:pl-8"}>
                                <IntroductionSwiper/>
                            </div>
                        </div>
-                        <div className={"h-full w-full md:w-7/12 flex justify-center md:items-end"}>
-                            <div className={"z-10 translate-y-5"}>
+                        <div className={"h-full w-full md:w-7/12 lg:w-6/12 flex justify-end md:items-end"}>
+                            <div className={"z-10 translate-y-5 md:pr-8"}>
                                 <Image
                                     quality={100}
                                     unoptimized={true}
@@ -40,11 +40,11 @@ const Introduction = () => {
                     <div className={"w-full h-full mx-auto max-w-screen-xl py-8 px-4 lg:px-8"}>
                         <div className={"gap-4 h-full flex flex-col items-center text-white md:flex-row md:justify-between"}>
                             <div className={"h-28 flex items-center"}>
-                                <p className={"text-center text-2xl w-full font-light"}><span
+                                <h3 className={"text-center text-2xl w-full font-light"}><span
                                     className={"font-bold pr-1"}><span className={"text-lime-400"}>Green house</span> cleaning services</span> in
                                     the Austin
                                     metro area.
-                                </p>
+                                </h3>
                             </div>
                             <Link className={"mb-5 md:mb-0 md:mt-5 rounded-full"} href={"/schedule"}>
                                 <CustomButton customClass={"h-16"} id={"faq"} route={"/schedule"} navigate={true}>
