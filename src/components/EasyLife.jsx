@@ -25,12 +25,12 @@ const EasyLife = () => {
     return (
         <div
             ref={container}
-            className='relative flex items-center justify-center h-[450px] overflow-hidden'
+            className='relative flex items-center justify-center overflow-hidden py-20'
             style={{clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)"}}
         >
             <div className='z-10 flex flex-col items-center justify-center text-white'>
                 <TiStarOutline size={80}/>
-                <p className='py-10 w-full text-5xl uppercase text-center md:text-7xl md:w-[900px]'>
+                <p className='py-10 w-full text-5xl uppercase text-center md:text-7xl md:w-[900px] font-bold'>
                     Let us make your life a little easier!!!
                 </p>
                 <CustomButton customClass={"h-16"} onClick={navigate}>

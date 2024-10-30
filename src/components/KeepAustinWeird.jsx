@@ -26,12 +26,12 @@ const KeepAustinWeird = () => {
     return (
         <div
             ref={container}
-            className='relative flex items-center justify-center h-[800px] md:h-[550px] overflow-hidden'
+            className='relative flex items-center justify-center py-20 overflow-hidden'
             style={{clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)"}}
         >
             <div className='z-10 flex flex-col items-center justify-center text-white'>
                 <TiStarOutline size={80}/>
-                <p className='py-10 w-[300px] md:w-[800px] text-7xl uppercase text-center '>Keep austin <span className={"text-susy"}>clean</span> and weird</p>
+                <p className='py-10 w-[300px] md:w-[800px] text-7xl uppercase text-center font-bold'>Keep austin <span className={"text-susy"}>clean</span> and weird</p>
                 <CustomButton customClass={"h-16"} onClick={navigate}>
                     <div
                         className={"text-xl flex items-center uppercase truncate"}>
