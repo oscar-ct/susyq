@@ -19,7 +19,7 @@ const Navbar = () => {
             </div>
 
 
-            <div className={"fixed h-[58px] sm:h-[76px] bg-white inset-0 z-30"}>
+            <div className={"fixed h-[58px] sm:h-[76px] bg-white inset-0 z-30 border-b"}>
                 <div className={"h-full flex justify-between max-w-screen-xl mx-auto px-4 lg:px-8 relative"}>
 
 
