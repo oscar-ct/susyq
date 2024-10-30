@@ -2,56 +2,65 @@ import Image from "next/image";
 import susy from "../../public/images/susyQCleaningServices.png"
 import { FaLinkedin, FaXTwitter, FaFacebook, FaYelp } from "react-icons/fa6";
 import {FaInstagram} from "react-icons/fa";
+import Link from "next/link";
 
 const Footer = () => {
     return (
-        <footer className="footer bg-susy">
-            <div className={"max-w-screen-xl px-4 lg:px-8 py-8 mx-auto flex flex-col justify-between w-full md:flex-row items-center"}>
-                <div className={"flex flex-col md:flex-row items-center"}>
-                    <div className={"flex justify-center"}>
+        <footer className="bg-susy">
+            <div className={"py-8 md:py-14 max-w-screen-xl px-4 lg:px-8 mx-auto"}>
+                <div className={"flex flex-col justify-between w-full md:flex-row items-center"}>
+                    <Link href={"/"}>
                         <Image
                             width={50}
                             height={50}
                             priority
-                            className={"w-[50px] md:w-[36px] h-[50px] md:h-[36px]"}
+                            className={"w-[50px] h-[50px]"}
                             src={susy}
                             alt="susy"
                         />
+                    </Link>
+                    <div className={"pt-6 md:pt-0 pl-4 text-white"}>
+                        <p className={"pb-4"}>
+                            Copyright © 2024 Susy Q Cleaning / All rights reserved.
+                        </p>
+                        <div className={"flex justify-center gap-4"}>
+                            <Link href={"/privacy"} className={"underline"}>
+                                Privacy Policy
+                            </Link>
+                            <Link href={"/terms"} className={"underline"}>
+                                Terms and Conditions
+                            </Link>
+                        </div>
                     </div>
-                    <p className={"pt-6 md:pt-0 pl-2 text-white"}>
-                        Copyright © 2024 Susy Q Cleaning / All rights reserved.
-                    </p>
-                </div>
-
-                <div className={"text-white pt-10 md:pt-0 flex flex-col justify-center"}>
-                    <span className="text-center">Check us out!</span>
-                    <div className="pt-5 grid grid-flow-col gap-4 text-xl">
-                        <a aria-label="linkedin" href={"https://www.linkedin.com/company/susy-q-cleaning/"}
-                           target="_blank"
-                           rel="noopener noreferrer">
-                            <FaLinkedin/>
-                        </a>
-                        <a aria-label="github" href={"https://x.com/susyQcleaning"} target="_blank"
-                           rel="noopener noreferrer">
-                            <FaXTwitter/>
-                        </a>
-                        <a aria-label="portfolio" href={"https://www.facebook.com/SusyQCleaning"} target="_blank"
-                           rel="noopener noreferrer">
-                            <FaFacebook/>
-                        </a>
-                        <a aria-label="portfolio" href={"https://www.yelp.com/biz/susy-q-cleaning-austin"}
-                           target="_blank"
-                           rel="noopener noreferrer">
-                            <FaYelp/>
-                        </a>
-                        <a aria-label="portfolio" href={"https://www.instagram.com/susyqcleaning/"}
-                           target="_blank"
-                           rel="noopener noreferrer">
-                            <FaInstagram/>
-                        </a>
+                    <div className={"text-white pt-10 md:pt-0 flex flex-col justify-center"}>
+                        <span className="text-center">Check us out on Social Media!</span>
+                        <div className="pt-5 grid grid-flow-col gap-4 text-xl">
+                            <a aria-label="linkedin" href={"https://www.linkedin.com/company/susy-q-cleaning/"}
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                <FaLinkedin/>
+                            </a>
+                            <a aria-label="github" href={"https://x.com/susyQcleaning"} target="_blank"
+                               rel="noopener noreferrer">
+                                <FaXTwitter/>
+                            </a>
+                            <a aria-label="portfolio" href={"https://www.facebook.com/SusyQCleaning"} target="_blank"
+                               rel="noopener noreferrer">
+                                <FaFacebook/>
+                            </a>
+                            <a aria-label="portfolio" href={"https://www.yelp.com/biz/susy-q-cleaning-austin"}
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                <FaYelp/>
+                            </a>
+                            <a aria-label="portfolio" href={"https://www.instagram.com/susyqcleaning/"}
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                <FaInstagram/>
+                            </a>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </footer>
     );
