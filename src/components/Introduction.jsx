@@ -11,7 +11,7 @@ import Link from "next/link";
 const Introduction = () => {
 
     return (
-        <section className={"h-[50rem] md:h-[40rem] relative"}>
+        <section className={"h-[49rem] md:h-[40rem] relative"}>
             <div className={"w-full h-full flex flex-col justify-between"}>
                 <div className={"w-full h-full mx-auto max-w-screen-xl"}>
                     <div className={"w-full h-full flex flex-col md:flex-row md:justify-center"}>
@@ -21,9 +21,10 @@ const Introduction = () => {
                            </div>
                        </div>
                         <div className={"h-full w-full md:w-7/12 flex justify-center md:items-end"}>
-                            <div className={"z-10 translate-y-6"}>
+                            <div className={"z-10 translate-y-5"}>
                                 <Image
                                     quality={100}
+                                    unoptimized={true}
                                     priority
                                     width={420}
                                     height={440}
@@ -60,6 +61,7 @@ const Introduction = () => {
             </div>
             {/*BACKGROUND IMAGE BELOW*/}
             <Image
+                quality={100}
                 priority
                 src={bg}
                 alt="background image"
