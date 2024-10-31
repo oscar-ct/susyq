@@ -2,6 +2,11 @@ import ScheduleGuarantees from "@/components/ScheduleGuarantees";
 import ScheduleForm from "@/components/ScheduleForm";
 import {GlobalProvider} from "@/context/GlobalContext";
 
+export const metadata = {
+    title: "Schedule Now | Susy Q Cleaning",
+    description: "Susy Q cleaning is a professional company dedicated to be part of your life. Our interest are focused on meeting your needs by offering high quality services and high level satisfaction to our customers. Our green healthy cleaning techniques provide your home with a cleaner healthier environment.",
+};
+
 const SchedulePage = () => {
     return (
         <GlobalProvider>
