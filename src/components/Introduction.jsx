@@ -15,13 +15,13 @@ const Introduction = () => {
             <div className={"w-full h-full flex flex-col justify-between"}>
                 <div className={"w-full h-full mx-auto max-w-screen-xl"}>
                     <div className={"w-full h-full flex flex-col md:flex-row md:justify-center"}>
-                       <div className={"h-full flex items-center w-full md:w-5/12 lg:w-6/12"}>
-                           <div className={"pl-3 w-full pt-3 md:pl-5 lg:pl-8"}>
+                       <div className={"h-full flex items-center w-full md:w-5/12 lg:w-6/12 xl:w-7/12"}>
+                           <div className={"pl-3 w-full pt-3 md:pl-5 lg:pl-16"}>
                                <IntroductionSwiper/>
                            </div>
                        </div>
-                        <div className={"h-full w-full md:w-7/12 lg:w-6/12 flex justify-end md:items-end"}>
-                            <div className={"z-10 translate-y-5 md:pr-8"}>
+                        <div className={"h-full w-full md:w-7/12 lg:w-6/12 xl:w-5/12 flex justify-center md:justify-end md:items-end"}>
+                            <div className={"z-10 translate-y-5 md:pr-5 lg:pr-16"}>
                                 <Image
                                     quality={100}
                                     unoptimized={true}
