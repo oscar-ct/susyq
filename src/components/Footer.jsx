@@ -1,7 +1,7 @@
 import Image from "next/image";
 import susy from "../../public/images/susyQCleaningServices.png"
 import { FaLinkedin, FaXTwitter, FaFacebook, FaYelp } from "react-icons/fa6";
-import {FaInstagram} from "react-icons/fa";
+import {FaGoogle, FaInstagram} from "react-icons/fa";
 import Link from "next/link";
 
 const Footer = () => {
@@ -20,7 +20,7 @@ const Footer = () => {
                         />
                     </Link>
                     <div className={"pt-6 md:pt-0 pl-4 text-white"}>
-                        <p className={"pb-4"}>
+                        <p className={"pb-10 md:pb-4"}>
                             Copyright © 2024 Susy Q Cleaning / All rights reserved.
                         </p>
                         <div className={"flex justify-center gap-4"}>
@@ -57,6 +57,11 @@ const Footer = () => {
                                target="_blank"
                                rel="noopener noreferrer">
                                 <FaInstagram/>
+                            </a>
+                            <a aria-label="portfolio" href={"https://www.google.com/maps/place/Susy+Q+Cleaning/@30.4249436,-97.7701436,10.02z/data=!4m6!3m5!1s0x8644ca319618068d:0x49ea24942bbe87a3!8m2!3d30.4206125!4d-97.763874!16s%2Fg%2F1v8x2l5y?entry=ttu&g_ep=EgoyMDI0MTAyMy4wIKXMDSoASAFQAw%3D%3D"}
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                <FaGoogle/>
                             </a>
                         </div>
                     </div>
