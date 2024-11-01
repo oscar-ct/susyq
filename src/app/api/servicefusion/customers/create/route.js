@@ -51,8 +51,13 @@ const fetchServiceFusionCreateNewCustomer = async (customer, token) => {
 
 
 export async function POST(req) {
-    await connectDB();
+    try {
+        await connectDB();
+    } catch {
+        return new Response("Something went wrong connecting to db", {status: 404});
+    }
     const credentials = await Credentials.findById("66dad17f465d12d0ab01513d");
+    console.log(credentials);
     const updatedServiceFusionAccessTokens = await fetchServiceFusionAccessToken(credentials.serviceFusionRefreshToken);
     if (!updatedServiceFusionAccessTokens) {
         return new Response("Something went wrong (/access_token)", {status: 404});
