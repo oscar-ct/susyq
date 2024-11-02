@@ -8,6 +8,7 @@ import * as emailjs from "@emailjs/browser";
 const Contact = () => {
 
     const [validating, setValidating] = useState(false);
+    const [btnMessage, setBtnMessage] = useState("Send");
 
     const [email, setEmail] = useState("");
     const [emailInputHover, setEmailInputHover] = useState(false);
@@ -92,6 +93,7 @@ const Contact = () => {
         const resObj = await res.json();
         return resObj.message;
     };
+    // const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
     const submitMessage = async () => {
         setBtnLoading(true);
         const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
@@ -99,8 +101,15 @@ const Contact = () => {
             setValidating(true);
             setBtnLoading(false);
         } else {
+            setBtnMessage("Sending");
+            // let res;
+            // await delay(3000);
+            // setBtnMessage("Sending...");
+            // await delay(3000);
+            // res = true;
             const contactMessage = await submitContact({name, email, phone});
             const res = await sendEmail(contactMessage);
+            setBtnMessage("Sending...");
             if (res) {
                 setBtnLoading(false);
                 setResError(false);
@@ -110,6 +119,7 @@ const Contact = () => {
                 setMessage("");
                 setPhone("");
                 setEmail("");
+                setBtnMessage("Sent!");
             } else {
                 setBtnLoading(false);
                 setResSuccess(false);
@@ -117,6 +127,7 @@ const Contact = () => {
                 setValidating(false);
             }
             setTimeout(() => {
+                setBtnMessage("Send");
                 setResError(false);
                 setResSuccess(false);
             }, 4000);
@@ -166,7 +177,7 @@ const Contact = () => {
                                     <label
                                         htmlFor={"name"}
                                         className={`${nameInputHover ? "text-gray-700" : "text-gray-500"} after:content[''] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-cyan-600 after:transition-transform after:duration-300 peer-placeholder-shown:text-[16px] peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[12px] peer-focus:leading-tight peer-focus:text-cyan-600 peer-focus:after:scale-x-100 peer-focus:after:border-cyan-600 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500`}>
-                                        {nameInputActive ? "Name" : "Name"}
+                                        {nameInputActive ? "Full Name" : "Full Name"}
                                     </label>
                                     {
                                         nameError && (
@@ -193,7 +204,7 @@ const Contact = () => {
                                     <label
                                         htmlFor={"email"}
                                         className={`${emailInputHover ? "text-gray-700" : "text-gray-500"} after:content[''] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-cyan-600 after:transition-transform after:duration-300 peer-placeholder-shown:text-[16px] peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[12px] peer-focus:leading-tight peer-focus:text-cyan-600 peer-focus:after:scale-x-100 peer-focus:after:border-cyan-600 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500`}>
-                                        {emailInputActive ? "Email" : "Email Address"}
+                                        {emailInputActive ? "Email Address" : "Email Address"}
                                     </label>
                                     {
                                         emailError && (
@@ -220,7 +231,7 @@ const Contact = () => {
                                     <label
                                         htmlFor={"tel"}
                                         className={`${phoneInputHover ? "text-gray-700" : "text-gray-500"} after:content[''] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-cyan-600 after:transition-transform after:duration-300 peer-placeholder-shown:text-[16px] peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[12px] peer-focus:leading-tight peer-focus:text-cyan-600 peer-focus:after:scale-x-100 peer-focus:after:border-cyan-600 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500`}>
-                                        {phoneInputActive ? "Phone" : "Phone Number"}
+                                        {phoneInputActive ? "Phone Number" : "Phone Number"}
                                     </label>
                                     {
                                         phoneError && (
@@ -250,7 +261,7 @@ const Contact = () => {
                                     <label
                                         htmlFor={"message"}
                                         className={`${messageInputHover ? "text-gray-700" : "text-gray-500"} after:content[''] pointer-events-none absolute left-0 -top-[11px] flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-cyan-600 after:transition-transform after:duration-300 peer-placeholder-shown:text-[16px] peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[12px] peer-focus:leading-tight peer-focus:text-cyan-600 peer-focus:after:scale-x-100 peer-focus:after:border-cyan-600 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500`}>
-                                        {messageInputActive ? "Message" : "Your Message"}
+                                        {messageInputActive ? "Your Message" : "Your Message"}
                                     </label>
                                 </div>
                                 {
@@ -277,7 +288,7 @@ const Contact = () => {
                                     <button onClick={submitMessage} disabled={btnLoading}
                                             className={`${!btnLoading && !resSuccess && !resError ? "hover:bg-susy" : "opacity-60 cursor-not-allowed"} bg-susy text-white button py-2 px-4 rounded`}>
                                         <div className={"flex items-center"}>
-                                            <span>Send</span>
+                                            <span>{btnMessage}</span>
                                             {
                                                 btnLoading && (
                                                     <span className={"ml-[6px] loading"}/>
