@@ -108,8 +108,8 @@ const Contact = () => {
             // await delay(3000);
             // res = true;
             const contactMessage = await submitContact({name, email, phone});
-            const res = await sendEmail(contactMessage);
             setBtnMessage("Sending...");
+            const res = await sendEmail(contactMessage);
             if (res) {
                 setBtnLoading(false);
                 setResError(false);
@@ -242,7 +242,6 @@ const Contact = () => {
                                     }
                                 </div>
                             </div>
-
                             <div className={"w-full h-full md:w-7/12 flex-col"}>
                                 <div className={`relative`}>
                                     <textarea
@@ -275,7 +274,7 @@ const Contact = () => {
                                     <div className={"pr-2 flex-grow items-center md:hidden"}>
                                         {
                                             resSuccess && (
-                                                <span className={"text-sm"}>Thank you for your message!</span>
+                                                <span className={"text-sm"}>Thank you for your message! We will get back to you as soon as possible.</span>
                                             )
                                         }
                                         {
@@ -302,7 +301,7 @@ const Contact = () => {
                         <div className={"hidden md:flex justify-center items-center h-8 my-3"}>
                         {
                             resSuccess && (
-                                    <span>Thank you for your message!</span>
+                                    <span>Thank you for your message! We will get back to you as soon as possible.</span>
                                 )
                             }
                             {
@@ -312,7 +311,6 @@ const Contact = () => {
                             }
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
