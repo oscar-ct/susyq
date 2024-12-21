@@ -1,11 +1,10 @@
 "use client"
 
 import { Swiper, SwiperSlide} from "swiper/react";
-import {Autoplay, EffectFade, Pagination} from "swiper/modules";
+import {Autoplay, EffectFade} from "swiper/modules";
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/effect-fade';
-import 'swiper/css/pagination';
 import { TiLeaf } from "react-icons/ti";
 import {useEffect, useState} from "react";
 
@@ -33,7 +32,7 @@ const IntroductionSwiper = () => {
                     delay: 10500,
                     disableOnInteraction: false
                 }}
-                modules={[EffectFade, Autoplay, Pagination]}
+                modules={[EffectFade, Autoplay]}
                 effect={"fade"}
                 fadeEffect={{crossFade: true}}
                 pagination={windowWidth > 1024}
@@ -52,7 +51,7 @@ const IntroductionSwiper = () => {
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
-                    <div className={"flex flex-col text-2xl sm:text-[6vw] xl:text-8xl font-light uppercase text-white leading-tight"}>
+                    <div className={"flex flex-col text-2xl sm:text-[5vw] xl:text-8xl font-light uppercase text-white leading-tight"}>
                         <h1>Satisfaction Guaranteed</h1>
                         {/*<div className={"text-7xl"}><PiHandshake/></div>*/}
                     </div>
