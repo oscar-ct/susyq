@@ -72,9 +72,14 @@ const Contact = () => {
             validateMessage(message);
         }
     }, [validating, validateEmail, validatePhone, validateName, validateMessage, name, email, phone, message]);
-
-
-    const sendEmail = async (contactMessage) => {
+    const sendEmailToClient = async () => {
+        try {
+            await emailjs.send(`${process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID}`, `${process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_2}`, {from_name: name.split(' ').slice(0, -1).join(' '), from_email: email}, `${process.env.NEXT_PUBLIC_EMAILJS_KEY}`);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+    const sendEmailToAdmin = async (contactMessage) => {
         try {
             const res = await emailjs.send(`${process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID}`, `${process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID}`, {from_name: name, from_email: email, from_phone: phone, message: message, res_message: contactMessage}, `${process.env.NEXT_PUBLIC_EMAILJS_KEY}`);
             return res.status === 200;
@@ -109,7 +114,7 @@ const Contact = () => {
             // res = true;
             const contactMessage = await submitContact({name, email, phone});
             setBtnMessage("Sending...");
-            const res = await sendEmail(contactMessage);
+            const res = await sendEmailToAdmin(contactMessage);
             if (res) {
                 setBtnLoading(false);
                 setResError(false);
@@ -120,6 +125,7 @@ const Contact = () => {
                 setPhone("");
                 setEmail("");
                 setBtnMessage("Sent!");
+                await sendEmailToClient();
             } else {
                 setBtnLoading(false);
                 setResSuccess(false);
