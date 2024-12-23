@@ -175,7 +175,7 @@ const Contact = () => {
                             ) : (
                                 <>
                                     <div className={"pb-6 text-center text-2xl text-gray-500"}>
-                                        Contact Us Form
+                                        Get in touch with us.
                                     </div>
                                     <div className={"flex flex-col md:flex-row gap-8"}>
                                         <div className={"flex flex-col items-start w-full md:w-5/12 gap-8"}>
