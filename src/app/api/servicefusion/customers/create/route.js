@@ -57,7 +57,6 @@ export async function POST(req) {
         return new Response("Something went wrong connecting to db", {status: 404});
     }
     const credentials = await Credentials.findById("66dad17f465d12d0ab01513d");
-    console.log(credentials);
     const updatedServiceFusionAccessTokens = await fetchServiceFusionAccessToken(credentials.serviceFusionRefreshToken);
     if (!updatedServiceFusionAccessTokens) {
         return new Response("Something went wrong (/access_token)", {status: 404});
@@ -66,7 +65,7 @@ export async function POST(req) {
         credentials.serviceFusionRefreshToken = refresh_token;
         credentials.serviceFusionAccessToken = access_token;
         await credentials.save();
-        const { name, phone, email } = await req.json();
+        const { name, lastName, phone, email } = await req.json();
         const existingCustomer = await fetchServiceFusionCheckIfCustomerExists(email, access_token);
         if (!existingCustomer) {
             return new Response("Something went wrong (/customer/get)", {status: 404});
@@ -74,15 +73,15 @@ export async function POST(req) {
             if (existingCustomer.items.length !== 0) {
               return Response.json({
                   contactCreated: false,
-                  message: `${email} was found as an existing contact in Service Fusion.`
+                  message: `${name} ${lastName} was found as an existing contact in Service Fusion.`
               });
             } else {
-                const firstName = name.split(' ').slice(0, -1).join(' ');
-                const lastName = name.split(' ').slice(-1).join(' ');
+                // const firstName = name.split(' ').slice(0, -1).join(' ');
+                // const lastName = name.split(' ').slice(-1).join(' ');
                 let newCustomerBody = {
-                    customer_name: `${firstName} ${lastName}`,
+                    customer_name: `${name} ${lastName}`,
                     contacts: [{
-                        fname: firstName,
+                        fname: name,
                         lname: lastName,
                         phones: [{
                             phone: phone,
@@ -103,7 +102,7 @@ export async function POST(req) {
                 } else {
                     return Response.json({
                         contactCreated: true,
-                        message: `A new contact for ${email} has been created in Service Fusion.`
+                        message: `A new contact for ${name} ${lastName} has been created in Service Fusion.`
                     });
                 }
             }
