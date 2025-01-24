@@ -103,9 +103,13 @@ const ScheduleFormPanelDetails = () => {
                                 value={serviceDetails.rooms.bathroom}
                             >
                                 <option value={"1"}>1 Bathroom</option>
+                                <option value={"1.5"}>1.5 Bathroom</option>
                                 <option value={"2"}>2 Bathroom</option>
+                                <option value={"2.5"}>2.5 Bathroom</option>
                                 <option value={"3"}>3 Bathroom</option>
+                                <option value={"3.5"}>3.5 Bathroom</option>
                                 <option value={"4"}>4 Bathroom</option>
+                                <option value={"4.5"}>4.5 Bathroom</option>
                                 <option value={"5+"}>5+ Bedroom</option>
                             </select>
                             <ArrowSvg/>
