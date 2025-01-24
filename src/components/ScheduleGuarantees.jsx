@@ -1,6 +1,7 @@
-import { TiStarOutline } from "react-icons/ti";
 import { TiFlagOutline } from "react-icons/ti";
 import { TiLockClosed } from "react-icons/ti";
+import Image from "next/image";
+import starIcon from "@/assets/png/icons8-star-48.png";
 
 
 const ScheduleGuarantees = () => {
@@ -13,12 +14,42 @@ const ScheduleGuarantees = () => {
                 <p className={"pt-4 text-xs leading-6"}>
                     If you are not completely satisfied with your cleaning, we will come back and re-clean for free.
                 </p>
-                <div className={"pt-4 flex justify-center"}>
-                    <TiStarOutline size={30}/>
-                    <TiStarOutline size={30}/>
-                    <TiStarOutline size={30}/>
-                    <TiStarOutline size={30}/>
-                    <TiStarOutline size={30}/>
+                <div className={"pt-4 flex gap-2 justify-center"}>
+                    <Image
+                        priority
+                        width={30}
+                        height={30}
+                        src={starIcon}
+                        alt={"star"}
+                    />
+                    <Image
+                        priority
+                        width={30}
+                        height={30}
+                        src={starIcon}
+                        alt={"star"}
+                    />
+                    <Image
+                        priority
+                        width={30}
+                        height={30}
+                        src={starIcon}
+                        alt={"star"}
+                    />
+                    <Image
+                        priority
+                        width={30}
+                        height={30}
+                        src={starIcon}
+                        alt={"star"}
+                    />
+                    <Image
+                        priority
+                        width={30}
+                        height={30}
+                        src={starIcon}
+                        alt={"star"}
+                    />
                 </div>
             </div>
             <div className={"p-4 bg-susy text-white w-full sm:w-4/12 lg:w-full"}>
