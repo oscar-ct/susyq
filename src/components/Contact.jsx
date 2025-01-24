@@ -25,6 +25,11 @@ const Contact = () => {
     const [nameInputActive, setNameInputActive] = useState(false);
     const [nameError, setNameError] = useState(false);
 
+    const [lastName, setLastName] = useState("");
+    const [lastNameInputHover, setLastNameInputHover] = useState(false);
+    const [lastNameInputActive, setLastNameInputActive] = useState(false);
+    const [lastNameError, setLastNameError] = useState(false);
+
     const [message, setMessage] = useState("");
     const [messageInputHover, setMessageInputHover] = useState(false);
     const [messageInputActive, setMessageInputActive] = useState(false);
@@ -50,6 +55,13 @@ const Contact = () => {
             setNameError(false);
         }
     }, []);
+    const validateLastName = useCallback((str) => {
+        if (str.length === 0) {
+            setLastNameError(true);
+        } else {
+            setLastNameError(false);
+        }
+    }, []);
     const validateMessage = useCallback((str) => {
         if (str.length === 0) {
             setMessageError(true);
@@ -68,20 +80,21 @@ const Contact = () => {
         if (validating) {
             validateEmail(email);
             validateName(name);
+            validateLastName(lastName);
             validatePhone(phone);
             validateMessage(message);
         }
-    }, [validating, validateEmail, validatePhone, validateName, validateMessage, name, email, phone, message]);
+    }, [validating, validateEmail, validatePhone, validateName, validateLastName, validateMessage, name, lastName, email, phone, message]);
     const sendEmailToClient = async () => {
         try {
-            await emailjs.send(`${process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID}`, `${process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_2}`, {from_name: name.split(' ').slice(0, -1).join(' '), from_email: email}, `${process.env.NEXT_PUBLIC_EMAILJS_KEY}`);
+            await emailjs.send(`${process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID}`, `${process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_2}`, {from_name: name, from_email: email}, `${process.env.NEXT_PUBLIC_EMAILJS_KEY}`);
         } catch (e) {
             console.log(e);
         }
     };
     const sendEmailToAdmin = async (contactMessage) => {
         try {
-            const res = await emailjs.send(`${process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID}`, `${process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID}`, {from_name: name, from_email: email, from_phone: phone, message: message, res_message: contactMessage}, `${process.env.NEXT_PUBLIC_EMAILJS_KEY}`);
+            const res = await emailjs.send(`${process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID}`, `${process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID}`, {from_name: `${name} ${lastName}`, from_email: email, from_phone: phone, message: message, res_message: contactMessage}, `${process.env.NEXT_PUBLIC_EMAILJS_KEY}`);
             return res.status === 200;
         } catch {
             return false;
@@ -102,7 +115,7 @@ const Contact = () => {
     const submitMessage = async () => {
         setBtnLoading(true);
         const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
-        if (message.length === 0 || name.length === 0 || phone.length !== 12 || !emailRegex.test(email)) {
+        if (message.length === 0 || name.length === 0 || lastName.length === 0 || phone.length !== 12 || !emailRegex.test(email)) {
             setValidating(true);
             setBtnLoading(false);
         } else {
@@ -112,7 +125,7 @@ const Contact = () => {
             // setBtnMessage("Sending...");
             // await delay(3000);
             // res = true;
-            const contactMessage = await submitContact({name, email, phone});
+            const contactMessage = await submitContact({name, lastName, email, phone});
             setBtnMessage("Sending...");
             const res = await sendEmailToAdmin(contactMessage);
             if (res) {
@@ -121,10 +134,11 @@ const Contact = () => {
                 setResSuccess(true);
                 setValidating(false);
                 setName("");
+                setLastName("");
                 setMessage("");
                 setPhone("");
                 setEmail("");
-                setBtnMessage("Sent!");
+                setBtnMessage("Submit");
                 await sendEmailToClient();
             } else {
                 setBtnLoading(false);
@@ -132,7 +146,7 @@ const Contact = () => {
                 setResError(true);
                 setValidating(false);
                 setTimeout(() => {
-                    setBtnMessage("Send");
+                    setBtnMessage("Submit");
                     setResError(false);
                 }, 4000);
             }
@@ -181,8 +195,8 @@ const Contact = () => {
                                         <div className={"flex flex-col items-start w-full md:w-5/12 gap-8"}>
                                             <div className={`relative h-11 w-full md:w-60`}>
                                                 <input
-                                                    id={"name"}
-                                                    autoComplete={"name"}
+                                                    id={"firstName"}
+                                                    autoComplete={"given name"}
                                                     onMouseEnter={() => setNameInputHover(true)}
                                                     onMouseLeave={() => setNameInputHover(false)}
                                                     onFocus={() => setNameInputActive(true)}
@@ -194,14 +208,42 @@ const Contact = () => {
                                                     className={`${!nameInputActive ? "cursor-pointer" : ""} text-[16px] lg:text-base peer h-full w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 ${nameError ? "!border-b-2 !border-b-red-600" : ""}`}
                                                 />
                                                 <label
-                                                    htmlFor={"name"}
+                                                    htmlFor={"firstName"}
                                                     className={`${nameInputHover ? "text-gray-700" : "text-gray-500"} after:content[''] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-cyan-600 after:transition-transform after:duration-300 peer-placeholder-shown:text-[16px] peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[12px] peer-focus:leading-tight peer-focus:text-cyan-600 peer-focus:after:scale-x-100 peer-focus:after:border-cyan-600 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500`}>
-                                                    {nameInputActive ? "Full Name" : "Full Name"}
+                                                    {nameInputActive ? "First Name" : "First Name"}
                                                 </label>
                                                 {
                                                     nameError && (
                                                         <div className={"text-red-500 leading-tight font-semibold text-sm"}>
-                                                            Please enter your name
+                                                            Please enter your first name
+                                                        </div>
+                                                    )
+                                                }
+
+                                            </div>
+                                            <div className={`relative h-11 w-full md:w-60`}>
+                                                <input
+                                                    id={"lastName"}
+                                                    autoComplete={"family name"}
+                                                    onMouseEnter={() => setLastNameInputHover(true)}
+                                                    onMouseLeave={() => setLastNameInputHover(false)}
+                                                    onFocus={() => setLastNameInputActive(true)}
+                                                    // onBlur={() => discountCode.length === 0 && setDiscountLabelActive(false)}
+                                                    onBlur={() => lastName.length === 0 && setLastNameInputActive(false)}
+                                                    value={lastName}
+                                                    onChange={(e) => setLastName(e.target.value)}
+                                                    placeholder="Enter name"
+                                                    className={`${!lastNameInputActive ? "cursor-pointer" : ""} text-[16px] lg:text-base peer h-full w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 ${nameError ? "!border-b-2 !border-b-red-600" : ""}`}
+                                                />
+                                                <label
+                                                    htmlFor={"lastName"}
+                                                    className={`${lastNameInputHover ? "text-gray-700" : "text-gray-500"} after:content[''] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-cyan-600 after:transition-transform after:duration-300 peer-placeholder-shown:text-[16px] peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[12px] peer-focus:leading-tight peer-focus:text-cyan-600 peer-focus:after:scale-x-100 peer-focus:after:border-cyan-600 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500`}>
+                                                    {lastNameInputActive ? "Last Name" : "Last Name"}
+                                                </label>
+                                                {
+                                                    lastNameError && (
+                                                        <div className={"text-red-500 leading-tight font-semibold text-sm"}>
+                                                            Please enter your last name
                                                         </div>
                                                     )
                                                 }
@@ -265,7 +307,7 @@ const Contact = () => {
                                             <div className={`relative`}>
                                                 <textarea
                                                     id={"message"}
-                                                    rows={4}
+                                                    rows={6}
                                                     onMouseEnter={() => setMessageInputHover(true)}
                                                     onMouseLeave={() => setMessageInputHover(false)}
                                                     onFocus={() => setMessageInputActive(true)}
