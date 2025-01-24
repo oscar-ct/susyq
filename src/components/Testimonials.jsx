@@ -5,7 +5,7 @@ const Testimonials = () => {
 
     const testimonials = [
         ["— Cynthia O.", "Suzy Q has been cleaning my home for a year now and they are fantastic, organized, on time and do a great job.", 200, 175],
-        ["— Maria K.", " Had a wonderful experience with Susy Q Cleaning.", 185, 200],
+        ["— Maria K.", "Had a wonderful experience with Susy Q Cleaning.", 185, 200],
         ["— James H.", "Punctual, professional, and green! Susy Q Cleaning does a fantastic job...", 200, 175],
         ["— Phillip J.", "The crew is very professional. The owner very nice. Overall my house was left impeccable.",185, 200],
     ];
