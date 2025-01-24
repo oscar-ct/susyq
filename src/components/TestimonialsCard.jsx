@@ -1,33 +1,68 @@
-import quotes from "@/assets/svg/quotation-mark.svg";
+import reviewIcon from "@/assets/png/icons8-review-96.png";
+import starIcon from "@/assets/png/icons8-star-48.png";
 import Image from "next/image";
 
-
 const TestimonialsCard = ({children, author = ""}) => {
-    // const iconSize = 28;
     return (
-        <div className={"bg-white rounded-xl shadow-md relative"}>
+        <div className={"bg-white rounded-xl shadow-md px-8 pt-8 pb-3 relative flex flex-col justify-between"}>
             <Image
-                className={"left-0 absolute rotate-180 -translate-y-4 translate-x-5 bg-white rounded-full"}
+                className={"mx-auto top-0 left-0 right-0 absolute -translate-y-7 bg-white rounded-full"}
                 priority
-                width={30}
-                height={30}
-                src={quotes}
-                alt={"quotes"}
+                width={60}
+                height={60}
+                src={reviewIcon}
+                alt={"reviews"}
             />
-            <div className={"p-8 flex flex-col text-gray-500"}>
-                <p className={"w-56 text-xl font-light"}>
-                    {children}
-                </p>
-                <span className={"absolute bottom-0 -translate-y-3 font-light text-xs"}>{author}</span>
+            <div className={"pb-3"}>
+                <div className={"flex flex-col text-gray-500"}>
+                    <p className={"pb-3 text-lg font-light sm:w-52"}>
+                        &quot;{children}&quot;
+                    </p>
+                    <span className={"font-light text-xs"}>{author}</span>
+                </div>
             </div>
-            <Image
-                className={"right-0 bottom-0 absolute translate-y-4 -translate-x-5 bg-white rounded-full"}
-                priority
-                width={30}
-                height={30}
-                src={quotes}
-                alt={"quotes"}
-            />
+            <div className={"flex items-center gap-3"}>
+                <div className={"text-xl font-bold text-gray-500"}>
+                    5/5
+                </div>
+                <div className={"flex gap-0.5"}>
+                    <Image
+                        priority
+                        width={25}
+                        height={25}
+                        src={starIcon}
+                        alt={"star"}
+                    />
+                    <Image
+                        priority
+                        width={25}
+                        height={25}
+                        src={starIcon}
+                        alt={"star"}
+                    />
+                    <Image
+                        priority
+                        width={25}
+                        height={25}
+                        src={starIcon}
+                        alt={"star"}
+                    />
+                    <Image
+                        priority
+                        width={25}
+                        height={25}
+                        src={starIcon}
+                        alt={"star"}
+                    />
+                    <Image
+                        priority
+                        width={25}
+                        height={25}
+                        src={starIcon}
+                        alt={"star"}
+                    />
+                </div>
+            </div>
         </div>
     );
 };
