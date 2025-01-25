@@ -5,9 +5,9 @@ import angiesIcon from "@/assets/png/angies-list_logo.png";
 
 const ReviewBanner = () => {
     return (
-        <section className={"hidden sm:block bg-susy w-full mx-auto px-4 lg:px-8"}>
-            <div className={"w-full flex items-center justify-around py-6"}>
-                <h1 className={"text-4xl text-white font-semibold"}>Service You Can Trust!</h1>
+        <section className={"bg-zinc-100 sm:bg-susy w-full mx-auto px-4 lg:px-8"}>
+            <div className={"w-full flex flex-col lg:flex-row items-center justify-around py-6"}>
+                <h1 className={"text-gray-600 pb-4 text-2xl lg:pb-0 xl:text-4xl sm:text-white sm:font-semibold"}>Service You Can Trust!</h1>
                 <div className={"flex items-center gap-8"}>
                     <a
                         aria-label="portfolio"
@@ -44,7 +44,7 @@ const ReviewBanner = () => {
                         href={"https://www.google.com/maps/place/Susy+Q+Cleaning/@30.4249436,-97.7701436,10.02z/data=!4m6!3m5!1s0x8644ca319618068d:0x49ea24942bbe87a3!8m2!3d30.4206125!4d-97.763874!16s%2Fg%2F1v8x2l5y?entry=ttu&g_ep=EgoyMDI0MTAyMy4wIKXMDSoASAFQAw%3D%3D"}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={"flex gap-2 items-center"}
+                        className={"flex flex-col lg:flex-row gap-2 items-center"}
                     >
                         <Image
                             className={"object-scale-down"}
@@ -54,7 +54,7 @@ const ReviewBanner = () => {
                             src={googleIcon}
                             alt={"google reviews"}
                         />
-                        <span className={"text-white underline underline-offset-4"}>Verified Customer Reviews</span>
+                        <span className={"text-black text-sm text-center lg:text-base sm:text-white underline underline-offset-4"}>Verified Customer Reviews</span>
                     </a>
                 </div>
             </div>
