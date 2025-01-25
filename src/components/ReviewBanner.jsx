@@ -8,7 +8,7 @@ const ReviewBanner = () => {
         <section className={"bg-zinc-100 sm:bg-susy w-full mx-auto px-4 lg:px-8"}>
             <div className={"w-full flex flex-col lg:flex-row items-center justify-around py-6"}>
                 <h1 className={"text-gray-600 pb-4 text-2xl lg:pb-0 xl:text-4xl sm:text-white sm:font-semibold"}>Service You Can Trust!</h1>
-                <div className={"flex items-center gap-8"}>
+                <div className={"flex items-center gap-6 md:gap-10"}>
                     <a
                         aria-label="portfolio"
                         href={"https://www.angi.com/companylist/us/tx/austin/susy-q-cleaning-reviews-7976733.htm#reviews"}
@@ -54,7 +54,7 @@ const ReviewBanner = () => {
                             src={googleIcon}
                             alt={"google reviews"}
                         />
-                        <span className={"text-black text-sm text-center lg:text-base sm:text-white underline underline-offset-4"}>Verified Customer Reviews</span>
+                        <span className={"hidden lg:block text-center text-white underline underline-offset-4"}>Verified Customer Reviews</span>
                     </a>
                 </div>
             </div>
