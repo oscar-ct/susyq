@@ -307,7 +307,7 @@ const Contact = () => {
                                             <div className={`relative`}>
                                                 <textarea
                                                     id={"message"}
-                                                    rows={6}
+                                                    rows={4}
                                                     onMouseEnter={() => setMessageInputHover(true)}
                                                     onMouseLeave={() => setMessageInputHover(false)}
                                                     onFocus={() => setMessageInputActive(true)}
