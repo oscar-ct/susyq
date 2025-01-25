@@ -9,6 +9,7 @@ import ErmaBombeck from "@/components/ErmaBombeck";
 import EasyLife from "@/components/EasyLife";
 import RefTo from "@/components/RefTo";
 import SmoothScroller from "@/components/SmoothScroller";
+import ReviewBanner from "@/components/ReviewBanner";
 
 
 const Home = () => {
@@ -20,6 +21,7 @@ const Home = () => {
                   <Introduction/>
               </RefTo>
               <Testimonials/>
+              <ReviewBanner/>
               <RefTo id={"services"}>
                   <Services/>
               </RefTo>
