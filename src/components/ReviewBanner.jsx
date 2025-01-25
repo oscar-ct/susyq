@@ -8,7 +8,7 @@ const ReviewBanner = () => {
         <section className={"bg-zinc-100 w-full mx-auto px-4 sm:bg-susy lg:px-8"}>
             <div className={"w-full flex flex-col items-center justify-evenly py-6 lg:flex-row"}>
                 <h1 className={"flex justify-center text-gray-600 pb-4 text-2xl sm:text-white sm:font-semibold lg:w-5/12 lg:pb-0 xl:text-4xl xl:w-7/12"}>Service You Can Trust!</h1>
-                <div className={"w-full flex items-center lg:w-7/12 xl:w-5/12"}>
+                <div className={"w-full flex gap-4 items-center sm:gap-0 lg:w-7/12 xl:w-5/12"}>
                     <a
                         className={"w-5/12 flex justify-center sm:w-4/12"}
                         aria-label="portfolio"
@@ -56,7 +56,7 @@ const ReviewBanner = () => {
                             src={googleIcon}
                             alt={"google reviews"}
                         />
-                        <span className={"hidden text-sm text-center text-white underline underline-offset-4 lg:block"}>4.5/5 Customer Rating</span>
+                        <span className={"hidden text-sm text-center text-white underline underline-offset-4 sm:block"}>4.5/5 Customer Rating</span>
                     </a>
                 </div>
             </div>
