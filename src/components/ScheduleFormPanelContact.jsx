@@ -1,11 +1,9 @@
 import {useCallback, useContext, useEffect, useState} from "react";
-import {phoneNumberAutoFormat} from "@/utils/phoneNumberAutoFormat";
+import {isValidEmail, isValidName, phoneNumberAutoFormat} from "@/utils/validation";
 import GlobalContext from "@/context/GlobalContext";
 
 const ScheduleFormPanelContact = () => {
     const { dispatch, serviceContact } = useContext(GlobalContext);
-
-    const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
 
     const [errorFirstName, setErrorFirstName] = useState(false);
     const [errorFirstNameMsg, setErrorFirstNameMsg] = useState("");
@@ -22,9 +20,8 @@ const ScheduleFormPanelContact = () => {
             payload: data
         });
     };
-    const validateEmail = useCallback((str) => {
-        const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
-        if (!emailRegex.test(str)) {
+    const validateEmailCallback = useCallback((str) => {
+        if (!isValidEmail(str)) {
             setErrorEmail(true);
             setErrorEmailMsg("Please enter a valid email");
         } else {
@@ -32,25 +29,25 @@ const ScheduleFormPanelContact = () => {
             setErrorEmailMsg("");
         }
     }, []);
-    const validateFirstName = useCallback((str) => {
-        if (str.length === 0) {
+    const validateFirstNameCallback = useCallback((str) => {
+        if (!isValidName(str)) {
             setErrorFirstName(true);
-            setErrorFirstNameMsg("Please enter your first name");
+            setErrorFirstNameMsg("Please enter a valid name");
         } else {
             setErrorFirstName(false);
             setErrorFirstNameMsg("");
         }
     }, []);
-    const validateLastName = useCallback((str) => {
-        if (str.length === 0) {
+    const validateLastNameCallback = useCallback((str) => {
+        if (!isValidName(str)) {
             setErrorLastName(true);
-            setErrorLastNameMsg("Please enter your last name");
+            setErrorLastNameMsg("Please enter a valid name");
         } else {
             setErrorLastName(false);
             setErrorLastNameMsg("");
         }
     }, []);
-    const validatePhone = useCallback((str) => {
+    const validatePhoneCallback = useCallback((str) => {
         if (str.length !== 12) {
             setErrorPhone(true);
             setErrorPhoneMsg("Please enter a valid phone number");
@@ -62,16 +59,16 @@ const ScheduleFormPanelContact = () => {
     useEffect(() => {
         const { firstName, lastName, email, phone } = serviceContact;
         if (serviceContact.validating) {
-            validateEmail(email);
-            validateFirstName(firstName);
-            validateLastName(lastName);
-            validatePhone(phone);
+            validateEmailCallback(email);
+            validateFirstNameCallback(firstName);
+            validateLastNameCallback(lastName);
+            validatePhoneCallback(phone);
         }
-    }, [serviceContact.validating, serviceContact, validateEmail, validatePhone, validateFirstName, validateLastName]);
+    }, [serviceContact.validating, serviceContact, validateEmailCallback, validatePhoneCallback, validateFirstNameCallback, validateLastNameCallback]);
 
     const validateAll = (contactDetails) => {
         const { firstName, lastName, email, phone } = contactDetails;
-        return firstName.length !== 0 && lastName.length !== 0 && emailRegex.test(email) && phone.length === 12;
+        return isValidName(firstName) && isValidName(lastName) && isValidEmail(email) && phone.length === 12;
     };
     const setGlobalStateValidation = (data) => {
         const validated = validateAll(data);
@@ -221,7 +218,7 @@ const ScheduleFormPanelContact = () => {
                                 </div>
                                 {
                                     errorFirstName && errorFirstNameMsg && (
-                                        <div className={"text-center text-red-500 font-semibold md:text-start"}>
+                                        <div className={"text-center text-red-500 font-semibold md:text-start text-sm"}>
                                             {errorFirstNameMsg}
                                         </div>
                                     )
@@ -241,13 +238,12 @@ const ScheduleFormPanelContact = () => {
                                 </div>
                                 {
                                     errorLastName && errorLastNameMsg && (
-                                        <div className={"text-center text-red-500 font-semibold md:text-start"}>
+                                        <div className={"text-center text-red-500 font-semibold md:text-start text-sm"}>
                                             {errorLastNameMsg}
                                         </div>
                                     )
                                 }
                             </div>
-
                         </div>
                     </div>
                     <div className={"flex flex-col md:flex-row gap-4 items-center"}>
@@ -268,7 +264,7 @@ const ScheduleFormPanelContact = () => {
                             </div>
                             {
                                 errorEmail && errorEmailMsg && (
-                                    <div className={"text-center text-red-500 font-semibold md:text-start"}>
+                                    <div className={"text-center text-red-500 font-semibold md:text-start text-sm"}>
                                         {errorEmailMsg}
                                     </div>
                                 )
@@ -294,7 +290,7 @@ const ScheduleFormPanelContact = () => {
                             </div>
                             {
                                 errorPhone && errorPhoneMsg && (
-                                    <div className={"text-center text-red-500 font-semibold md:text-start"}>
+                                    <div className={"text-center text-red-500 font-semibold md:text-start text-sm"}>
                                         {errorPhoneMsg}
                                     </div>
                                 )
