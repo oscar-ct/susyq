@@ -2,8 +2,8 @@
 
 import {useCallback, useEffect, useState} from "react";
 import {TiPhone} from "react-icons/ti";
-import {phoneNumberAutoFormat} from "@/utils/phoneNumberAutoFormat";
 import * as emailjs from "@emailjs/browser";
+import {isValidEmail, isValidName, phoneNumberAutoFormat} from "@/utils/validation";
 
 const Contact = () => {
 
@@ -39,31 +39,35 @@ const Contact = () => {
     const [resSuccess, setResSuccess] = useState(false);
     const [resError,  setResError] = useState(false);
 
+    const is10Characters = (str) => {
+        str = str.trim();
+        if (str.length < 10) return false;
+        return true;
+    };
 
-    const validateEmail = useCallback((str) => {
-        const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
-        if (!emailRegex.test(str)) {
+    const validateEmailCallback = useCallback((str) => {
+        if (!isValidEmail(str)) {
             setEmailError(true);
         } else {
             setEmailError(false);
         }
     }, []);
-    const validateName = useCallback((str) => {
-        if (str.length === 0) {
+    const validateNameCallback = useCallback((str) => {
+        if (!isValidName(str)) {
             setNameError(true);
         } else {
             setNameError(false);
         }
     }, []);
-    const validateLastName = useCallback((str) => {
-        if (str.length === 0) {
+    const validateLastNameCallback = useCallback((str) => {
+        if (!isValidName(str)) {
             setLastNameError(true);
         } else {
             setLastNameError(false);
         }
     }, []);
     const validateMessage = useCallback((str) => {
-        if (str.length === 0) {
+        if (!is10Characters(str)) {
             setMessageError(true);
         } else {
             setMessageError(false);
@@ -78,13 +82,13 @@ const Contact = () => {
     }, []);
     useEffect(() => {
         if (validating) {
-            validateEmail(email);
-            validateName(name);
-            validateLastName(lastName);
+            validateEmailCallback(email);
+            validateNameCallback(name);
+            validateLastNameCallback(lastName);
             validatePhone(phone);
             validateMessage(message);
         }
-    }, [validating, validateEmail, validatePhone, validateName, validateLastName, validateMessage, name, lastName, email, phone, message]);
+    }, [validating, validateEmailCallback, validatePhone, validateNameCallback, validateLastNameCallback, validateMessage, name, lastName, email, phone, message]);
     const sendEmailToClient = async () => {
         try {
             await emailjs.send(`${process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID}`, `${process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_2}`, {from_name: name, from_email: email}, `${process.env.NEXT_PUBLIC_EMAILJS_KEY}`);
@@ -114,8 +118,7 @@ const Contact = () => {
     // const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
     const submitMessage = async () => {
         setBtnLoading(true);
-        const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
-        if (message.length === 0 || name.length === 0 || lastName.length === 0 || phone.length !== 12 || !emailRegex.test(email)) {
+        if (!isValidName(name) || !isValidName(lastName) || isValidEmail(email) || !is10Characters(message) || phone.length !== 12) {
             setValidating(true);
             setBtnLoading(false);
         } else {
@@ -215,7 +218,7 @@ const Contact = () => {
                                                 {
                                                     nameError && (
                                                         <div className={"text-red-500 leading-tight font-semibold text-sm"}>
-                                                            Please enter your first name
+                                                            Please enter a valid name
                                                         </div>
                                                     )
                                                 }
@@ -233,7 +236,7 @@ const Contact = () => {
                                                     value={lastName}
                                                     onChange={(e) => setLastName(e.target.value)}
                                                     placeholder="Enter name"
-                                                    className={`${!lastNameInputActive ? "cursor-pointer" : ""} text-[16px] lg:text-base peer h-full w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 ${nameError ? "!border-b-2 !border-b-red-600" : ""}`}
+                                                    className={`${!lastNameInputActive ? "cursor-pointer" : ""} text-[16px] lg:text-base peer h-full w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 ${lastNameError ? "!border-b-2 !border-b-red-600" : ""}`}
                                                 />
                                                 <label
                                                     htmlFor={"lastName"}
@@ -243,7 +246,7 @@ const Contact = () => {
                                                 {
                                                     lastNameError && (
                                                         <div className={"text-red-500 leading-tight font-semibold text-sm"}>
-                                                            Please enter your last name
+                                                            Please enter a valid name
                                                         </div>
                                                     )
                                                 }
@@ -275,7 +278,36 @@ const Contact = () => {
                                                     )
                                                 }
                                             </div>
-                                            <div className={`relative h-11 w-full md:w-60`}>
+                                            {/*<div className={`relative h-11 w-full md:w-60`}>*/}
+                                            {/*    <input*/}
+                                            {/*        id={"tel"}*/}
+                                            {/*        type={"tel"}*/}
+                                            {/*        onMouseEnter={() => setPhoneInputHover(true)}*/}
+                                            {/*        onMouseLeave={() => setPhoneInputHover(false)}*/}
+                                            {/*        onFocus={() => setPhoneInputActive(true)}*/}
+                                            {/*        onBlur={() => phone.length === 0 && setPhoneInputActive(false)}*/}
+                                            {/*        value={phone}*/}
+                                            {/*        autoComplete={"tel"}*/}
+                                            {/*        maxLength={12}*/}
+                                            {/*        onChange={setFormatPhone}*/}
+                                            {/*        placeholder="Enter phone number"*/}
+                                            {/*        className={`${!phoneInputActive ? "cursor-pointer" : ""} text-[16px] lg:text-base peer h-full w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 ${phoneError ? "!border-b-2 !border-b-red-600" : ""}`}/>*/}
+                                            {/*    <label*/}
+                                            {/*        htmlFor={"tel"}*/}
+                                            {/*        className={`${phoneInputHover ? "text-gray-700" : "text-gray-500"} after:content[''] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-cyan-600 after:transition-transform after:duration-300 peer-placeholder-shown:text-[16px] peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[12px] peer-focus:leading-tight peer-focus:text-cyan-600 peer-focus:after:scale-x-100 peer-focus:after:border-cyan-600 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500`}>*/}
+                                            {/*        {phoneInputActive ? "Phone Number" : "Phone Number"}*/}
+                                            {/*    </label>*/}
+                                            {/*    {*/}
+                                            {/*        phoneError && (*/}
+                                            {/*            <div className={"text-red-500 leading-tight font-semibold text-sm"}>*/}
+                                            {/*                Please enter a 10 digit phone number*/}
+                                            {/*            </div>*/}
+                                            {/*        )*/}
+                                            {/*    }*/}
+                                            {/*</div>*/}
+                                        </div>
+                                        <div className={"w-full h-full md:w-7/12 flex flex-col justify-between"}>
+                                            <div className={`relative h-11 w-full mb-8`}>
                                                 <input
                                                     id={"tel"}
                                                     type={"tel"}
@@ -302,12 +334,10 @@ const Contact = () => {
                                                     )
                                                 }
                                             </div>
-                                        </div>
-                                        <div className={"w-full h-full md:w-7/12 flex flex-col justify-between"}>
-                                            <div className={`relative`}>
+                                            <div className={`relative h-36 flex flex-col`}>
                                                 <textarea
                                                     id={"message"}
-                                                    rows={4}
+                                                    rows={3}
                                                     onMouseEnter={() => setMessageInputHover(true)}
                                                     onMouseLeave={() => setMessageInputHover(false)}
                                                     onFocus={() => setMessageInputActive(true)}
@@ -316,22 +346,22 @@ const Contact = () => {
                                                     value={message}
                                                     onChange={(e) => setMessage(e.target.value)}
                                                     placeholder="Enter message"
-                                                    className={`${!messageInputActive ? "cursor-pointer" : ""} text-[16px] lg:text-base peer  w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 h-full ${messageError ? "!border-b-2 !border-b-red-600" : ""}`}
+                                                    className={`${!messageInputActive ? "cursor-pointer" : ""} text-[16px] lg:text-base peer w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 h-28 ${messageError ? "!border-b-2 !border-b-red-600" : ""}`}
                                                 />
                                                 <label
                                                     htmlFor={"message"}
-                                                    className={`${messageInputHover ? "text-gray-700" : "text-gray-500"} after:content[''] pointer-events-none absolute left-0 -top-[6px] flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-cyan-600 after:transition-transform after:duration-300 peer-placeholder-shown:text-[16px] peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[12px] peer-focus:leading-tight peer-focus:text-cyan-600 peer-focus:after:scale-x-100 peer-focus:after:border-cyan-600 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500`}>
+                                                    className={`${messageInputHover ? "text-gray-700" : "text-gray-500"} after:-bottom-1.5 after:content[''] pointer-events-none absolute left-0 -top-[6px] flex h-28 w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight transition-all after:absolute after:block after:w-full after:scale-x-0 after:border-b-2 after:border-cyan-600 after:transition-transform after:duration-300 peer-placeholder-shown:text-[16px] peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[12px] peer-focus:leading-tight peer-focus:text-cyan-600 peer-focus:after:scale-x-100 peer-focus:after:border-cyan-600 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500`}>
                                                     {messageInputActive ? "Your Message" : "Your Message"}
                                                 </label>
+                                                {
+                                                    messageError && (
+                                                        <div className={"text-red-500 leading-tight font-semibold text-sm"}>
+                                                            Please enter at least 10 characters
+                                                        </div>
+                                                    )
+                                                }
                                             </div>
-                                            {
-                                                messageError && (
-                                                    <div className={"text-red-500 leading-tight font-semibold text-sm"}>
-                                                        Please enter a message
-                                                    </div>
-                                                )
-                                            }
-                                            <div className={"pt-6 flex justify-end items-center md:pt-0 md:items-end"}>
+                                            <div className={"flex justify-end items-center md:items-end"}>
                                                 <div className={"pr-2 flex-grow items-center md:hidden"}>
                                                     {
                                                         resError && (
@@ -355,7 +385,7 @@ const Contact = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className={"hidden md:flex justify-center items-end h-8 translate-y-4"}>
+                                    <div className={"hidden md:flex justify-center items-end h-4"}>
                                         {
                                             resError && (
                                                 <span className={"text-red-500"}>Sorry, something went wrong please try again later.</span>
