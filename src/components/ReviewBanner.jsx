@@ -6,9 +6,11 @@ import angiesIcon from "@/assets/png/angies-list_logo.png";
 const ReviewBanner = () => {
     return (
         <section className={"bg-zinc-100 w-full mx-auto px-4 sm:bg-susy lg:px-8"}>
-            <div className={"w-full flex flex-col items-center justify-evenly py-6 lg:flex-row"}>
-                <h1 className={"flex justify-center text-gray-600 pb-4 text-2xl sm:text-white sm:font-semibold lg:w-5/12 lg:pb-0 xl:text-4xl xl:w-7/12"}>Service You Can Trust!</h1>
-                <div className={"w-full flex gap-4 items-center sm:gap-0 lg:w-7/12 xl:w-5/12"}>
+            <div className={"mx-auto w-full max-w-screen-2xl flex flex-col items-center py-6 lg:flex-row"}>
+                <h1 className={"flex justify-start text-gray-600 pb-4 text-2xl sm:text-white sm:font-semibold lg:w-5/12 lg:pb-0 xl:text-4xl xl:w-7/12"}>
+                    Service You Can Trust!
+                </h1>
+                <div className={"w-full flex justify-end gap-4 items-center sm:gap-0 lg:w-7/12 xl:w-5/12"}>
                     <a
                         className={"w-5/12 flex justify-center sm:w-4/12"}
                         aria-label="portfolio"
