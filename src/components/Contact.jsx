@@ -89,13 +89,13 @@ const Contact = () => {
             validateMessage(message);
         }
     }, [validating, validateEmailCallback, validatePhone, validateNameCallback, validateLastNameCallback, validateMessage, name, lastName, email, phone, message]);
-    const sendEmailToClient = async () => {
-        try {
-            await emailjs.send(`${process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID}`, `${process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_2}`, {from_name: name, from_email: email}, `${process.env.NEXT_PUBLIC_EMAILJS_KEY}`);
-        } catch (e) {
-            console.log(e);
-        }
-    };
+    // const sendEmailToClient = async () => {
+    //     try {
+    //         await emailjs.send(`${process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID}`, `${process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_2}`, {from_name: name, from_email: email}, `${process.env.NEXT_PUBLIC_EMAILJS_KEY}`);
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // };
     const sendEmailToAdmin = async (contactMessage) => {
         try {
             const res = await emailjs.send(`${process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID}`, `${process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID}`, {from_name: `${name} ${lastName}`, from_email: email, from_phone: phone, message: message, res_message: contactMessage}, `${process.env.NEXT_PUBLIC_EMAILJS_KEY}`);
@@ -142,7 +142,7 @@ const Contact = () => {
                 setPhone("");
                 setEmail("");
                 setBtnMessage("Submit");
-                await sendEmailToClient();
+                // await sendEmailToClient();
             } else {
                 setBtnLoading(false);
                 setResSuccess(false);
