@@ -1,8 +1,10 @@
 import reviewIcon from "@/assets/png/icons8-review-96.png";
-import starIcon from "@/assets/png/icons8-star-48.png";
 import Image from "next/image";
+import {IoStarSharp} from "react-icons/io5";
 
 const TestimonialsCard = ({children, author = ""}) => {
+    const starSize = 25;
+    const starFill = "gold";
     return (
         <div className={"bg-white rounded-xl shadow-md px-8 pt-8 pb-3 relative flex flex-col justify-between"}>
             <Image
@@ -26,41 +28,11 @@ const TestimonialsCard = ({children, author = ""}) => {
                     5/5
                 </div>
                 <div className={"flex gap-0.5"}>
-                    <Image
-                        priority
-                        width={25}
-                        height={25}
-                        src={starIcon}
-                        alt={"star"}
-                    />
-                    <Image
-                        priority
-                        width={25}
-                        height={25}
-                        src={starIcon}
-                        alt={"star"}
-                    />
-                    <Image
-                        priority
-                        width={25}
-                        height={25}
-                        src={starIcon}
-                        alt={"star"}
-                    />
-                    <Image
-                        priority
-                        width={25}
-                        height={25}
-                        src={starIcon}
-                        alt={"star"}
-                    />
-                    <Image
-                        priority
-                        width={25}
-                        height={25}
-                        src={starIcon}
-                        alt={"star"}
-                    />
+                    <IoStarSharp size={starSize} fill={starFill}/>
+                    <IoStarSharp size={starSize} fill={starFill}/>
+                    <IoStarSharp size={starSize} fill={starFill}/>
+                    <IoStarSharp size={starSize} fill={starFill}/>
+                    <IoStarSharp size={starSize} fill={starFill}/>
                 </div>
             </div>
         </div>
