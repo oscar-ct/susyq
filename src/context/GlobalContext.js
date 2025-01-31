@@ -8,8 +8,9 @@ const GlobalContext = createContext();
 
 export function GlobalProvider({ children }) {
     const initialState = {
-        submitInProgress: false,
-        serviceSubmitted: false,
+        isAttemptingToSubmitEstimate: false,
+        hasSubmittedEstimateSuccessfully: false,
+        frequency: "",
         services : [],
         serviceDetails: {
             rooms: {
@@ -40,27 +41,34 @@ export function GlobalProvider({ children }) {
         tabs: [
             {
                 id: 0,
-                name: "Services",
+                name: "Frequency",
                 disabled: false,
                 error: false,
                 errorMsg: "",
             },
             {
                 id: 1,
-                name: "Service Details",
+                name: "Services",
                 disabled: true,
                 error: false,
                 errorMsg: "",
             },
             {
                 id: 2,
-                name: "Contact Info",
+                name: "Details",
                 disabled: true,
                 error: false,
                 errorMsg: "",
             },
             {
                 id: 3,
+                name: "Contact",
+                disabled: true,
+                error: false,
+                errorMsg: "",
+            },
+            {
+                id: 4,
                 name: "Notes",
                 disabled: true,
                 error: false,
@@ -74,8 +82,9 @@ export function GlobalProvider({ children }) {
         <GlobalContext.Provider value={{
             dispatch,
             serviceSource: state.serviceSource,
-            submitInProgress: state.submitInProgress,
-            serviceSubmitted: state.serviceSubmitted,
+            isAttemptingToSubmitEstimate: state.isAttemptingToSubmitEstimate,
+            hasSubmittedEstimateSuccessfully: state.hasSubmittedEstimateSuccessfully,
+            frequency: state.frequency,
             services: state.services,
             serviceDetails: state.serviceDetails,
             serviceContact: state.serviceContact,
