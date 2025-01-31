@@ -3,7 +3,7 @@ import GlobalContext from "@/context/GlobalContext";
 
 const UseNavTo = () => {
 
-    const { services, tabs, activeTab, dispatch, serviceContact, serviceSubmitted, submitInProgress } = useContext(GlobalContext);
+    const { frequency, services, tabs, activeTab, dispatch, serviceContact, hasSubmittedEstimateSuccessfully, isAttemptingToSubmitEstimate } = useContext(GlobalContext);
 
     const scrollToTop = () => {
         window.scrollTo({
@@ -12,87 +12,124 @@ const UseNavTo = () => {
         })
     };
 
-    const navToServiceDetails = () => {
-        if (!serviceSubmitted && !submitInProgress) {
+    const enableFrequencyTabError = () => {
+        dispatch({ type: "SET_TAB_STATUS", payload: {id: 0, error: "true", errorMsg: "Please select an option below"}});
+        dispatch({ type: "SET_ACTIVE_TAB", payload: 0 });
+    };
+    const enableServicesTabError = () => {
+        dispatch({ type: "SET_TAB_STATUS", payload: {id: 1, error: "true", errorMsg: `A selection required, please select a service.`}});
+        dispatch({ type: "SET_ACTIVE_TAB", payload: 1 });
+    };
+    const enableContactTabError = () => {
+        dispatch({ type: "SET_TAB_STATUS", payload: {id: 3, error: "true", errorMsg: ""} });
+        dispatch({ type: "SET_ACTIVE_TAB", payload: 3 });
+    };
+
+
+
+    const disableServicesTabError = () => {
+        dispatch({ type: "SET_TAB_STATUS", payload: {id: 1, error: "false"} });
+    };
+    const disableFrequencyTabError = () => {
+        dispatch({ type: "SET_TAB_STATUS", payload: {id: 0, error: "false"} });
+    };
+    const disableContactTabError = () => {
+        dispatch({ type: "SET_TAB_STATUS", payload: {id: 3, error: "false"} });
+    };
+
+
+
+
+    const navToServices = () => {
+        if (!hasSubmittedEstimateSuccessfully && !isAttemptingToSubmitEstimate) {
             scrollToTop();
-            if (services.length !== 0) {
-                dispatch({ type: "SET_TAB_STATUS", payload: {id: 0, error: "false"} });
-                if (tabs[1].disabled) {
-                    dispatch({ type: "SET_TAB_STATUS", payload: {id: 1, disabled: "false"} });
-                    dispatch({ type: "SET_ACTIVE_TAB", payload: 1 });
+            if (frequency === "one-time" || frequency === "recurring") {
+                disableFrequencyTabError();
+                dispatch({ type: "SET_TAB_STATUS", payload: {id: 1, disabled: "false"} });
+                dispatch({ type: "SET_ACTIVE_TAB", payload: 1 });
+            } else {
+               enableFrequencyTabError();
+            }
+        }
+    };
+
+    const navToServiceDetails = () => {
+        if (!hasSubmittedEstimateSuccessfully && !isAttemptingToSubmitEstimate) {
+            scrollToTop();
+            if (frequency === "one-time" || frequency === "recurring") {
+                disableFrequencyTabError();
+                if (services.length !== 0) {
+                    disableServicesTabError();
+                    if (tabs[2].disabled) dispatch({type: "SET_TAB_STATUS", payload: {id: 2, disabled: "false"}});
+                    dispatch({ type: "SET_ACTIVE_TAB", payload: 2 });
                 } else {
-                    dispatch({ type: "SET_ACTIVE_TAB", payload: 1 });
+                    enableServicesTabError();
                 }
             } else {
-                dispatch({ type: "SET_TAB_STATUS", payload: {id: 0, error: "true", errorMsg: "Please select at least one service"} });
+                enableFrequencyTabError();
             }
         }
     };
 
     const navToServiceContact = () => {
-        if (!serviceSubmitted && !submitInProgress) {
+        if (!hasSubmittedEstimateSuccessfully && !isAttemptingToSubmitEstimate) {
             scrollToTop();
-            if (services.length !== 0) {
-                dispatch({type: "SET_TAB_STATUS", payload: {id: 0, error: "false"}});
-                if (tabs[2].disabled) {
-                    dispatch({type: "SET_TAB_STATUS", payload: {id: 2, disabled: "false"}});
-                    dispatch({type: "SET_ACTIVE_TAB", payload: 2});
+            if (frequency === "one-time" || frequency === "recurring") {
+                disableFrequencyTabError();
+                if (services.length !== 0) {
+                    disableServicesTabError();
+                    if (tabs[3].disabled) dispatch({type: "SET_TAB_STATUS", payload: {id: 3, disabled: "false"}});
+                    dispatch({type: "SET_ACTIVE_TAB", payload: 3});
                 } else {
-                    dispatch({type: "SET_ACTIVE_TAB", payload: 2});
+                    enableServicesTabError();
                 }
             } else {
-                dispatch({
-                    type: "SET_TAB_STATUS",
-                    payload: {id: 0, error: "true", errorMsg: "Please select at least one service"}
-                });
+                enableFrequencyTabError();
             }
         }
     };
 
     const navToServiceNotes = () => {
-        if (!serviceSubmitted && !submitInProgress) {
+        if (!hasSubmittedEstimateSuccessfully && !isAttemptingToSubmitEstimate) {
             scrollToTop();
-            if (services.length !== 0) {
-                dispatch({type: "SET_TAB_STATUS", payload: {id: 0, error: "false"}});
-                const details = {...serviceContact, validating: true}
-                dispatch({
-                    type: "SET_SERVICE_CONTACT",
-                    payload: details
-                });
-                if (serviceContact.validated) {
-                    dispatch({type: "SET_TAB_STATUS", payload: {id: 2, error: "false"}});
-                    if (tabs[3].disabled) {
-                        dispatch({type: "SET_TAB_STATUS", payload: {id: 3, disabled: "false"}});
-                        dispatch({type: "SET_ACTIVE_TAB", payload: 3});
-                    } else {
-                        dispatch({type: "SET_ACTIVE_TAB", payload: 3});
-                    }
-                    const details = {...serviceContact, validating: false}
+            if (frequency === "one-time" || frequency === "recurring") {
+                disableFrequencyTabError();
+                if (services.length !== 0) {
+                    disableServicesTabError();
+                    const details = {...serviceContact, validating: true}
                     dispatch({
                         type: "SET_SERVICE_CONTACT",
                         payload: details
                     });
+                    if (serviceContact.validated) {
+                       disableContactTabError();
+                        if (tabs[4].disabled) dispatch({type: "SET_TAB_STATUS", payload: {id: 4, disabled: "false"}});
+                        const details = {...serviceContact, validating: false}
+                        dispatch({
+                            type: "SET_SERVICE_CONTACT",
+                            payload: details
+                        });
+                        dispatch({type: "SET_ACTIVE_TAB", payload: 4});
+                    } else {
+                       enableContactTabError();
+                    }
                 } else {
-                    dispatch({type: "SET_TAB_STATUS", payload: {id: 2, error: "true", errorMsg: ""}});
+                    enableServicesTabError();
                 }
             } else {
-                dispatch({
-                    type: "SET_TAB_STATUS",
-                    payload: {id: 0, error: "true", errorMsg: "Please select at least one service"}
-                });
+                enableFrequencyTabError();
             }
         }
     };
 
     const navToPrev = () => {
-        if (!submitInProgress) {
+        if (!isAttemptingToSubmitEstimate) {
             scrollToTop();
             dispatch({ type: "SET_ACTIVE_TAB", payload: activeTab - 1 });
         }
     };
 
-
-    return { navToServiceDetails, navToServiceContact, navToPrev, navToServiceNotes };
+    return { navToServices, navToServiceDetails, navToServiceContact, navToPrev, navToServiceNotes };
 };
 
 export default UseNavTo;
