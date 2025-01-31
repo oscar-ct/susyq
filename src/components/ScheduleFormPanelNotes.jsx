@@ -4,7 +4,7 @@ import ArrowSvg from "@/components/ArrowSvg";
 
 const ScheduleFormPanelNotes = () => {
 
-    const { dispatch, serviceNotes, serviceSubmitted, submitInProgress, serviceSource } = useContext(GlobalContext);
+    const { dispatch, serviceNotes, hasSubmittedEstimateSuccessfully, isAttemptingToSubmitEstimate, serviceSource } = useContext(GlobalContext);
 
     const setServiceNotes = (e) => {
         dispatch({ type: "SET_SERVICE_NOTES", payload: e.target.value });
@@ -13,7 +13,7 @@ const ScheduleFormPanelNotes = () => {
         dispatch({ type: "SET_SERVICE_SOURCE", payload: e.target.value });
     };
 
-    if (serviceSubmitted) {
+    if (hasSubmittedEstimateSuccessfully) {
         return (
             <div className={"px-2 py-8 md:p-8"}>
                 <div className={"w-full pt-3 pb-8 text-4xl text-center"}>
@@ -29,7 +29,7 @@ const ScheduleFormPanelNotes = () => {
                 </div>
                 <textarea
                     id={"notes"}
-                    disabled={submitInProgress}
+                    disabled={Boolean(isAttemptingToSubmitEstimate)}
                     onChange={setServiceNotes}
                     rows={5}
                     className={"w-full border p-4 rounded bg-stone-50 border-stone-100 focus:bg-stone-100 focus:outline-none"}
@@ -41,14 +41,14 @@ const ScheduleFormPanelNotes = () => {
                     </div>
                     <div className="relative w-full md:w-7/12">
                         <select
-                            disabled={submitInProgress}
+                            disabled={isAttemptingToSubmitEstimate}
                             className="cursor-pointer block appearance-none w-full bg-stone-100 border border-stone-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none hover:bg-stone-200"
                             id="source" value={serviceSource} onChange={setServiceSource}
                         >
                             <option disabled={true} value={""}>Please select one</option>
-                            <option value={"facebook"}>Facebook</option>
                             <option value={"search"}>Internet Search (Google, Bing, etc.)</option>
-                            <option value={"word of mouth"}>Word of Mouth</option>
+                            <option value={"facebook"}>Facebook</option>
+                            <option value={"word of mouth"}>Friend Recommendation</option>
                             <option value={"yelp"}>Yelp</option>
                             <option value={"other"}>Other</option>
                         </select>
