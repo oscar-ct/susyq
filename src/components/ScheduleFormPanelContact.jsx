@@ -74,9 +74,11 @@ const ScheduleFormPanelContact = () => {
         const validated = validateAll(data);
         if (validated) {
             const details = {...data, validated: true}
+            dispatch({type: "SET_TAB_STATUS", payload: {id: 4, disabled: "false"}});
             dispatchContact(details);
         } else {
             const details = {...data, validated: false}
+            dispatch({type: "SET_TAB_STATUS", payload: {id: 4, disabled: "true"}});
             dispatchContact(details);
         }
     };
