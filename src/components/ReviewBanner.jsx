@@ -6,7 +6,7 @@ import angiesIcon from "@/assets/png/angies-list_logo.png";
 const ReviewBanner = () => {
     return (
         <section className={"bg-zinc-100 w-full mx-auto px-4 sm:bg-susy lg:px-8"}>
-            <div className={"mx-auto w-full max-w-screen-2xl flex flex-col items-center py-6 lg:flex-row"}>
+            <div className={"mx-auto w-full max-w-screen-2xl flex flex-col items-center pt-6 pb-10 lg:pb-6 lg:flex-row"}>
                 <h1 className={"flex justify-start text-gray-600 pb-4 text-2xl sm:text-white sm:font-semibold lg:w-5/12 lg:pb-0 xl:text-4xl xl:w-7/12"}>
                     Service You Can Trust!
                 </h1>
@@ -19,7 +19,7 @@ const ReviewBanner = () => {
                         rel="noopener noreferrer"
                     >
                         <Image
-                            className={"w-full max-w-[150px]"}
+                            className={"w-full h-auto max-w-[150px]"}
                             priority
                             width={150}
                             height={50}
@@ -35,7 +35,7 @@ const ReviewBanner = () => {
                         rel="noopener noreferrer"
                     >
                         <Image
-                            className={"w-full max-w-[150px]"}
+                            className={"w-full h-auto max-w-[150px]"}
                             priority
                             width={150}
                             height={50}
@@ -51,7 +51,7 @@ const ReviewBanner = () => {
                         rel="noopener noreferrer"
                     >
                         <Image
-                            className={"w-full max-w-[48px]"}
+                            className={"w-full h-auto max-h-[48px] max-w-[48px]"}
                             priority
                             width={48}
                             height={48}
