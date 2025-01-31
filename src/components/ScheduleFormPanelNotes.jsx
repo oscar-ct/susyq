@@ -48,7 +48,7 @@ const ScheduleFormPanelNotes = () => {
                             <option disabled={true} value={""}>Please select one</option>
                             <option value={"search"}>Internet Search (Google, Bing, etc.)</option>
                             <option value={"facebook"}>Facebook</option>
-                            <option value={"word of mouth"}>Friend Recommendation</option>
+                            <option value={"word of mouth"}>Friend/Family</option>
                             <option value={"yelp"}>Yelp</option>
                             <option value={"other"}>Other</option>
                         </select>
