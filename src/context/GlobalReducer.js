@@ -8,12 +8,17 @@ const globalReducer = (state, action) => {
         case "SUBMIT_IN_PROGRESS":
             return {
                 ...state,
-                submitInProgress: action.payload
+                isAttemptingToSubmitEstimate: action.payload
             }
-        case "SUBMIT_SERVICE":
+        case "SUBMISSION_SUCCESS":
             return {
                 ...state,
-                serviceSubmitted: true
+                hasSubmittedEstimateSuccessfully: true
+            }
+        case "SET_FREQUENCY":
+            return {
+                ...state,
+                frequency: action.payload
             }
         case "SET_SERVICES":
             return {
