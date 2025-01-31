@@ -7,13 +7,16 @@ import ArrowSvg from "@/components/ArrowSvg";
 
 const ScheduleFormPanelDetails = () => {
 
-    const { services, serviceDetails, dispatch } = useContext(GlobalContext);
+    const { frequency, services, serviceDetails, dispatch } = useContext(GlobalContext);
     const extraOptions = [
         ["Refrigerator", "Refrigerator Cleaning Service"], ["Oven", "Kitchen Oven Cleaning Service"], ["Window", "Window Cleaning Service"]
     ];
 
     const [checkboxSelected, setCheckboxSelected] = useState(serviceDetails.size !== "");
     const [sqFt, setSqFt] = useState("< 500");
+    // const [isResidential] = useState(!services.includes("Commercial Cleaning"));
+    const isResidential = !services?.includes("Commercial Cleaning");
+
     const dispatchServiceDetails = (details) => {
         dispatch({ type: "SET_SERVICE_DETAILS", payload: details });
     };
@@ -73,10 +76,10 @@ const ScheduleFormPanelDetails = () => {
                 {/*<div className={border-b pb-2 text-2xl text-center md:text-start"}>House Size</div>*/}
                 <div className={"pb-6 flex flex-col items-center gap-4 md:flex-row"}>
                     <div className="hidden md:block tracking-wide font-semibold text-gray-700 md:w-2/12">
-                        Rooms
+                        {isResidential ? "Rooms" : "Spaces"}
                     </div>
                     <div className="md:hidden text-xl tracking-wide font-semibold text-gray-700">
-                        House Size
+                        {isResidential ? "House Size" : "Building Size"}
                     </div>
                     <div className={"w-full flex flex-col items-center gap-4 md:flex-row md:w-10/12"}>
                         <div className="relative w-full md:w-6/12">
@@ -86,12 +89,11 @@ const ScheduleFormPanelDetails = () => {
                                 onChange={(e) => setBedrooms(e)}
                                 value={serviceDetails.rooms.bedroom}
                             >
-                                <option value={"0"}>0 Bedroom</option>
-                                <option value={"1"}>1 Bedroom</option>
-                                <option value={"2"}>2 Bedroom</option>
-                                <option value={"3"}>3 Bedroom</option>
-                                <option value={"4"}>4 Bedroom</option>
-                                <option value={"5+"}>5+ Bedroom</option>
+                                <option value={"1"}>1 {isResidential ? "Bedroom" : "Office"}</option>
+                                <option value={"2"}>2 {isResidential ? "Bedroom" : "Office"}</option>
+                                <option value={"3"}>3 {isResidential ? "Bedroom" : "Office"}</option>
+                                <option value={"4"}>4 {isResidential ? "Bedroom" : "Office"}</option>
+                                <option value={"5+"}>5+ {isResidential ? "Bedroom" : "Office"}</option>
                             </select>
                             <ArrowSvg/>
                         </div>
@@ -119,7 +121,7 @@ const ScheduleFormPanelDetails = () => {
 
                 <div className={"pb-6 flex flex-col items-center gap-4 md:flex-row"}>
                     <div className="hidden pr-4 md:block py-3 tracking-wide font-semibold text-gray-700 md:w-2/12">
-                        House Size
+                        {isResidential ? "House Size" : "Building Size"}
                     </div>
                     <div className={"py-3 flex w-full md:w-5/12"}>
                         <input
@@ -160,7 +162,7 @@ const ScheduleFormPanelDetails = () => {
                     </div>
                 </div>
                 {
-                    services.includes("Weekly, Bi-Weekly, Monthly") && (
+                    frequency === "recurring" && (
                         <div className={"pb-6 flex flex-col items-center gap-4 md:flex-row"}>
                             <div className="text-xl md:text-base tracking-wide font-semibold text-gray-700 md:w-2/12">
                                 Frequency
