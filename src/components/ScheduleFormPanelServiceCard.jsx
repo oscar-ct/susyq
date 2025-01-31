@@ -1,5 +1,5 @@
 import ServiceIcon from "@/components/ServiceIcon";
-import {useContext, useState} from "react";
+import {useContext} from "react";
 import GlobalContext from "@/context/GlobalContext";
 
 const ScheduleFormPanelServiceCard = ({ iconName, title, content }) => {
