@@ -41,8 +41,11 @@ const fetchServiceFusionCreateNewCustomer = async (customer, token) => {
         },
         body: JSON.stringify(customer),
     });
+    if (!res.ok && res.status === 500) {
+        return 500;
+    }
     if (!res.ok) {
-        // const msg = await res.json()
+        // const msg = await res.text();
         // console.log(msg)
         return null;
     }
@@ -59,9 +62,10 @@ const fetchServiceFusionCreateNewEstimate = async (estimate, token) => {
         },
         body: JSON.stringify(estimate),
     });
+    if (!res.ok && res.status === 500) {
+        return 500;
+    }
     if (!res.ok) {
-        const msg = await res.json()
-        console.log(msg)
         return null;
     }
     return await res.json()
@@ -117,6 +121,9 @@ export async function POST(req) {
                 if (!newEstimate) {
                     return new Response("Something went wrong (/estimates)", {status: 404});
                 } else {
+                    if (newEstimate === 500) {
+                        return new Response("500");
+                    }
                     return new Response("Estimated created!");
                 }
             } else {
@@ -153,7 +160,7 @@ export async function POST(req) {
                     return new Response("Something went wrong (/customer/post)", {status: 404});
                 } else {
                     const newEstimateBody = {
-                        customer_name: newCustomer.customer_name,
+                        customer_name: newCustomer === 500 ? `${firstName} ${lastName}` : newCustomer.customer_name,
                         description: `Services Requested: ${services.toString()} - Bedrooms: ${rooms.bedroom} - Bathrooms: ${rooms.bathroom} - Size: ${size ? size : "not provided"} - Extras: ${extras.length !== 0 ? extras.toString() : "not provided"} - Source: ${serviceSource ? serviceSource : "not provided"} - Phone: ${phone ? phone : "n/a"}`,
                         notes: [
                             {
@@ -178,6 +185,9 @@ export async function POST(req) {
                     if (!newEstimate) {
                         return new Response("Something went wrong (/estimates/services!!!!!went wrong)", {status: 404});
                     } else {
+                        if (newEstimate === 500) {
+                            return new Response("500");
+                        }
                         return new Response("Estimated created!");
                     }
                 }

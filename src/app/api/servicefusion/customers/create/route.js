@@ -41,6 +41,9 @@ const fetchServiceFusionCreateNewCustomer = async (customer, token) => {
         },
         body: JSON.stringify(customer),
     });
+    if (!res.ok && res.status === 500) {
+        return 500;
+    }
     if (!res.ok) {
         // const msg = await res.json()
         // console.log(msg)
