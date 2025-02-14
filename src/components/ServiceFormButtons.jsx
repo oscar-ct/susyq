@@ -35,6 +35,10 @@ const ServiceFormButtons = () => {
             clearLoadingStatus();
             return;
         }
+        const response = await res.text();
+        if (response === "500") {
+            console.log("Internal Service Error, Status: 500");
+        }
         clearLoadingStatus();
         if (tabs[4].error) {
             dispatch({type: "SET_TAB_STATUS", payload: {id: 4, error: "false"}});
