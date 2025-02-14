@@ -1,6 +1,8 @@
 import {useContext} from "react";
 import GlobalContext from "@/context/GlobalContext";
 import ArrowSvg from "@/components/ArrowSvg";
+import CustomButton from "@/components/CustomButton";
+import Link from "next/link";
 
 const ScheduleFormPanelNotes = () => {
 
@@ -18,6 +20,13 @@ const ScheduleFormPanelNotes = () => {
             <div className={"px-2 py-8 md:p-8"}>
                 <div className={"w-full pt-3 pb-8 text-4xl text-center"}>
                     Thank you! We will be reaching out to you shortly.
+                </div>
+                <div className={"pt-5 flex justify-center"}>
+                    <Link href={"/"}>
+                        <CustomButton customClass={"h-16 text-xl"}>
+                            GO BACK HOME
+                        </CustomButton>
+                    </Link>
                 </div>
             </div>
         )
