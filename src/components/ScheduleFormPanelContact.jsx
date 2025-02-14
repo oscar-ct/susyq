@@ -182,10 +182,10 @@ const ScheduleFormPanelContact = () => {
                                 <div className="relative w-full md:w-8/12">
                                     <input
                                         className="block appearance-none w-full bg-stone-100 border border-stone-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-stone-200"
-                                        id="zipCode"
+                                        id="postalCode"
                                         type={"text"}
                                         placeholder={"Zip Code"}
-                                        autoComplete={"locality"}
+                                        autoComplete={"postal-code"}
                                         onChange={setZipCode}
                                         value={serviceContact.cleaningAddress.zipCode}
                                     />
