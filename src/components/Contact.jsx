@@ -118,7 +118,7 @@ const Contact = () => {
     // const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
     const submitMessage = async () => {
         setBtnLoading(true);
-        if (!isValidName(name) || !isValidName(lastName) || isValidEmail(email) || !is10Characters(message) || phone.length !== 12) {
+        if (!isValidName(name) || !isValidName(lastName) || !isValidEmail(email) || !is10Characters(message) || phone.length !== 12) {
             setValidating(true);
             setBtnLoading(false);
         } else {
