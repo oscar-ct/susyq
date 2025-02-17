@@ -30,7 +30,7 @@ const NavScrollToButton = ({children, id= ""}) => {
         }
     }, [params, id])
 
-    return <Link href={`/#${id}`} scroll={false} className={"uppercase py-3.5 px-2 md:px-4 flex flex-col items-center hover:bg-susy hover:text-white transition duration-150 ease-in-out font-light"}>{children}</Link>;
+    return <Link href={`/#${id}`} scroll={false} className={"uppercase h-20 px-2 md:px-4 flex flex-col justify-center items-center hover:bg-susy hover:text-white transition duration-150 ease-in-out font-light"}>{children}</Link>;
 };
 
 export default NavScrollToButton;
