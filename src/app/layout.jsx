@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
         <body className={inter.className}>
             <Analytics/>
             <Navbar/>
-            <main className={"mt-[58px] md:mt-[75px] min-h-[calc(100vh-388px)] md:min-h-[calc(100vh-251px)]"}>{children}</main>
+            <main className={"pt-14 md:pt-20 min-h-[calc(100vh-320px)] md:min-h-[calc(100vh-176px)]"}>{children}</main>
             <Footer/>
         </body>
     </html>
