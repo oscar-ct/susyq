@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import GlobalContext from "@/context/GlobalContext";
 import useNavTo from "@/hooks/useNavTo";
 
@@ -28,10 +28,10 @@ const ServiceFormButtons = () => {
             method: "POST",
             body: JSON.stringify(data),
         });
-
         if (!res.ok) {
             const message = await res.text();
             dispatch({type: "SET_TAB_STATUS", payload: {id: 4, error: "true", errorMsg: message}});
+            dispatch({ type: "SET_LS" });
             clearLoadingStatus();
             return;
         }
@@ -44,6 +44,7 @@ const ServiceFormButtons = () => {
             dispatch({type: "SET_TAB_STATUS", payload: {id: 4, error: "false"}});
         }
         dispatch({type: "SUBMISSION_SUCCESS"});
+        dispatch({ type: "SET_LS" });
         // setTimeout(() => {
         //     dispatch({type: "SUBMIT_IN_PROGRESS", payload: false});
         //     setBtnLoading(false);
@@ -102,21 +103,35 @@ const ServiceFormButtons = () => {
             }
             {
                 activeTab === 4 && !hasSubmittedEstimateSuccessfully && (
-                    <>
-                        <button className={`${isAttemptingToSubmitEstimate ? "bg-stone-200 text-gray-600 opacity-60 cursor-not-allowed" : "bg-susy hover:bg-susy text-white"} py-2 px-4 rounded`} onClick={navToPrev}>
-                            Previous
-                        </button>
-                        <button onClick={submitEstimate} disabled={btnLoading} className={`bg-susy text-white button py-2 px-4 rounded ${!btnLoading ? "hover:bg-susy" : "opacity-60 cursor-not-allowed"}`}>
-                            <div className={"flex items-center"}>
-                                <span>Finish</span>
-                                {
-                                    btnLoading && (
-                                        <span className={"ml-[6px] loading"}/>
-                                    )
-                                }
-                            </div>
-                        </button>
-                    </>
+                    <div className={"flex flex-col items-center md:items-end"}>
+                        <div className={"flex gap-4"}>
+                            <button
+                                className={`${isAttemptingToSubmitEstimate ? "bg-stone-200 text-gray-600 opacity-60 cursor-not-allowed" : "bg-susy hover:bg-susy text-white"} py-2 px-4 rounded`}
+                                onClick={navToPrev}>
+                                Previous
+                            </button>
+                            <button onClick={submitEstimate} disabled={btnLoading}
+                                    className={`bg-cyan-700 text-white button py-2 px-4 rounded ${!btnLoading ? "hover:bg-susy" : "opacity-60 cursor-not-allowed"}`}>
+                                <div className={"flex items-center"}>
+                                    {
+                                        isAttemptingToSubmitEstimate ? "Processing" : "Finish"
+                                    }
+                                    {
+                                        btnLoading && (
+                                            <span className={"ml-[6px] loading"}/>
+                                        )
+                                    }
+                                </div>
+                            </button>
+                        </div>
+                        {
+                            isAttemptingToSubmitEstimate && (
+                                <div className={"text-sm text-center font-semibold pt-4 flex justify-center lg:justify-end items-end"}>
+                                    Please wait while we process your estimate...
+                                </div>
+                            )
+                        }
+                    </div>
                 )
             }
         </div>
