@@ -15,6 +15,7 @@ const ScheduleFormPanelServiceCard = ({ iconName, title, content }) => {
             type: "SET_SERVICES",
             payload: [title]
         });
+        dispatch({ type: "SET_LS" });
     };
 
     return (
