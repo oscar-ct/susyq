@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext, useState} from "react";
 import GlobalContext from "@/context/GlobalContext";
 import useNavTo from "@/hooks/useNavTo";
 
