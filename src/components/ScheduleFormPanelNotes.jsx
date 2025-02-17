@@ -1,18 +1,49 @@
-import {useContext} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 import GlobalContext from "@/context/GlobalContext";
 import ArrowSvg from "@/components/ArrowSvg";
 import CustomButton from "@/components/CustomButton";
-import Link from "next/link";
+import {useRouter} from "next/navigation";
+
 
 const ScheduleFormPanelNotes = () => {
 
+    const router = useRouter();
     const { dispatch, serviceNotes, hasSubmittedEstimateSuccessfully, isAttemptingToSubmitEstimate, serviceSource } = useContext(GlobalContext);
+    const [seconds, setSeconds] = useState(10);
+
+    const navBackHome = useCallback(() => {
+        router.push("/");
+        dispatch({ type: "RESET_STATE" });
+        dispatch({ type: "SET_LS" });
+    }, [dispatch, router]);
+
+    useEffect(() => {
+        if (hasSubmittedEstimateSuccessfully) {
+            if (seconds > 0) {
+                const timerId = setInterval(() => {
+                    setSeconds(prevSeconds => prevSeconds - 1);
+                }, 1000);
+
+                return () => clearInterval(timerId);
+            } else {
+                navBackHome();
+            }
+        }
+    }, [seconds, hasSubmittedEstimateSuccessfully, navBackHome]);
+
+    const formatTime = (timeInSeconds) => {
+        const minutes = Math.floor(timeInSeconds / 60).toString().padStart(2, '0');
+        const remainingSeconds = (timeInSeconds % 60).toString().padStart(2, '0');
+        return `${minutes}:${remainingSeconds}`;
+    };
 
     const setServiceNotes = (e) => {
         dispatch({ type: "SET_SERVICE_NOTES", payload: e.target.value });
+        dispatch({ type: "SET_LS" });
     };
     const setServiceSource = (e) => {
         dispatch({ type: "SET_SERVICE_SOURCE", payload: e.target.value });
+        dispatch({ type: "SET_LS" });
     };
 
     if (hasSubmittedEstimateSuccessfully) {
@@ -21,13 +52,14 @@ const ScheduleFormPanelNotes = () => {
                 <div className={"w-full pt-3 pb-8 text-4xl text-center"}>
                     Thank you! We will be reaching out to you shortly.
                 </div>
-                <div className={"pt-5 flex justify-center"}>
-                    <Link href={"/"}>
-                        <CustomButton customClass={"h-16 text-xl"}>
-                            GO BACK HOME
-                        </CustomButton>
-                    </Link>
+                <div className={"pb-8 flex justify-center"}>
+                    <CustomButton customClass={"h-16 text-xl"} onClick={() => navBackHome()}>
+                        GO BACK HOME
+                    </CustomButton>
                 </div>
+                <h5 className={"text-center"}>
+                    You will be automatically redirected back home in {formatTime(seconds)}
+                </h5>
             </div>
         )
     } else {
@@ -41,8 +73,9 @@ const ScheduleFormPanelNotes = () => {
                     disabled={Boolean(isAttemptingToSubmitEstimate)}
                     onChange={setServiceNotes}
                     rows={5}
-                    className={"w-full border p-4 rounded bg-stone-50 border-stone-100 focus:bg-stone-100 focus:outline-none"}
+                    className={"w-full border p-4 rounded bg-stone-100 border-stone-200 focus:bg-stone-100 focus:outline-none"}
                     value={serviceNotes}
+                    placeholder={"Please use this section to provide any additional details, specific requests, gate code, or important information that you would like us to know."}
                 />
                 <div className={"pt-6 pb-3 flex flex-col items-center gap-4 md:flex-row"}>
                     <div className="tracking-wide font-semibold text-gray-700 md:w-5/12">
