@@ -32,6 +32,7 @@ const ScheduleFormPanelFrequency = () => {
             });
 
         }
+        dispatch({ type: "SET_LS" });
     };
 
     const frequencyOptions = [
@@ -41,7 +42,6 @@ const ScheduleFormPanelFrequency = () => {
 
     return (
         <div className={"w-full flex flex-col lg:flex-row"}>
-
             {
                 frequencyOptions.map(([value, title, subtitle, description], index) => {
                     return (
