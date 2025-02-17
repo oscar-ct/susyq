@@ -20,6 +20,9 @@ const ScheduleFormPanelContact = () => {
             payload: data
         });
     };
+    const dispatchSetLocalStorage = () => {
+        dispatch({ type: "SET_LS" });
+    };
     const validateEmailCallback = useCallback((str) => {
         if (!isValidEmail(str)) {
             setErrorEmail(true);
@@ -136,50 +139,53 @@ const ScheduleFormPanelContact = () => {
                         <div className={"flex flex-col md:flex-row gap-4"}>
                             <div className="relative w-full md:w-9/12">
                                 <input
-                                    autoComplete="address 1"
+                                    autoComplete="address-line1"
                                     className="block appearance-none w-full bg-stone-100 border border-stone-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-stone-200"
                                     id="address1"
                                     type={"text"}
                                     placeholder={"Street Address"}
                                     onChange={setAddress1}
                                     value={serviceContact.cleaningAddress.address1}
+                                    onBlur={dispatchSetLocalStorage}
                                 />
                             </div>
                             <div className="relative w-full md:w-3/12">
                                 <input
-                                    autoComplete="address 2"
+                                    autoComplete="address-line2"
                                     className="block appearance-none w-full bg-stone-100 border border-stone-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-stone-200"
                                     id="address2"
                                     type={"text"}
                                     placeholder={"Apt/Suite #"}
                                     onChange={setAddress2}
                                     value={serviceContact.cleaningAddress.address2}
+                                    onBlur={dispatchSetLocalStorage}
                                 />
                             </div>
                         </div>
                         <div className={"flex flex-col md:flex-row gap-4"}>
-                            <div className="relative w-full md:w-7/12">
+                            <div className="relative w-full md:w-8/12">
                                 <input
-                                    autoComplete="home city"
+                                    autoComplete="locality"
                                     className="block appearance-none w-full bg-stone-100 border border-stone-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-stone-200"
                                     id="city"
                                     type={"text"}
                                     placeholder={"City"}
                                     onChange={setCity}
                                     value={serviceContact.cleaningAddress.city}
+                                    onBlur={dispatchSetLocalStorage}
                                 />
                             </div>
-                            <div className={"flex w-full gap-4 md:5/12"}>
-                                <div className="relative w-full md:w-4/12">
+                            <div className={"flex w-full gap-4 md:4/12"}>
+                                <div className="relative w-full md:w-6/12">
                                     <input
                                         disabled={true}
-                                        className="block appearance-none w-full bg-stone-100 border border-stone-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight cursor-not-allowed"
+                                        className="block appearance-none w-full bg-stone-200 border border-stone-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight cursor-not-allowed"
                                         id="state"
                                         type={"text"}
                                         placeholder={"Texas"}
                                     />
                                 </div>
-                                <div className="relative w-full md:w-8/12">
+                                <div className="relative w-full md:w-6/12">
                                     <input
                                         className="block appearance-none w-full bg-stone-100 border border-stone-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-stone-200"
                                         id="postalCode"
@@ -188,6 +194,7 @@ const ScheduleFormPanelContact = () => {
                                         autoComplete={"postal-code"}
                                         onChange={setZipCode}
                                         value={serviceContact.cleaningAddress.zipCode}
+                                        onBlur={dispatchSetLocalStorage}
                                     />
                                 </div>
                             </div>
@@ -195,7 +202,6 @@ const ScheduleFormPanelContact = () => {
                     </div>
                 </div>
             </div>
-
             <div className={"border-b pb-8 md:pb-3 md:pt-8 md:border-none"}>
                 <p className={"text-center pb-8 text-gray-500"}>
                     This information will only be used to contact you about your cleaning
@@ -216,6 +222,7 @@ const ScheduleFormPanelContact = () => {
                                         placeholder={"First Name"}
                                         onChange={setFirstName}
                                         value={serviceContact.firstName}
+                                        onBlur={dispatchSetLocalStorage}
                                     />
                                 </div>
                                 {
@@ -236,6 +243,7 @@ const ScheduleFormPanelContact = () => {
                                         placeholder={"Last Name"}
                                         onChange={setLastName}
                                         value={serviceContact.lastName}
+                                        onBlur={dispatchSetLocalStorage}
                                     />
                                 </div>
                                 {
@@ -262,6 +270,7 @@ const ScheduleFormPanelContact = () => {
                                     placeholder={"Email Address"}
                                     value={serviceContact.email}
                                     onChange={setEmailAddress}
+                                    onBlur={dispatchSetLocalStorage}
                                 />
                             </div>
                             {
@@ -288,6 +297,7 @@ const ScheduleFormPanelContact = () => {
                                     maxLength={12}
                                     onChange={setPhone}
                                     value={serviceContact.phone}
+                                    onBlur={dispatchSetLocalStorage}
                                 />
                             </div>
                             {
