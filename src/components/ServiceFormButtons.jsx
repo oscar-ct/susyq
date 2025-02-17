@@ -71,7 +71,7 @@ const ServiceFormButtons = () => {
                         <button className={`bg-susy hover:bg-susy text-white py-2 px-4 rounded`} onClick={navToPrev}>
                             Previous
                         </button>
-                        <button onClick={navToServiceDetails} className={`bg-susy hover:bg-susy text-white py-2 px-4 rounded`}>
+                        <button onClick={navToServiceDetails} className={`py-2 px-4 rounded ${services.length !== 0 ? "bg-susy hover:bg-susy text-white" : "bg-stone-200 text-gray-600 cursor-not-allowed opacity-70"}`}>
                             Next
                         </button>
                     </>
