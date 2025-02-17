@@ -1,7 +1,7 @@
 import { CgSmartHomeRefrigerator } from "react-icons/cg";
 import { PiOven } from "react-icons/pi";
 import { GiWindow } from "react-icons/gi";
-import { useContext, useState} from "react";
+import {useContext, useState} from "react";
 import GlobalContext from "@/context/GlobalContext";
 import ArrowSvg from "@/components/ArrowSvg";
 
@@ -19,6 +19,7 @@ const ScheduleFormPanelDetails = () => {
 
     const dispatchServiceDetails = (details) => {
         dispatch({ type: "SET_SERVICE_DETAILS", payload: details });
+        dispatch({ type: "SET_LS" });
     };
 
     const handleExtraChange = (description) => {
@@ -73,7 +74,6 @@ const ScheduleFormPanelDetails = () => {
     return (
         <div className={"px-2 py-8 md:p-8"}>
             <div className={"md:pt-3 pb-4 md:pb-2"}>
-                {/*<div className={border-b pb-2 text-2xl text-center md:text-start"}>House Size</div>*/}
                 <div className={"pb-6 flex flex-col items-center gap-4 md:flex-row"}>
                     <div className="hidden md:block tracking-wide font-semibold text-gray-700 md:w-2/12">
                         {isResidential ? "Rooms" : "Spaces"}
@@ -118,7 +118,6 @@ const ScheduleFormPanelDetails = () => {
                         </div>
                     </div>
                 </div>
-
                 <div className={"pb-6 flex flex-col items-center gap-4 md:flex-row"}>
                     <div className="hidden pr-4 md:block py-3 tracking-wide font-semibold text-gray-700 md:w-2/12">
                         {isResidential ? "House Size" : "Building Size"}
@@ -184,9 +183,10 @@ const ScheduleFormPanelDetails = () => {
                     )
                 }
             </div>
-
             <div className={"flex flex-col"}>
-                <div className={"border-b py-2 text-xl text-center font-semibold text-gray-700"}>Need an extra service?</div>
+                <div className={"border-b py-2 text-xl text-center font-semibold text-gray-700"}>
+                    Need an extra service?
+                </div>
                 <div className={"w-full px-3 md:px-0"}>
                     <div className={"pt-8 flex flex-col md:flex-row gap-4"}>
                         {
