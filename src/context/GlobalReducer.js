@@ -1,5 +1,3 @@
-import {initialStateObj} from "@/utils/initialState";
-
 const globalReducer = (state, action) => {
     switch(action.type) {
         case "SET_LS":
