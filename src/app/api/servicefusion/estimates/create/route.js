@@ -62,6 +62,8 @@ const fetchServiceFusionCreateNewEstimate = async (estimate, token) => {
         },
         body: JSON.stringify(estimate),
     });
+    // const msg = await res.text();
+    // console.log(msg)
     if (!res.ok && res.status === 500) {
         return 500;
     }
@@ -82,17 +84,30 @@ export async function POST(req) {
         credentials.serviceFusionRefreshToken = refresh_token;
         credentials.serviceFusionAccessToken = access_token;
         await credentials.save();
-        const { services, serviceDetails, serviceContact, serviceNotes, serviceSource } = await req.json();
+        const { frequency, services, serviceDetails, serviceContact, serviceNotes, serviceSource } = await req.json();
         const { firstName, lastName, email, phone, cleaningAddress } = serviceContact;
         const { rooms, size, extras } = serviceDetails;
         const existingCustomer = await fetchServiceFusionCheckIfCustomerExists(email, access_token);
         if (!existingCustomer) {
             return new Response("Something went wrong (/customer/get)", {status: 404});
         } else {
+            const now = new Date(); // Current local time
+            // Extract local time components
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0'); // 24-hour format
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            // Format with +00:00 offset required by API
+            const timestamp = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}+00:00`;
+
             if (existingCustomer.items.length !== 0) {
                 const newEstimateBody = {
+                    // created_at: "2014-09-08T20:42:04+00:00",
+                    created_at: timestamp,
                     customer_name: existingCustomer.items[0].customer_name,
-                    description: `Services Requested: ${services.toString()} - Bedrooms: ${rooms.bedroom} - Bathrooms: ${rooms.bathroom} - Size: ${size ? size : "not provided"} - Extras: ${extras.length !== 0 ? extras.toString() : "not provided"} - Source: ${serviceSource ? serviceSource : "not provided"} - Phone: ${phone ? phone : "n/a"}`,
+                    description: `Frequency: ${frequency} ${serviceDetails.frequency ? "(" + serviceDetails.frequency + ")" : ""} --- Service: ${services.toString().toLowerCase()} --- Bedrooms: ${rooms.bedroom} --- Bathrooms: ${rooms.bathroom} --- Size: ${size ? size : "not provided"} --- Extras: ${extras.length !== 0 ? extras.toString().toLowerCase() : "not provided"} --- Source: ${serviceSource ? serviceSource : "not provided"} --- Phone: ${phone ? phone : "not provided"}`,
                     notes: [
                         {
                             notes: serviceNotes
@@ -110,7 +125,8 @@ export async function POST(req) {
                     opportunity_owner: "Dalia Ballard",
                     services: [
                         {
-                            service: "Deep Clean -  2/2.5"
+                            service: "Deep Clean -  2/2.5",
+                            tax: "Travis Co"
                         }
                     ],
                 };
@@ -160,8 +176,9 @@ export async function POST(req) {
                     return new Response("Something went wrong (/customer/post)", {status: 404});
                 } else {
                     const newEstimateBody = {
+                        created_at: timestamp,
                         customer_name: newCustomer === 500 ? `${firstName} ${lastName}` : newCustomer.customer_name,
-                        description: `Services Requested: ${services.toString()} - Bedrooms: ${rooms.bedroom} - Bathrooms: ${rooms.bathroom} - Size: ${size ? size : "not provided"} - Extras: ${extras.length !== 0 ? extras.toString() : "not provided"} - Source: ${serviceSource ? serviceSource : "not provided"} - Phone: ${phone ? phone : "n/a"}`,
+                        description: `Frequency: ${frequency} ${serviceDetails.frequency ? "(" + serviceDetails.frequency + ")" : ""} --- Service: ${services.toString().toLowerCase()} --- Bedrooms: ${rooms.bedroom} --- Bathrooms: ${rooms.bathroom} --- Size: ${size ? size : "not provided"} --- Extras: ${extras.length !== 0 ? extras.toString().toLowerCase() : "not provided"} --- Source: ${serviceSource ? serviceSource : "not provided"} --- Phone: ${phone ? phone : "not provided"}`,
                         notes: [
                             {
                                 notes: serviceNotes
@@ -177,6 +194,12 @@ export async function POST(req) {
                         postal_code: cleaningAddress.zipCode ? cleaningAddress.zipCode : "",
                         source: "susyqonline",
                         opportunity_owner: "Dalia Ballard",
+                        services: [
+                            {
+                                service: "Deep Clean -  2/2.5",
+                                tax: "Travis Co"
+                            }
+                        ],
                     };
                     if (!serviceNotes) {
                         delete newEstimateBody.notes
