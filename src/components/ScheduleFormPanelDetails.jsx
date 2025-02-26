@@ -173,9 +173,9 @@ const ScheduleFormPanelDetails = () => {
                                     onChange={(e) => setFrequencyChange(e)}
                                     value={serviceDetails.frequency}
                                 >
-                                    <option value={"Weekly"}>Weekly</option>
-                                    <option value={"Bi-Weekly"}>Bi-Weekly</option>
-                                    <option value={"Monthly"}>Monthly</option>
+                                    <option value={"every week"}>Every Week</option>
+                                    <option value={"every two weeks"}>Every Two Weeks</option>
+                                    <option value={"every four weeks"}>Every Four Weeks</option>
                                 </select>
                                 <ArrowSvg/>
                             </div>
