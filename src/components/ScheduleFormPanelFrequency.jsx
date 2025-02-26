@@ -37,7 +37,7 @@ const ScheduleFormPanelFrequency = () => {
 
     const frequencyOptions = [
         ["one-time", "One-Time Service", "Single Cleaning", "A one-time service offers a single, thorough cleaning session for your home or office."],
-        ["recurring", "Recurring Service", "Weekly, Bi-Weekly, Monthly", "A recurring service provides regular, scheduled cleanings for your home or office, ensuring consistent cleanliness."],
+        ["recurring", "Recurring Service", "Every Week, Every Two Weeks, Every Four Weeks", "A recurring service provides regular, scheduled cleanings for your home or office, ensuring consistent cleanliness."],
     ];
 
     return (
