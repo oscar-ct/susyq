@@ -11,6 +11,24 @@ import RefTo from "@/components/RefTo";
 import SmoothScroller from "@/components/SmoothScroller";
 import ReviewBanner from "@/components/ReviewBanner";
 
+export const metadata = {
+    title: "Green Cleaning Services - Susy Q Cleaning",
+    description: "Green house cleaning by Susy Q in Austin & Round Rock. Book a healthier home today!",
+    alternates: {
+        canonical: "https://susyqcleaning.com",
+    },
+    openGraph: {
+        title: "Green Cleaning Services - Susy Q Cleaning",
+        description: "Green house cleaning by Susy Q in Austin & Round Rock. Book a healthier home today!",
+        images: [{ url: "/opengraph-image.png", width: 800, height: 599, alt: "susy q cleaning" }],
+    },
+    twitter: {
+        title: "Green Cleaning Services - Susy Q Cleaning",
+        description: "Green house cleaning by Susy Q in Austin & Round Rock. Book a healthier home today!",
+        images: ["/opengraph-image.png"],
+    },
+};
+
 
 const Home = () => {
 

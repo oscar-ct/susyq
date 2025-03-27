@@ -1,8 +1,21 @@
 import Link from "next/link";
 
 export const metadata = {
-    title: "Terms and Conditions | Susy Q Cleaning",
-    description: "Susy Q cleaning is a professional company dedicated to be part of your life. Our interest are focused on meeting your needs by offering high quality services and high level satisfaction to our customers. Our green healthy cleaning techniques provide your home with a cleaner healthier environment.",
+    title: "Terms of Service - Susy Q Cleaning",
+    description: "Susy Q Cleaning’s terms for cleaning services in Austin. Read our policies now.",
+    alternates: {
+        canonical: "https://susyqcleaning.com/terms",
+    },
+    openGraph: {
+        title: "Terms of Service - Susy Q Cleaning",
+        description: "Susy Q Cleaning’s terms for cleaning services in Austin. Read our policies now.",
+        images: [{ url: "/opengraph-image.png", width: 800, height: 599, alt: "susy q cleaning terms" }],
+    },
+    twitter: {
+        title: "Terms of Service - Susy Q Cleaning",
+        description: "Susy Q Cleaning’s terms for cleaning services in Austin. Read our policies now.",
+        images: ["/opengraph-image.png"],
+    },
 };
 
 const Page = () => {

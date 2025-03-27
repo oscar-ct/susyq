@@ -7,9 +7,28 @@ import { Analytics } from "@vercel/analytics/react"
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Susy Q Cleaning - Green house cleaning services in the Austin and Round Rock metro area",
-  description: "Susy Q cleaning is a professional company dedicated to be part of your life. Our interest are focused on meeting your needs by offering high quality services and high level satisfaction to our customers. Our green healthy cleaning techniques provide your home with a cleaner healthier environment.",
+    keywords: "susy q, susy q cleaning, house cleaning, cleaning services, austin, texas",
+    robots: "index, follow, max-image-preview: large",
+    verification: {
+      google: "JKNPelzYqvq4H9cuv_31abNyv84JS7GDY_3F5oXQPVE",
+    },
+    icons: {
+        icon: "/icon.ico",
+        shortcut: "/icon.ico",
+        apple: "/apple-icon.png",
+        other: [{ rel: "icon", url: "/icon.png", sizes: "192x192" }],
+    },
+    openGraph: {
+        url: "https://susyqcleaning.com",
+        siteName: "Susy Q Cleaning",
+        locale: "en_US",
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+    },
 };
+
 
 export default function RootLayout({ children }) {
   return (
@@ -17,7 +36,9 @@ export default function RootLayout({ children }) {
         <body className={inter.className}>
             <Analytics/>
             <Navbar/>
-            <main className={"pt-14 md:pt-20 min-h-[calc(100vh-320px)] md:min-h-[calc(100vh-176px)]"}>{children}</main>
+            <main className={"pt-14 md:pt-20 min-h-[calc(100vh-320px)] md:min-h-[calc(100vh-176px)]"}>
+                {children}
+            </main>
             <Footer/>
         </body>
     </html>

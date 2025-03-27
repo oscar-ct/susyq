@@ -3,9 +3,23 @@ import ScheduleForm from "@/components/ScheduleForm";
 import {GlobalProvider} from "@/context/GlobalContext";
 import ScheduleFormResetButton from "@/components/ScheduleFormResetButton";
 
+
 export const metadata = {
-    title: "Schedule Now | Susy Q Cleaning",
-    description: "Susy Q cleaning is a professional company dedicated to be part of your life. Our interest are focused on meeting your needs by offering high quality services and high level satisfaction to our customers. Our green healthy cleaning techniques provide your home with a cleaner healthier environment.",
+    title: "Schedule a Cleaning - Susy Q Cleaning",
+    description: "Book green cleaning in Austin with Susy Q. Schedule a healthier home now!",
+    alternates: {
+        canonical: "https://susyqcleaning.com/schedule",
+    },
+    openGraph: {
+        title: "Schedule a Cleaning - Susy Q Cleaning",
+        description: "Book green cleaning in Austin with Susy Q. Schedule a healthier home now!",
+        images: [{ url: "/opengraph-image.png", width: 800, height: 599, alt: "susy q cleaning schedule" }],
+    },
+    twitter: {
+        title: "Schedule a Cleaning - Susy Q Cleaning",
+        description: "Book green cleaning in Austin with Susy Q. Schedule a healthier home now!",
+        images: ["/opengraph-image.png"],
+    },
 };
 
 const SchedulePage = () => {
