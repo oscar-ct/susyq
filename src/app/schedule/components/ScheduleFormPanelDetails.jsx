@@ -4,12 +4,21 @@ import { GiWindow } from "react-icons/gi";
 import {useContext, useState} from "react";
 import GlobalContext from "@/context/GlobalContext";
 import ArrowSvg from "@/components/ArrowSvg";
+import {MdBalcony, MdOutlineGarage} from "react-icons/md";
 
 const ScheduleFormPanelDetails = () => {
 
     const { frequency, services, serviceDetails, dispatch } = useContext(GlobalContext);
     const extraOptions = [
-        ["Refrigerator", "Refrigerator Cleaning Service"], ["Oven", "Kitchen Oven Cleaning Service"], ["Window", "Window Cleaning Service"]
+        {title: "Refrigerator Service", description: "Refrigerator Cleaning Service", icon: <CgSmartHomeRefrigerator size={80}/>},
+        {title: "Oven Service", description: "Kitchen Oven Cleaning Service", icon: <PiOven size={80}/>},
+        {title: "Window Service", description: "Window Cleaning Service", icon: <GiWindow size={80}/>}
+    ];
+
+    const moveInOutExtraOptions = [
+        { title: "Garage Service (1-car)", description: "Garage Cleaning Service (1-car)", icon: <MdOutlineGarage size={80}/>},
+        { title: "Garage Service (2-car)", description: "Garage Cleaning Service (2-car)", icon: <span className={"flex gap-2"}><MdOutlineGarage size={60}/><MdOutlineGarage size={60}/></span>},
+        { title: "Patio/Porch/Balcony Service", description: "Patio/Porch/Balcony Cleaning Service", icon: <MdBalcony size={80}/>}
     ];
 
     const [checkboxSelected, setCheckboxSelected] = useState(serviceDetails.size !== "");
@@ -93,7 +102,7 @@ const ScheduleFormPanelDetails = () => {
                                 <option value={"2"}>2 {isResidential ? "Bedroom" : "Office"}</option>
                                 <option value={"3"}>3 {isResidential ? "Bedroom" : "Office"}</option>
                                 <option value={"4"}>4 {isResidential ? "Bedroom" : "Office"}</option>
-                                <option value={"5+"}>5+ {isResidential ? "Bedroom" : "Office"}</option>
+                                <option value={"5"}>5+ {isResidential ? "Bedroom" : "Office"}</option>
                             </select>
                             <ArrowSvg/>
                         </div>
@@ -112,7 +121,7 @@ const ScheduleFormPanelDetails = () => {
                                 <option value={"3.5"}>3.5 Bathroom</option>
                                 <option value={"4"}>4 Bathroom</option>
                                 <option value={"4.5"}>4.5 Bathroom</option>
-                                <option value={"5+"}>5+ Bedroom</option>
+                                <option value={"5"}>5+ Bedroom</option>
                             </select>
                             <ArrowSvg/>
                         </div>
@@ -173,9 +182,9 @@ const ScheduleFormPanelDetails = () => {
                                     onChange={(e) => setFrequencyChange(e)}
                                     value={serviceDetails.frequency}
                                 >
-                                    <option value={"every week"}>Every Week</option>
-                                    <option value={"every two weeks"}>Every Two Weeks</option>
-                                    <option value={"every four weeks"}>Every Four Weeks</option>
+                                    <option value={"Every Week"}>Every Week</option>
+                                    <option value={"Every 2 Weeks"}>Every 2 Weeks</option>
+                                    <option value={"Every 4 Weeks"}>Every 4 Weeks</option>
                                 </select>
                                 <ArrowSvg/>
                             </div>
@@ -187,23 +196,42 @@ const ScheduleFormPanelDetails = () => {
                 <div className={"border-b py-2 text-xl text-center font-semibold text-gray-700"}>
                     Need an extra service?
                 </div>
-                <div className={"w-full px-3 md:px-0"}>
-                    <div className={"pt-8 flex flex-col md:flex-row gap-4"}>
+                <div className={"w-full"}>
+                    <div className={"pt-8 grid grid-cols-2 gap-4 md:grid-cols-3"}>
                         {
-                            extraOptions.map(([title, description]) => {
-                                return (
-                                    <div onClick={() => handleExtraChange(description)} key={title}
-                                         className={`${serviceDetails.extras.includes(description) ? "!bg-susy text-white" : "hover:bg-stone-200"} cursor-pointer flex flex-col items-center gap-4 p-4 rounded text-center bg-stone-100 border border-stone-200 h-44 w-full lg:w-4/12`}>
-                                        {
-                                            title === "Refrigerator" ?
-                                                <CgSmartHomeRefrigerator size={80}/> : title === "Oven" ?
-                                                    <PiOven size={80}/> : <GiWindow size={80}/>
-                                        }
-                                        <span
-                                            className={`${serviceDetails.extras.includes(description) ? "text-white" : "text-susy"}`}>{description}</span>
-                                    </div>
-                                )
-                            })
+                            services[0] === "Move In Cleaning" || services[0] === "Move Out Cleaning" ? (
+                                <>
+                                    {
+                                        moveInOutExtraOptions.map(( {title, description, icon}) => {
+                                            return (
+                                                <div
+                                                    key={title}
+                                                    onClick={() => handleExtraChange(title)}
+                                                    className={`${serviceDetails.extras.includes(title) ? "!bg-susy text-white" : "hover:bg-stone-200"} cursor-pointer flex flex-col items-center gap-4 p-4 rounded text-center bg-stone-100 border border-stone-200 h-44 w-full`}
+                                                >
+                                                    {icon}
+                                                    <span className={`px-2 ${serviceDetails.extras.includes(title) ? "text-white" : "text-susy"}`}>{description}</span>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </>
+                            ) : <>
+                                    {
+                                        extraOptions.concat(moveInOutExtraOptions).map(({title, description, icon}) => {
+                                            return (
+                                                <div
+                                                    key={title}
+                                                    onClick={() => handleExtraChange(title)}
+                                                    className={`${serviceDetails.extras.includes(title) ? "!bg-susy text-white" : "hover:bg-stone-200"} cursor-pointer flex flex-col items-center gap-4 p-4 rounded text-center bg-stone-100 border border-stone-200 h-44 w-full`}
+                                                >
+                                                    {icon}
+                                                    <span className={`${serviceDetails.extras.includes(title) ? "text-white" : "text-susy"} text-sm md:text-base`}>{description}</span>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </>
                         }
                     </div>
                 </div>
