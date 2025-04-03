@@ -88,11 +88,12 @@ const ScheduleFormPanelNotes = () => {
                             id="source" value={serviceSource} onChange={setServiceSource}
                         >
                             <option disabled={true} value={""}>Please select one</option>
-                            <option value={"search"}>Internet Search (Google, Bing, etc.)</option>
-                            <option value={"facebook"}>Facebook</option>
-                            <option value={"word of mouth"}>Friend/Family</option>
-                            <option value={"yelp"}>Yelp</option>
-                            <option value={"other"}>Other</option>
+                            <option value={"Internet Search"}>Internet Search (Google, Bing, etc.)</option>
+                            <option value={"Facebook"}>Facebook</option>
+                            <option value={"Instagram"}>Instagram</option>
+                            <option value={"Friend/Family"}>Friend/Family</option>
+                            <option value={"Yelp"}>Yelp</option>
+                            <option value={"Other"}>Other</option>
                         </select>
                         <ArrowSvg/>
                     </div>
