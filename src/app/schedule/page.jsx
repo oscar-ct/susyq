@@ -1,7 +1,7 @@
-import ScheduleGuarantees from "@/components/ScheduleGuarantees";
-import ScheduleForm from "@/components/ScheduleForm";
+import ScheduleGuarantees from "@/app/schedule/components/ScheduleGuarantees";
+import ScheduleForm from "@/app/schedule/components/ScheduleForm";
 import {GlobalProvider} from "@/context/GlobalContext";
-import ScheduleFormResetButton from "@/components/ScheduleFormResetButton";
+import ScheduleFormResetButton from "@/app/schedule/components/ScheduleFormResetButton";
 
 
 export const metadata = {

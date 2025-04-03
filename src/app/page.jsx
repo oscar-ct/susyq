@@ -1,9 +1,9 @@
-import Introduction from "@/components/Introduction";
-import Testimonials from "@/components/Testimonials";
-import Services from "@/components/Services";
-import About from "@/components/About";
-import FAQ from "@/components/FAQ";
-import Contact from "@/components/Contact";
+import IntroductionSection from "@/components/IntroductionSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import ServicesSection from "@/components/ServicesSection";
+import AboutSection from "@/components/AboutSection";
+import FAQ_Section from "@/components/FAQ_Section";
+import ContactSection from "@/components/ContactSection";
 import KeepAustinWeird from "@/components/KeepAustinWeird";
 import ErmaBombeck from "@/components/ErmaBombeck";
 import EasyLife from "@/components/EasyLife";
@@ -36,24 +36,24 @@ const Home = () => {
       <>
           <SmoothScroller>
               <RefTo id={"home"}>
-                  <Introduction/>
+                  <IntroductionSection/>
               </RefTo>
-              <Testimonials/>
+              <TestimonialsSection/>
               <ReviewBanner/>
               <RefTo id={"services"}>
-                  <Services/>
+                  <ServicesSection/>
               </RefTo>
               <KeepAustinWeird/>
               <RefTo id={"about"}>
-                  <About/>
+                  <AboutSection/>
               </RefTo>
               <ErmaBombeck/>
               <RefTo id={"faq"}>
-                  <FAQ/>
+                  <FAQ_Section/>
               </RefTo>
               <EasyLife/>
               <RefTo id={"contact"}>
-                  <Contact/>
+                  <ContactSection/>
               </RefTo>
           </SmoothScroller>
       </>
