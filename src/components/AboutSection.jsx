@@ -2,7 +2,7 @@ import Image from "next/image";
 import aboutImg from "../../public/images/services.png"
 import {TiLeaf} from "react-icons/ti";
 
-const About = () => {
+const AboutSection = () => {
     return (
         <section className={"py-14 w-full mx-auto px-4 lg:px-8 max-w-screen-xl"}>
             <div className={"flex flex-col items-center"}>
@@ -41,4 +41,4 @@ const About = () => {
     );
 };
 
-export default About;
+export default AboutSection;

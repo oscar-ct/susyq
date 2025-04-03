@@ -1,6 +1,6 @@
 import ServicesItem from "@/components/ServicesItem";
 
-const Services = () => {
+const ServicesSection = () => {
 
 
     const services = [
@@ -34,4 +34,4 @@ const Services = () => {
     );
 };
 
-export default Services;
+export default ServicesSection;

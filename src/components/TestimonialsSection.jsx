@@ -1,7 +1,7 @@
 import TestimonialsCard from "@/components/TestimonialsCard";
 import TestimonialsMobile from "@/components/TestimonialsMobile";
 
-const Testimonials = () => {
+const TestimonialsSection = () => {
 
     const testimonials = [
         ["— Cynthia O.", "Suzy Q has been cleaning my home for a year now and they are fantastic, organized, on time and do a great job.", 200, 175],
@@ -41,4 +41,4 @@ const Testimonials = () => {
     );
 };
 
-export default Testimonials;
+export default TestimonialsSection;

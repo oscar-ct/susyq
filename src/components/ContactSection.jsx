@@ -5,7 +5,7 @@ import {TiPhone} from "react-icons/ti";
 import * as emailjs from "@emailjs/browser";
 import {isValidEmail, isValidName, phoneNumberAutoFormat} from "@/utils/validation";
 
-const Contact = () => {
+const ContactSection = () => {
 
     const [validating, setValidating] = useState(false);
     const [btnMessage, setBtnMessage] = useState("Submit");
@@ -402,4 +402,4 @@ const Contact = () => {
     );
 };
 
-export default Contact;
+export default ContactSection;

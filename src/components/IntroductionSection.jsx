@@ -8,7 +8,7 @@ import Link from "next/link";
 
 
 
-const Introduction = () => {
+const IntroductionSection = () => {
 
     return (
         <section className={"h-[49rem] md:h-[40rem] relative"}>
@@ -72,4 +72,4 @@ const Introduction = () => {
     );
 };
 
-export default Introduction;
+export default IntroductionSection;

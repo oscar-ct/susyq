@@ -1,6 +1,6 @@
 import FAQItem from "@/components/FAQItem";
 
-const Faq = () => {
+const FAQ_Section = () => {
 
     const FAQ = [
         ["Who provides the cleaning supplies?", "We come prepared with green cleaning supplies. However we are flexible and can use your house cleaning products if you wish."],
@@ -37,4 +37,4 @@ const Faq = () => {
     );
 };
 
-export default Faq;
+export default FAQ_Section;
