@@ -17,7 +17,7 @@ const ScheduleFormPanelFrequency = () => {
         if (value === "recurring") {
             dispatch({
                 type: "SET_SERVICE_DETAILS",
-                payload: {...serviceDetails, frequency: "Bi-Weekly"}
+                payload: {...serviceDetails, frequency: "Every 2 Weeks"}
             });
         } else {
             dispatch({
