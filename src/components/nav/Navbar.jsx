@@ -3,8 +3,8 @@ import { TiHomeOutline } from "react-icons/ti";
 import { TiStarOutline } from "react-icons/ti";
 import { TiTabsOutline } from "react-icons/ti";
 import { TiMail } from "react-icons/ti";
-import NavbarMobile from "@/components/NavbarMobile";
-import NavScrollToButton from "@/components/NavScrollToButton";
+import NavbarMobile from "@/components/nav/NavbarMobile";
+import NavScrollToButton from "@/components/nav/NavScrollToButton";
 import Link from "next/link";
 
 

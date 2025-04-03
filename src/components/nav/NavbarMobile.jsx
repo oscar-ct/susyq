@@ -3,8 +3,8 @@
 import { useRef } from "react";
 import { motion, useCycle } from "framer-motion";
 import useDimensions from "@/hooks/useDimensions";
-import NavbarMobileMenuToggle from "@/components/NavbarMobileMenuToggle";
-import NavbarMobileMenu from "@/components/NavbarMobileMenu";
+import NavbarMobileMenuToggle from "@/components/nav/NavbarMobileMenuToggle";
+import NavbarMobileMenu from "@/components/nav/NavbarMobileMenu";
 
 
 const NavbarMobile = () => {
