@@ -1,14 +1,14 @@
 "use client"
 
-import ScheduleFormTab from "@/components/ScheduleFormTab";
+import ScheduleFormTab from "@/app/schedule/components/ScheduleFormTab";
 import {useCallback, useContext, useEffect, useState} from "react";
-import ScheduleFormPanelService from "@/components/ScheduleFormPanelService";
-import ScheduleFormPanelDetails from "@/components/ScheduleFormPanelDetails";
-import ScheduleFormPanelContact from "@/components/ScheduleFormPanelContact";
-import ScheduleFormPanelNotes from "@/components/ScheduleFormPanelNotes";
-import ServiceFormButtons from "@/components/ServiceFormButtons";
+import ScheduleFormPanelService from "@/app/schedule/components/ScheduleFormPanelService";
+import ScheduleFormPanelDetails from "@/app/schedule/components/ScheduleFormPanelDetails";
+import ScheduleFormPanelContact from "@/app/schedule/components/ScheduleFormPanelContact";
+import ScheduleFormPanelNotes from "@/app/schedule/components/ScheduleFormPanelNotes";
+import ScheduleFormNavButtons from "@/app/schedule/components/ScheduleFormNavButtons";
 import GlobalContext from "@/context/GlobalContext";
-import ScheduleFormPanelFrequency from "@/components/ScheduleFormPanelFrequency";
+import ScheduleFormPanelFrequency from "@/app/schedule/components/ScheduleFormPanelFrequency";
 
 
 const ScheduleForm = () => {
@@ -75,7 +75,7 @@ const ScheduleForm = () => {
                 {/*}*/}
                 {
                     mounted && (
-                        <ServiceFormButtons/>
+                        <ScheduleFormNavButtons/>
                     )
                 }
             </div>

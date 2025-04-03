@@ -1,6 +1,6 @@
 import {useContext} from "react";
 import GlobalContext from "@/context/GlobalContext";
-import ScheduleFormPanelServiceCard from "@/components/ScheduleFormPanelServiceCard";
+import ScheduleFormPanelServiceCard from "@/app/schedule/components/ScheduleFormPanelServiceCard";
 
 const ScheduleFormPanelService = () => {
 

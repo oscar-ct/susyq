@@ -2,7 +2,7 @@ import {useContext, useState} from "react";
 import GlobalContext from "@/context/GlobalContext";
 import useNavTo from "@/hooks/useNavTo";
 
-const ServiceFormButtons = () => {
+const ScheduleFormNavButtons = () => {
 
     const { frequency, services, activeTab, serviceDetails, serviceContact, serviceNotes, dispatch, hasSubmittedEstimateSuccessfully, tabs, isAttemptingToSubmitEstimate, serviceSource } = useContext(GlobalContext);
     const { navToServices, navToServiceDetails, navToServiceContact, navToPrev, navToServiceNotes } = useNavTo();
@@ -138,4 +138,4 @@ const ServiceFormButtons = () => {
     );
 };
 
-export default ServiceFormButtons;
+export default ScheduleFormNavButtons;
