@@ -47,7 +47,7 @@ const ScheduleFormPanelFrequency = () => {
                     return (
                         <div key={index} onClick={() => setFrequencyValue(value)} className={"w-full lg:w-6/12"}>
                             <div className={"px-2 pb-4"}>
-                                <div className={`h-52 cursor-pointer bg-stone-100 border border-stone-200 rounded p-5 flex items-center lg:h-72 ${frequency === value ? "!bg-susy" : "hover:bg-stone-200"}`}>
+                                <div className={`h-full cursor-pointer bg-stone-100 border border-stone-200 rounded p-5 flex items-center lg:h-72 ${frequency === value ? "!bg-susy" : "hover:bg-stone-200"}`}>
                                     <div className={"flex justify-center items-center gap-2"}>
                                         {
                                             value === "one-time" ? (
