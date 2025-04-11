@@ -26,10 +26,13 @@ const SchedulePage = () => {
     return (
         <GlobalProvider>
             <section className={"w-full mx-auto lg:pb-8 px-4 lg:px-8 max-w-screen-xl"}>
-                <div className={"relative py-10 text-center text-5xl uppercase font-light text-gray-500 sm:py-20"}>
-                    Customize Your Cleaning
+                <div className={"relative py-10 sm:py-20"}>
+                    <h1 className={"text-center text-5xl uppercase font-light text-gray-500"}>
+                        Customize Your Cleaning
+                    </h1>
                     <ScheduleFormResetButton/>
                 </div>
+
                 <div className={"flex flex-col lg:flex-row"}>
                     <div className={"w-full lg:w-9/12"}>
                         <ScheduleForm/>
