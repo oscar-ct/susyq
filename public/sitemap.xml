@@ -1,23 +1,132 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <!-- Homepage -->
     <url>
         <loc>https://susyqcleaning.com/</loc>
         <lastmod>2025-03-27</lastmod>
         <changefreq>monthly</changefreq>
         <priority>1.0</priority>
     </url>
+
+    <!-- Schedule Page -->
     <url>
         <loc>https://susyqcleaning.com/schedule</loc>
         <lastmod>2025-03-27</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
+
+    <!-- Careers Page (English) -->
+    <url>
+        <loc>https://susyqcleaning.com/careers</loc>
+        <lastmod>2025-04-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://susyqcleaning.com/careers" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://susyqcleaning.com/careers?lang=es" />
+    </url>
+
+    <!-- Careers Page (Spanish) -->
+    <url>
+        <loc>https://susyqcleaning.com/careers?lang=es</loc>
+        <lastmod>2025-04-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://susyqcleaning.com/careers" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://susyqcleaning.com/careers?lang=es" />
+    </url>
+
+    <!-- Careers/[id] Pages -->
+    <url>
+        <loc>https://susyqcleaning.com/careers/customer-service-representative</loc>
+        <lastmod>2025-04-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://susyqcleaning.com/careers/customer-service-representative" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://susyqcleaning.com/careers/customer-service-representative?lang=es" />
+    </url>
+    <url>
+        <loc>https://susyqcleaning.com/careers/customer-service-representative?lang=es</loc>
+        <lastmod>2025-04-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://susyqcleaning.com/careers/customer-service-representative" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://susyqcleaning.com/careers/customer-service-representative?lang=es" />
+    </url>
+    <url>
+        <loc>https://susyqcleaning.com/careers/part-time-customer-service-representative</loc>
+        <lastmod>2025-04-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://susyqcleaning.com/careers/part-time-customer-service-representative" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://susyqcleaning.com/careers/part-time-customer-service-representative?lang=es" />
+    </url>
+    <url>
+        <loc>https://susyqcleaning.com/careers/part-time-customer-service-representative?lang=es</loc>
+        <lastmod>2025-04-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://susyqcleaning.com/careers/part-time-customer-service-representative" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://susyqcleaning.com/careers/part-time-customer-service-representative?lang=es" />
+    </url>
+    <url>
+        <loc>https://susyqcleaning.com/careers/office-assistant</loc>
+        <lastmod>2025-04-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://susyqcleaning.com/careers/office-assistant" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://susyqcleaning.com/careers/office-assistant?lang=es" />
+    </url>
+    <url>
+        <loc>https://susyqcleaning.com/careers/office-assistant?lang=es</loc>
+        <lastmod>2025-04-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://susyqcleaning.com/careers/office-assistant" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://susyqcleaning.com/careers/office-assistant?lang=es" />
+    </url>
+    <url>
+        <loc>https://susyqcleaning.com/careers/seasonal-cleaner</loc>
+        <lastmod>2025-04-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://susyqcleaning.com/careers/seasonal-cleaner" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://susyqcleaning.com/careers/seasonal-cleaner?lang=es" />
+    </url>
+    <url>
+        <loc>https://susyqcleaning.com/careers/seasonal-cleaner?lang=es</loc>
+        <lastmod>2025-04-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://susyqcleaning.com/careers/seasonal-cleaner" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://susyqcleaning.com/careers/seasonal-cleaner?lang=es" />
+    </url>
+    <url>
+        <loc>https://susyqcleaning.com/careers/professional-cleaner</loc>
+        <lastmod>2025-04-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://susyqcleaning.com/careers/professional-cleaner" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://susyqcleaning.com/careers/professional-cleaner?lang=es" />
+    </url>
+    <url>
+        <loc>https://susyqcleaning.com/careers/professional-cleaner?lang=es</loc>
+        <lastmod>2025-04-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://susyqcleaning.com/careers/professional-cleaner" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://susyqcleaning.com/careers/professional-cleaner?lang=es" />
+    </url>
+
+    <!-- Terms Page -->
     <url>
         <loc>https://susyqcleaning.com/terms</loc>
         <lastmod>2025-03-27</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.5</priority>
     </url>
+
+    <!-- Privacy Page -->
     <url>
         <loc>https://susyqcleaning.com/privacy</loc>
         <lastmod>2025-03-27</lastmod>
