@@ -30,6 +30,9 @@ const Footer = () => {
                             <Link href={"/terms"} className={"underline"}>
                                 Terms and Conditions
                             </Link>
+                            <Link href={"/careers"} className={"underline"}>
+                                Careers
+                            </Link>
                         </div>
                     </div>
                     <div className={"text-white pt-10 md:pt-0 flex flex-col justify-center"}>
@@ -48,7 +51,7 @@ const Footer = () => {
                                rel="noopener noreferrer">
                                 <FaFacebook/>
                             </a>
-                            <a aria-label="portfolio" href={"https://www.yelp.com/biz/susy-q-cleaning-austin"}
+                            <a aria-label="portfolio" href={"https://www.yelp.com/biz/susy-q-cleaning-austin-2"}
                                target="_blank"
                                rel="noopener noreferrer">
                                 <FaYelp/>
