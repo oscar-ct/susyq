@@ -35,7 +35,7 @@ const Footer = () => {
                             </Link>
                         </div>
                     </div>
-                    <div className={"text-white flex flex-col gap-4 justify-center"}>
+                    <div className={"text-white flex flex-col gap-6 justify-center"}>
                         <span className="text-center text-sm lg:text-base">Check us out on Social Media!</span>
                         <div className="grid grid-flow-col gap-4 text-xl">
                             <a aria-label="linkedin" href={"https://www.linkedin.com/company/susy-q-cleaning/"}
