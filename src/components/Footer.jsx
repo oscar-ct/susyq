@@ -8,22 +8,22 @@ const Footer = () => {
     return (
         <footer className="bg-susy">
             <div className={"h-80 md:h-44 max-w-screen-xl px-4 flex items-center mx-auto lg:px-8"}>
-                <div className={"flex flex-col justify-between w-full md:flex-row items-center"}>
+                <div className={"flex flex-col gap-10 justify-between w-full items-center md:flex-row"}>
                     <Link href={"/"}>
                         <Image
                             width={50}
-                            height={50}
+                            height={52}
                             priority
-                            className={"w-[50px] h-[50px]"}
+                            className={"w-[50px] h-auto"}
                             src={susy}
                             alt="susy"
                         />
                     </Link>
-                    <div className={"pt-6 md:pt-0 pl-4 text-white"}>
-                        <p className={"pb-10 md:pb-4"}>
-                            Copyright © 2024 Susy Q Cleaning / All rights reserved.
+                    <div className={"flex flex-col gap-4"}>
+                        <p className={"text-white text-center text-sm lg:text-base"}>
+                            Copyright © 2025 Susy Q Cleaning / All rights reserved.
                         </p>
-                        <div className={"flex justify-center gap-4"}>
+                        <div className={"flex justify-center gap-4 text-white text-sm lg:text-base"}>
                             <Link href={"/privacy"} className={"underline"}>
                                 Privacy Policy
                             </Link>
@@ -35,9 +35,9 @@ const Footer = () => {
                             </Link>
                         </div>
                     </div>
-                    <div className={"text-white pt-10 md:pt-0 flex flex-col justify-center"}>
-                        <span className="text-center">Check us out on Social Media!</span>
-                        <div className="pt-5 grid grid-flow-col gap-4 text-xl">
+                    <div className={"text-white flex flex-col gap-4 justify-center"}>
+                        <span className="text-center text-sm lg:text-base">Check us out on Social Media!</span>
+                        <div className="grid grid-flow-col gap-4 text-xl">
                             <a aria-label="linkedin" href={"https://www.linkedin.com/company/susy-q-cleaning/"}
                                target="_blank"
                                rel="noopener noreferrer">
