@@ -1,41 +1,29 @@
-"use client";
-
-import BackButton from "@/components/BackButton";
-import Image from "next/image";
-import susy from "/public/images/susyQCleaningServices.png"
-
+import Link from "next/link";
+import {FaExclamationTriangle} from "react-icons/fa";
 
 const NotFoundPage = () => {
     return (
-        <>
-            <div className={"flex justify-start h-min"}>
-                <BackButton/>
-            </div>
-            <div className={"max-w-screen-xl px-4 lg:px-8 mx-auto flex justify-center pt-10"}>
-
-                <div className="hero">
-                    <div className="text-center hero-content">
-                        <div className="max-w-lg">
-                            <h1 className="text-8xl font-bold mb-8"> 404
-                            </h1>
-                            <p className="text-3xl mb-8">
-                                This page does not exist.
-                            </p>
-                            <div className={"flex justify-center"}>
-                                <Image
-                                    priority
-                                    className={"object-scale-down w-full h-[420px]"}
-                                    width={420}
-                                    height={420}
-                                    src={susy}
-                                    alt={"susy"}
-                                />
-                            </div>
-                        </div>
-                    </div>
+        <div className="bg-gray-50 flex items-center justify-center px-4 min-h-[calc(100vh-388px)] md:min-h-[calc(100vh-256px)]">
+            <div className="max-w-md w-full text-center space-y-8">
+                <div className="flex justify-center">
+                    <FaExclamationTriangle className="text-6xl text-yellow-500 animate-bounce"/>
                 </div>
+                <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">
+                    404 - Page Not Found
+                </h1>
+                <p className="text-lg text-gray-500">
+                    Oops! It looks like we took a wrong turn. The page you’re looking for doesn’t exist or has been
+                    moved.
+                </p>
+                <Link
+                    href="/"
+                    className="inline-block px-6 py-2.5 bg-susy text-white font-medium text-sm uppercase tracking-wide rounded-md shadow-sm hover:bg-opacity-90 focus:outline-none transition-all duration-200 ease-in-out"
+                >
+                    Back to Home
+                </Link>
+
             </div>
-        </>
+        </div>
     );
 };
 
