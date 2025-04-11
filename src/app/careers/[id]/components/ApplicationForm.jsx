@@ -229,7 +229,7 @@ const ApplicationForm = ( { title, lang = 'en' } ) => {
                             <p className="text-red-500 text-sm mt-1">{text.phoneError}</p>
                         )}
                     </div>
-                    <div className="mb-4 relative">
+                    <div className="mb-8 relative">
                         <label htmlFor="resume" className="block text-sm font-medium text-gray-700 mb-1">
                             {text.resumeLabel}
                         </label>
