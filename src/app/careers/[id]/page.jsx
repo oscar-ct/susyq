@@ -83,7 +83,9 @@ const CareerPage = async ({ params, searchParams }) => {
                 <div className={"grid gap-10 py-10 lg:grid-cols-2"}>
                     <div className={"flex flex-col gap-6"}>
                         <div className={"uppercase text-gray-500"}>
-                            Requirements/Qualifications:
+                            {
+                                lang === 'es' ? "Requisitos/Cualificaciones:" : "Requirements/Qualifications:"
+                            }
                         </div>
                         <ul className={"pl-5"}>
                             {
