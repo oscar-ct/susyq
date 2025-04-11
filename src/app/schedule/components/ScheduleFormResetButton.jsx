@@ -18,7 +18,7 @@ const ScheduleFormResetButton = () => {
 
     return (
         <button onClick={confirmReset} className={"absolute left-0 bottom-5 lg:bottom-0 lg:top-0"}>
-            <div className={"flex items-center gap-2"}>
+            <div className={"text-gray-500 flex items-center gap-2"}>
                 <GrPowerReset size={36}/>
                 <span className={"hidden text-sm font-bold lg:block"}>Start Over</span>
             </div>
