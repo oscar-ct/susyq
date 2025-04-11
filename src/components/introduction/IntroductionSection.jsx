@@ -1,8 +1,8 @@
 import Image from "next/image";
 import susy from "/public/images/susyQCleaningServices.png"
-import bg from "../../public/images/zoddex-WGoGhVqtWyc-unsplash-original.jpg";
+import bg from "../../../public/images/zoddex-WGoGhVqtWyc-unsplash-original.jpg";
 import { HiLightningBolt } from "react-icons/hi";
-import IntroductionSwiper from "@/components/IntroductionSwiper";
+import IntroductionSwiper from "@/components/introduction/IntroductionSwiper";
 import CustomButton from "@/components/CustomButton";
 import Link from "next/link";
 

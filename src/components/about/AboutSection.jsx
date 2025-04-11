@@ -1,5 +1,5 @@
 import Image from "next/image";
-import aboutImg from "../../public/images/services.png"
+import aboutImg from "../../../public/images/services.png"
 import {TiLeaf} from "react-icons/ti";
 
 const AboutSection = () => {

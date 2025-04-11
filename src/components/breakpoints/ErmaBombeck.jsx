@@ -3,7 +3,7 @@
 import {useRef} from "react";
 import {useScroll, useTransform, motion} from "framer-motion";
 import Image from "next/image";
-import Background from "../../public/images/paralax-1.jpg"
+import Background from "../../../public/images/paralax-1.jpg"
 import { BiSolidQuoteLeft } from "react-icons/bi";
 import { BiSolidQuoteRight } from "react-icons/bi";
 

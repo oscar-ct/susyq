@@ -1,5 +1,5 @@
-import TestimonialsCard from "@/components/TestimonialsCard";
-import TestimonialsMobile from "@/components/TestimonialsMobile";
+import TestimonialsCard from "@/components/testimonials/TestimonialsCard";
+import TestimonialsMobile from "@/components/testimonials/TestimonialsMobile";
 
 const TestimonialsSection = () => {
 

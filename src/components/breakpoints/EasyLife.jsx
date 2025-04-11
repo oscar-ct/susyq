@@ -4,7 +4,7 @@ import {useRef} from 'react';
 import {motion, useScroll, useTransform} from "framer-motion";
 import {TiStarOutline} from "react-icons/ti";
 import Image from "next/image";
-import Background from "../../public/images/ash-amplifies-NQ6Lh81BTRs-unsplash.jpg";
+import Background from "../../../public/images/ash-amplifies-NQ6Lh81BTRs-unsplash.jpg";
 import CustomButton from "@/components/CustomButton";
 import {HiLightningBolt} from "react-icons/hi";
 import {useRouter} from "next/navigation";

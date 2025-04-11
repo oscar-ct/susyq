@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion";
-import TestimonialsCard from "@/components/TestimonialsCard";
+import TestimonialsCard from "@/components/testimonials/TestimonialsCard";
 
 
 const TestimonialsMobile = ({ author, quote, hueA, hueB }) => {

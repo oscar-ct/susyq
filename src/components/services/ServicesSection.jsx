@@ -1,7 +1,6 @@
-import ServicesItem from "@/components/ServicesItem";
+import ServicesItem from "@/components/services/ServicesItem";
 
 const ServicesSection = () => {
-
 
     const services = [
         ["TiLeaf", "Clean and Green", "We believe in green cleaning services that help protect your home, preserve the planet and give you peace of mind."],

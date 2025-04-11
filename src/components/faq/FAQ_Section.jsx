@@ -1,4 +1,4 @@
-import FAQItem from "@/components/FAQItem";
+import FAQItem from "@/components/faq/FAQItem";
 
 const FAQ_Section = () => {
 
