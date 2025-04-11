@@ -1,6 +1,6 @@
 import {useCallback, useContext, useEffect, useState} from "react";
 import GlobalContext from "@/context/GlobalContext";
-import ArrowSvg from "@/components/ArrowSvg";
+import DropdownMenuArrowSvg from "@/components/DropdownMenuArrowSvg";
 import CustomButton from "@/components/CustomButton";
 import {useRouter} from "next/navigation";
 
@@ -95,7 +95,7 @@ const ScheduleFormPanelNotes = () => {
                             <option value={"Yelp"}>Yelp</option>
                             <option value={"Other"}>Other</option>
                         </select>
-                        <ArrowSvg/>
+                        <DropdownMenuArrowSvg/>
                     </div>
                 </div>
             </div>

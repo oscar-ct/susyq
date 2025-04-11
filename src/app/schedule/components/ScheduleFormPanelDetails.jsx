@@ -3,7 +3,7 @@ import { PiOven } from "react-icons/pi";
 import { GiWindow } from "react-icons/gi";
 import {useContext, useState} from "react";
 import GlobalContext from "@/context/GlobalContext";
-import ArrowSvg from "@/components/ArrowSvg";
+import DropdownMenuArrowSvg from "@/components/DropdownMenuArrowSvg";
 import {MdBalcony, MdOutlineGarage} from "react-icons/md";
 
 const ScheduleFormPanelDetails = () => {
@@ -104,7 +104,7 @@ const ScheduleFormPanelDetails = () => {
                                 <option value={"4"}>4 {isResidential ? "Bedroom" : "Office"}</option>
                                 <option value={"5"}>5+ {isResidential ? "Bedroom" : "Office"}</option>
                             </select>
-                            <ArrowSvg/>
+                            <DropdownMenuArrowSvg/>
                         </div>
                         <div className="relative w-full md:w-6/12">
                             <select
@@ -123,7 +123,7 @@ const ScheduleFormPanelDetails = () => {
                                 <option value={"4.5"}>4.5 Bathroom</option>
                                 <option value={"5"}>5+ Bedroom</option>
                             </select>
-                            <ArrowSvg/>
+                            <DropdownMenuArrowSvg/>
                         </div>
                     </div>
                 </div>
@@ -163,7 +163,7 @@ const ScheduleFormPanelDetails = () => {
                                         <option value={"4000 - 5000"}>4000 - 5000 sq ft</option>
                                         <option value={"5000 +"}>5000 + sq ft</option>
                                     </select>
-                                    <ArrowSvg/>
+                                    <DropdownMenuArrowSvg/>
                                 </>
                             )
                         }
@@ -186,7 +186,7 @@ const ScheduleFormPanelDetails = () => {
                                     <option value={"Every 2 Weeks"}>Every 2 Weeks</option>
                                     <option value={"Every 4 Weeks"}>Every 4 Weeks</option>
                                 </select>
-                                <ArrowSvg/>
+                                <DropdownMenuArrowSvg/>
                             </div>
                         </div>
                     )
