@@ -36,7 +36,7 @@ const ErmaBombeck = () => {
                 </motion.div>
             </div>
         </div>
-    )
+    );
 };
 
 export default ErmaBombeck;

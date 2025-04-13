@@ -5,9 +5,7 @@ import {motion, useScroll, useTransform} from "framer-motion";
 import {TiStarOutline} from "react-icons/ti";
 import Image from "next/image";
 import Background from "../../../public/images/ash-amplifies-NQ6Lh81BTRs-unsplash.jpg";
-import CustomButton from "@/components/CustomButton";
-import {HiLightningBolt} from "react-icons/hi";
-import {useRouter} from "next/navigation";
+import CTA from "@/components/CTA";
 
 const EasyLife = () => {
     const container = useRef();
@@ -16,11 +14,6 @@ const EasyLife = () => {
         offset: ["start end", 'end start']
     })
     const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
-
-    const router = useRouter();
-    const navigate = () => {
-        router.push("/schedule");
-    };
 
     return (
         <div
@@ -33,12 +26,7 @@ const EasyLife = () => {
                 <p className='py-10 w-full text-5xl uppercase text-center md:text-7xl md:w-[900px] font-bold'>
                     Let us make your life a little easier!!!
                 </p>
-                <CustomButton customClass={"h-16"} onClick={navigate}>
-                    <div className={"text-xl flex items-center uppercase truncate"}>
-                        <HiLightningBolt/>
-                        <span className={"pl-3"}>Schedule Now</span>
-                    </div>
-                </CustomButton>
+                <CTA/>
             </div>
             <div className='fixed top-[-10vh] left-0 h-[125vh] w-full'>
                 <motion.div style={{y}} className='relative w-full h-full'>
@@ -46,7 +34,7 @@ const EasyLife = () => {
                 </motion.div>
             </div>
         </div>
-    )
+    );
 };
 
 export default EasyLife;

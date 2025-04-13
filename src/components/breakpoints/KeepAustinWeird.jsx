@@ -5,9 +5,7 @@ import {useScroll, useTransform, motion} from "framer-motion";
 import Image from "next/image";
 import Background from "/public/images/greatingsFromAustinLowRes.jpg"
 import { TiStarOutline } from "react-icons/ti";
-import CustomButton from "@/components/CustomButton";
-import {HiLightningBolt} from "react-icons/hi";
-import {useRouter} from "next/navigation";
+import CTA from "@/components/CTA";
 
 const KeepAustinWeird = () => {
 
@@ -18,11 +16,6 @@ const KeepAustinWeird = () => {
     })
     const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
 
-    const router = useRouter();
-    const navigate = () => {
-        router.push("/schedule");
-    };
-
     return (
         <div
             ref={container}
@@ -32,13 +25,7 @@ const KeepAustinWeird = () => {
             <div className='z-10 flex flex-col items-center justify-center text-white'>
                 <TiStarOutline size={80}/>
                 <p className='py-10 w-[300px] md:w-[800px] text-7xl uppercase text-center font-bold'>Keep austin <span className={"text-susy"}>clean</span> and weird</p>
-                <CustomButton customClass={"h-16"} onClick={navigate}>
-                    <div
-                        className={"text-xl flex items-center uppercase truncate"}>
-                        <HiLightningBolt/>
-                        <span className={"pl-3"}>Schedule Now</span>
-                    </div>
-                </CustomButton>
+                <CTA/>
             </div>
             <div className='fixed top-[-10%] left-0 h-[125%] w-full'>
                 <motion.div style={{y}} className='relative w-full h-full'>
@@ -46,7 +33,7 @@ const KeepAustinWeird = () => {
                 </motion.div>
             </div>
         </div>
-    )
+    );
 };
 
 export default KeepAustinWeird;
