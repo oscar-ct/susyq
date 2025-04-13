@@ -33,9 +33,9 @@ const CareersPage = ({ searchParams }) => {
                 <h1 className={"text-center text-5xl uppercase font-light text-gray-500"}>
                     {lang === 'es' ? 'Carreras' : 'Careers'}
                 </h1>
-                <h4 className={"text-center text-2xl font-light text-gray-500"}>
+                <h2 className={"text-center text-2xl font-light text-gray-500"}>
                     {lang === 'es' ? 'Únete a nuestro equipo de limpieza en Austin hoy' : 'Join Our Cleaning Team in Austin Today'}
-                </h4>
+                </h2>
             </div>
             <div className={"w-full flex justify-center py-6 md:justify-end"}>
                 <LangToggle lang={lang}/>
