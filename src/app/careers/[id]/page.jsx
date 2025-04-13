@@ -51,6 +51,7 @@ const CareerPage = async ({ params, searchParams }) => {
                 <div className={"h-full mx-auto px-4 max-w-screen-xl lg:px-8"}>
                     <div className={"h-full flex items-center justify-end"}>
                         <Image
+                            priority
                             src={susy}
                             alt={"we are hiring"}
                             height={384}
