@@ -1,5 +1,3 @@
-import FAQItem from "@/components/faq/FAQItem";
-
 const FAQ_Section = () => {
 
     const FAQ = [
@@ -12,26 +10,30 @@ const FAQ_Section = () => {
         ["What should I do if my something is broken by a house cleaner?", "Call us immediately"],
         ["What if I have pets? Do I have to secure them during cleaning?", "Most of our workers are dog and cat friendly, however, please inform us if you have pet(s) prior to our arrival. Tigers, lions and bears, oh my, and other aggressive domestic animals must be locked away for everyone safety."],
         ["Will I need to sign a contract?", "No."],
-
-    ]
+    ];
 
     return (
         <section className={"py-14 w-full mx-auto px-4 lg:px-8 max-w-screen-xl"}>
-            <div className={"flex flex-col items-center"}>
-                <div className={"flex flex-col justify-center"}>
-                    <span className={"text-center text-5xl uppercase font-light text-gray-500"}>Frequently asked questions</span>
-                   <div className={"pt-8 flex flex-col md:flex-row flex-wrap"}>
-                       {
-                           FAQ.map(([question, answer], index) => {
-                               return (
-                                   <FAQItem key={index} question={question} answer={answer}/>
-                               )
-                           })
-                       }
-
-                   </div>
+            <div className={"flex flex-col justify-center"}>
+                <h2 className={"text-center text-4xl uppercase font-light text-gray-500"}>
+                    Frequently asked questions
+                </h2>
+                <div className={"pt-14 md:grid md:grid-cols-2"}>
+                    {
+                        FAQ.map(([question, answer], index) => {
+                            return (
+                                <div key={index} className={"flex flex-col w-full gap-3 px-2 py-3"}>
+                                    <p className={"text-bold text-center md:text-start"}>
+                                        {question}
+                                    </p>
+                                    <p className={"font-light text-gray-500 text-center md:text-start"}>
+                                        {answer}
+                                    </p>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
-
             </div>
         </section>
     );
