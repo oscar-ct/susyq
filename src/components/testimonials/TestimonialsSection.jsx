@@ -11,12 +11,14 @@ const TestimonialsSection = () => {
     ];
 
     return (
-        <section className={"pb-28 sm:pb-20 pt-14 w-full mx-auto px-4 lg:px-8 bg-zinc-100"}>
+        <section className={"py-14 h-full w-full mx-auto px-4 lg:px-8 bg-zinc-100"}>
             <div className={"flex flex-col items-center"}>
-                <div className={"flex justify-center sm:pb-14"}>
-                    <span className={"text-center text-5xl uppercase font-light text-gray-500"}>Susy Q is helping everyone.</span>
+                <div className={"flex justify-center"}>
+                    <h2 className={"text-center text-4xl uppercase font-light text-gray-500"}>
+                        Susy Q is helping everyone
+                    </h2>
                 </div>
-                <div className={"hidden w-full sm:flex sm:justify-center sm:flex-wrap gap-8"}>
+                <div className={"hidden sm:pt-14 sm:flex sm:justify-center sm:flex-wrap sm:gap-8"}>
                     {
                         testimonials.map(([author, quote], index) => {
                             return (
@@ -27,11 +29,11 @@ const TestimonialsSection = () => {
                         })
                     }
                 </div>
-                <div className={"sm:hidden w-full"}>
+                <div className={"sm:hidden relative pb-[90px]"}>
                     {
                         testimonials.map(([author, quote, hueA, hueB], index) => {
                             return (
-                                <TestimonialsMobile author={author} quote={quote} hueA={hueA} hueB={hueB} key={index} />
+                                <TestimonialsMobile author={author} quote={quote} hueA={hueA} hueB={hueB} key={index}/>
                             )
                         })
                     }

@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import TestimonialsCard from "@/components/testimonials/TestimonialsCard";
 
-
 const TestimonialsMobile = ({ author, quote, hueA, hueB }) => {
 
     const cardVariants = {
@@ -26,7 +25,7 @@ const TestimonialsMobile = ({ author, quote, hueA, hueB }) => {
 
     return (
         <motion.div
-            className="h-[320px] overflow-hidden flex items-center justify-center relative pt-[50px] mb-[-90px]"
+            className="h-80 overflow-hidden flex items-center justify-center relative pt-14 mb-[-90px]"
             initial="offscreen"
             whileInView="onscreen"
             viewport={{ once: true, amount: 0.8 }}
