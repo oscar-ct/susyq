@@ -27,7 +27,6 @@ const ContactForm = () => {
         isSubmitting: false,
         isSuccess: false,
         hasError: false,
-        attemptCount: 0,
     });
 
     const debounceTimeoutRef = useRef(null);
@@ -71,89 +70,85 @@ const ContactForm = () => {
         return !Object.values(errors).some((error) => error);
     }, [formValues, validateField]);
 
+
     const submitMessage = async () => {
-        if (formState.attemptCount >= 3) {
-            setFormState((prev) => ({
-                ...prev,
-                hasError: true,
-                buttonText: "Too Many Attempts",
-                isSubmitting: false,
-            }));
-            setTimeout(() => {
-                setFormState((prev) => ({
-                    ...prev,
-                    hasError: false,
-                    buttonText: "Submit",
-                    attemptCount: 0,
-                }));
-            }, 5000);
-            return;
-        }
         setFormState((prev) => ({
             ...prev,
             isSubmitting: true,
             isValidating: true,
-            attemptCount: prev.attemptCount + 1,
         }));
         if (!validateForm()) {
             setFormState((prev) => ({ ...prev, isSubmitting: false }));
             return;
         }
-        setFormState((prev) => ({ ...prev, buttonText: "Sending" }));
-        const contactMessage = await submitContactToServiceFusion(formValues);
-        setFormState((prev) => ({ ...prev, buttonText: "Sending..." }));
-        const emailSuccess = await submitEmailToAPI(contactMessage);
-        if (emailSuccess) {
-            setFormValues({ firstName: "", lastName: "", email: "", phone: "", message: "" });
-            setInputStatus({
-                firstName: { active: false, error: false },
-                lastName: { active: false, error: false },
-                email: { active: false, error: false },
-                phone: { active: false, error: false },
-                message: { active: false, error: false },
-            });
-            setFormState({
-                isValidating: false,
+        setFormState((prev) => ({
+            ...prev,
+            buttonText: "Sending",
+            isValidating: false,
+        }));
+        try {
+            const message = await submitContactToServiceFusion(formValues);
+            setFormState((prev) => ({...prev, buttonText: "Sending..."}));
+            const isSuccessful = await submitMessageToEmailJS(message);
+            if (isSuccessful) {
+                setFormValues({firstName: "", lastName: "", email: "", phone: "", message: ""});
+                setFormState((prev) => ({
+                    ...prev,
+                    buttonText: "Submit",
+                    isSubmitting: false,
+                    isSuccess: true,
+                }));
+            } else {
+                setFormState((prev) => ({
+                    ...prev,
+                    buttonText: "Submit",
+                    isSubmitting: false,
+                    hasError: true,
+                }));
+            }
+        } catch {
+            setFormState((prev) => ({
+                ...prev,
                 buttonText: "Submit",
                 isSubmitting: false,
-                isSuccess: true,
-                hasError: false,
-                attemptCount: 0,
-            });
-        } else {
-            setFormState({
-                isValidating: false,
-                buttonText: "Submit",
-                isSubmitting: false,
-                isSuccess: false,
                 hasError: true,
-            });
-            setTimeout(() => {
-                setFormState((prev) => ({ ...prev, hasError: false }));
-            }, 4000);
+            }));
         }
     };
 
+
     const submitContactToServiceFusion = async (data) => {
+        const TIMEOUT_MS = 10000;
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/servicefusion/customers/create`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
+                signal: controller.signal
             });
+            clearTimeout(timeoutId);
+            const message = await res.text();
             if (!res.ok) {
+                console.error(message);
                 return "Error: Service Fusion connection failed.";
             }
-            const resObj = await res.json();
-            return resObj.message;
-        } catch {
-            return "Error: Service Fusion connection failed.";
+            return message;
+        } catch (e) {
+            console.error(e);
+            return `Error: Service Fusion connection ${e.name === "AbortError" ? "timed out" : "failed"}...`;
         }
     };
 
-    const submitEmailToAPI = async (contactMessage) => {
+
+    const submitMessageToEmailJS = async (contactMessage) => {
+        const TIMEOUT_MS = 10000;
+        const timeoutPromise = new Promise((_, reject) => {
+            setTimeout(() => reject(new Error("EmailJS request timed out")), TIMEOUT_MS);
+        });
         try {
-            const res = await emailjs.send(
+            const emailPromise =  emailjs.send(
                 process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
                 process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
                 {
@@ -165,9 +160,11 @@ const ContactForm = () => {
                 },
                 process.env.NEXT_PUBLIC_EMAILJS_KEY
             );
+            const res = await Promise.race([emailPromise, timeoutPromise]);
             return res.status === 200;
-        } catch {
-            return false;
+        } catch (e) {
+            console.error("Error:", e.message || e.text);
+            throw e;
         }
     };
 
@@ -187,8 +184,14 @@ const ContactForm = () => {
         }));
     };
 
-    const handleReset = () => {
-        setFormState((prev) => ({ ...prev, isSuccess: false }));
+    const handleResetForm = () => {
+        setFormState({
+            isValidating: false,
+            buttonText: "Submit",
+            isSubmitting: false,
+            isSuccess: false,
+            hasError: false,
+        });
     };
 
     useEffect(() => {
@@ -223,10 +226,22 @@ const ContactForm = () => {
                                 Thank you for your message. An expert representative will get in touch with you as soon as possible.
                             </h1>
                             <button
-                                onClick={handleReset}
+                                onClick={handleResetForm}
                                 className="bg-susy text-white button py-2 px-4 rounded"
                             >
                                 Send another message
+                            </button>
+                        </div>
+                    ) : formState.hasError ? (
+                        <div className="flex flex-col justify-center items-center gap-8 pb-3">
+                            <h1 className="text-center text-xl leading-relaxed text-gray-500">
+                                Sorry, we encountered an unexpected error. Please try again or call 512-640-6264 to get your request shining!
+                            </h1>
+                            <button
+                                onClick={handleResetForm}
+                                className="bg-susy text-white button py-2 px-4 rounded"
+                            >
+                                Try Again
                             </button>
                         </div>
                     ) : (
@@ -247,21 +262,19 @@ const ContactForm = () => {
                                             }
                                             value={formValues.firstName}
                                             onChange={(e) => handleInputChange("firstName", e.target.value)}
-                                            placeholder="Enter name"
-                                            className={`${
-                                                !inputStatus.firstName.active ? "cursor-pointer" : ""
-                                            } text-[16px] lg:text-base peer h-full w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 ${
-                                                inputStatus.firstName.error ? "!border-b-2 !border-b-red-600" : ""
+                                            placeholder="Enter first name"
+                                            className={`text-[16px] lg:text-base peer h-full w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 ${
+                                                inputStatus.firstName.error ? "!border-b !border-b-red-600" : ""
                                             }`}
                                         />
                                         <label
                                             htmlFor="firstName"
                                             className="text-gray-500 hover:text-gray-700 after:content[''] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-cyan-600 after:transition-transform after:duration-300 peer-placeholder-shown:text-[16px] peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[12px] peer-focus:leading-tight peer-focus:text-cyan-600 peer-focus:after:scale-x-100 peer-focus:after:border-cyan-600 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500"
                                         >
-                                            {inputStatus.firstName.active ? "First Name" : "First Name"}
+                                            First Name
                                         </label>
                                         {inputStatus.firstName.error && (
-                                            <div className="text-red-500 leading-tight font-semibold text-sm">
+                                            <div className="text-red-500 leading-tight text-sm">
                                                 Please enter a valid first name
                                             </div>
                                         )}
@@ -277,21 +290,19 @@ const ContactForm = () => {
                                             }
                                             value={formValues.lastName}
                                             onChange={(e) => handleInputChange("lastName", e.target.value)}
-                                            placeholder="Enter name"
-                                            className={`${
-                                                !inputStatus.lastName.active ? "cursor-pointer" : ""
-                                            } text-[16px] lg:text-base peer h-full w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 ${
-                                                inputStatus.lastName.error ? "!border-b-2 !border-b-red-600" : ""
+                                            placeholder="Enter last name"
+                                            className={`text-[16px] lg:text-base peer h-full w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 ${
+                                                inputStatus.lastName.error ? "!border-b !border-b-red-600" : ""
                                             }`}
                                         />
                                         <label
                                             htmlFor="lastName"
                                             className="text-gray-500 hover:text-gray-700 after:content[''] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-cyan-600 after:transition-transform after:duration-300 peer-placeholder-shown:text-[16px] peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[12px] peer-focus:leading-tight peer-focus:text-cyan-600 peer-focus:after:scale-x-100 peer-focus:after:border-cyan-600 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500"
                                         >
-                                            {inputStatus.lastName.active ? "Last Name" : "Last Name"}
+                                            Last Name
                                         </label>
                                         {inputStatus.lastName.error && (
-                                            <div className="text-red-500 leading-tight font-semibold text-sm">
+                                            <div className="text-red-500 leading-tight text-sm">
                                                 Please enter a valid last name
                                             </div>
                                         )}
@@ -307,20 +318,18 @@ const ContactForm = () => {
                                             value={formValues.email}
                                             onChange={(e) => handleInputChange("email", e.target.value)}
                                             placeholder="Enter email"
-                                            className={`${
-                                                !inputStatus.email.active ? "cursor-pointer" : ""
-                                            } text-[16px] lg:text-base peer h-full w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 ${
-                                                inputStatus.email.error ? "!border-b-2 !border-b-red-600" : ""
+                                            className={`text-[16px] lg:text-base peer h-full w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 ${
+                                                inputStatus.email.error ? "!border-b !border-b-red-600" : ""
                                             }`}
                                         />
                                         <label
                                             htmlFor="email"
                                             className="text-gray-500 hover:text-gray-700 after:content[''] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-cyan-600 after:transition-transform after:duration-300 peer-placeholder-shown:text-[16px] peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[12px] peer-focus:leading-tight peer-focus:text-cyan-600 peer-focus:after:scale-x-100 peer-focus:after:border-cyan-600 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500"
                                         >
-                                            {inputStatus.email.active ? "Email Address" : "Email Address"}
+                                            Email Address
                                         </label>
                                         {inputStatus.email.error && (
-                                            <div className="text-red-500 leading-tight font-semibold text-sm">
+                                            <div className="text-red-500 leading-tight text-sm">
                                                 Please enter a valid email address
                                             </div>
                                         )}
@@ -340,20 +349,18 @@ const ContactForm = () => {
                                             maxLength={12}
                                             onChange={setFormatPhone}
                                             placeholder="Enter phone number"
-                                            className={`${
-                                                !inputStatus.phone.active ? "cursor-pointer" : ""
-                                            } text-[16px] lg:text-base peer h-full w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 ${
-                                                inputStatus.phone.error ? "!border-b-2 !border-b-red-600" : ""
+                                            className={`text-[16px] lg:text-base peer h-full w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 ${
+                                                inputStatus.phone.error ? "!border-b !border-b-red-600" : ""
                                             }`}
                                         />
                                         <label
                                             htmlFor="tel"
                                             className="text-gray-500 hover:text-gray-700 after:content[''] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-cyan-600 after:transition-transform after:duration-300 peer-placeholder-shown:text-[16px] peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[12px] peer-focus:leading-tight peer-focus:text-cyan-600 peer-focus:after:scale-x-100 peer-focus:after:border-cyan-600 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500"
                                         >
-                                            {inputStatus.phone.active ? "Phone Number" : "Phone Number"}
+                                            Phone Number
                                         </label>
                                         {inputStatus.phone.error && (
-                                            <div className="text-red-500 leading-tight font-semibold text-sm">
+                                            <div className="text-red-500 leading-tight text-sm">
                                                 Please enter a valid 10-digit phone number
                                             </div>
                                         )}
@@ -370,34 +377,24 @@ const ContactForm = () => {
                                             value={formValues.message}
                                             onChange={(e) => handleInputChange("message", e.target.value)}
                                             placeholder="Enter message"
-                                            className={`${
-                                                !inputStatus.message.active ? "cursor-pointer" : ""
-                                            } text-[16px] lg:text-base peer w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 h-28 ${
-                                                inputStatus.message.error ? "!border-b-2 !border-b-red-600" : ""
+                                            className={`text-[16px] lg:text-base peer w-full rounded-none border-b border-gray-300 hover:border-gray-400 bg-transparent pt-4 pb-1.5 font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 placeholder-shown:text-[16px] focus:border-cyan-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100 h-28 ${
+                                                inputStatus.message.error ? "!border-b !border-b-red-600" : ""
                                             }`}
                                         />
                                         <label
                                             htmlFor="message"
                                             className="text-gray-500 hover:text-gray-700 after:-bottom-1.5 after:content[''] pointer-events-none absolute left-0 -top-[6px] flex h-28 w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight transition-all after:absolute after:block after:w-full after:scale-x-0 after:border-b-2 after:border-cyan-600 after:transition-transform after:duration-300 peer-placeholder-shown:text-[16px] peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[12px] peer-focus:leading-tight peer-focus:text-cyan-600 peer-focus:after:scale-x-100 peer-focus:after:border-cyan-600 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500"
                                         >
-                                            {inputStatus.message.active ? "Your Message" : "Your Message"}
+                                            Your Message
                                         </label>
                                         {inputStatus.message.error && (
-                                            <div className="text-red-500 leading-tight font-semibold text-sm">
+                                            <div className="text-red-500 leading-tight text-sm">
                                                 Please enter at least 10 characters
                                             </div>
                                         )}
                                     </div>
                                     <div className="flex justify-end items-center md:items-end">
-                                        <div className="pr-2 flex-grow items-center md:hidden">
-                                            {formState.hasError && (
-                                                <p className="text-sm text-red-500 !leading-tight text-center">
-                                                    {formState.attemptCount >= 3
-                                                        ? "Too many attempts. Please try again later."
-                                                        : "Sorry, something went wrong. Please try again later."}
-                                                </p>
-                                            )}
-                                        </div>
+
                                         <button
                                             onClick={submitMessage}
                                             disabled={formState.isSubmitting}
@@ -414,17 +411,6 @@ const ContactForm = () => {
                                         </button>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="hidden md:flex justify-center items-end h-4">
-                                {formState.hasError && (
-                                    <span className="text-red-500">
-                                    {
-                                        formState.attemptCount >= 3
-                                        ? "Too many attempts. Please try again later."
-                                        : "Sorry, something went wrong. Please try again later."
-                                    }
-                                    </span>
-                                )}
                             </div>
                         </>
                     )}
