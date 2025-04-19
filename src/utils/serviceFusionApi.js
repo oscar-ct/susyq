@@ -21,7 +21,7 @@ export const fetchServiceFusionAccessToken = async (refreshToken) => {
         const resData = await handleApiResponse(res);
         return {
             success: true,
-            message: "Access tokens renewed successfully",
+            message: "Access tokens renewed",
             data: resData,
         };
     } catch (error) {
@@ -45,7 +45,8 @@ export const fetchServiceFusionCheckIfCustomerExists = async (email, token) => {
         if (resData.items.length > 0) {
             return {
                 success: true,
-                message: `${resData.items[0].customer_name} was found as an existing contact in Service Fusion`,
+                message: "Customer found",
+                data: resData.items[0].customer_name
             };
         } else {
             return {
@@ -77,7 +78,8 @@ export const fetchServiceFusionCreateNewCustomer = async (customer, token) => {
         if (resData) {
             return {
                 success: true,
-                message: `A new contact for ${resData.customer_name} has been created in Service Fusion`,
+                message: "A new customer has been created.",
+                data: resData.customer_name
             };
         }
     } catch (error) {
@@ -85,6 +87,33 @@ export const fetchServiceFusionCreateNewCustomer = async (customer, token) => {
         return {
             success: false,
             message: `Error: Failed to create customer - ${error.message}`,
+        };
+    }
+};
+
+export const fetchServiceFusionCreateNewEstimate = async (estimate, token) => {
+    try {
+        const res = await fetch('https://api.servicefusion.com/v1/estimates', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(estimate),
+        });
+        const resData = await handleApiResponse(res);
+        if (resData) {
+            return {
+                success: true,
+                message: "A new estimate has been created.",
+            };
+        }
+    } catch (error) {
+        // console.log(error.message);
+        return {
+            success: false,
+            message: `Error: Failed to create estimate - ${error.message}`,
         };
     }
 };
