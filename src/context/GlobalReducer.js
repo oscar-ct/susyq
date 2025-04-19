@@ -5,6 +5,7 @@ const globalReducer = (state, action) => {
             return state;
         case "RESET_STATE":
             return {
+                hasApiError: false,
                 isAttemptingToSubmitEstimate: false,
                 hasSubmittedEstimateSuccessfully: false,
                 frequency: "",
@@ -74,10 +75,10 @@ const globalReducer = (state, action) => {
                 ],
                 serviceSource: "",
             };
-        case "SET_SERVICE_SOURCE":
+        case "SET_API_ERROR":
             return {
                 ...state,
-                serviceSource: action.payload
+                hasApiError: action.payload,
             }
         case "SUBMIT_IN_PROGRESS":
             return {
@@ -87,7 +88,8 @@ const globalReducer = (state, action) => {
         case "SUBMISSION_SUCCESS":
             return {
                 ...state,
-                hasSubmittedEstimateSuccessfully: true
+                hasSubmittedEstimateSuccessfully: true,
+                hasApiError: false,
             }
         case "SET_FREQUENCY":
             return {
@@ -151,6 +153,11 @@ const globalReducer = (state, action) => {
             return {
                 ...state,
                 tabs: updatedTabs
+            }
+        case "SET_SERVICE_SOURCE":
+            return {
+                ...state,
+                serviceSource: action.payload
             }
         default:
             console.log("case missed...")

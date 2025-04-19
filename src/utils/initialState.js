@@ -1,4 +1,5 @@
 export const initialStateObj = {
+    hasApiError: false,
     isAttemptingToSubmitEstimate: false,
     hasSubmittedEstimateSuccessfully: false,
     frequency: "",

@@ -13,7 +13,7 @@ export function GlobalProvider({ children }) {
     return (
         <GlobalContext.Provider value={{
             dispatch,
-            serviceSource: state.serviceSource,
+            hasApiError: state.hasApiError,
             isAttemptingToSubmitEstimate: state.isAttemptingToSubmitEstimate,
             hasSubmittedEstimateSuccessfully: state.hasSubmittedEstimateSuccessfully,
             frequency: state.frequency,
@@ -23,6 +23,7 @@ export function GlobalProvider({ children }) {
             serviceNotes: state.serviceNotes,
             activeTab: state.activeTab,
             tabs: state.tabs,
+            serviceSource: state.serviceSource,
         }}>
             {children}
         </GlobalContext.Provider>
