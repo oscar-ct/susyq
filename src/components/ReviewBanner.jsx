@@ -19,12 +19,10 @@ const ReviewBanner = () => {
                         rel="noopener noreferrer"
                     >
                         <Image
-                            className={"w-full h-auto max-w-[150px]"}
-                            priority
                             width={150}
-                            height={50}
                             src={angiesIcon}
-                            alt={"angies list"}
+                            alt={"Angie's list"}
+                            style={{ height: "67px", width: "auto" }}
                         />
                     </a>
                     <a
@@ -35,16 +33,14 @@ const ReviewBanner = () => {
                         rel="noopener noreferrer"
                     >
                         <Image
-                            className={"w-full h-auto max-w-[150px]"}
-                            priority
                             width={150}
-                            height={50}
                             src={yelpIcon}
-                            alt={"yelp reviews"}
+                            alt={"Yelp 5-star rating"}
+                            style={{ height: "64px", width: "auto" }}
                         />
                     </a>
                     <a
-                        className={"flex flex-col justify-center items-center"}
+                        className={"w-12 flex flex-col justify-center items-center gap-2"}
                         aria-label="portfolio"
                         href={"https://www.google.com/maps/place/Susy+Q+Cleaning/@30.4249436,-97.7701436,10.02z/data=!4m6!3m5!1s0x8644ca319618068d:0x49ea24942bbe87a3!8m2!3d30.4206125!4d-97.763874!16s%2Fg%2F1v8x2l5y?entry=ttu&g_ep=EgoyMDI0MTAyMy4wIKXMDSoASAFQAw%3D%3D"}
                         target="_blank"
@@ -58,7 +54,6 @@ const ReviewBanner = () => {
                             src={googleIcon}
                             alt={"google reviews"}
                         />
-                        <span className={"hidden text-sm text-center text-white underline underline-offset-4 sm:block"}>4.5/5 Customer Rating</span>
                     </a>
                 </div>
             </div>
