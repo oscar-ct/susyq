@@ -24,7 +24,6 @@ const IntroductionSection = () => {
                             height={441}
                             src={susy}
                             alt="Susy"
-                            placeholder="blur"
                             className={"object-cover"}
                         />
                     </div>
