@@ -1,77 +1,103 @@
 import connectDB from "@/lib/connectDB";
 import Credentials from "@/models/credentials";
+import {
+    fetchServiceFusionAccessToken,
+    fetchServiceFusionCheckIfCustomerExists,
+    fetchServiceFusionCreateNewCustomer, fetchServiceFusionCreateNewEstimate
+} from "@/utils/serviceFusionApi";
 
-const fetchServiceFusionAccessToken = async (refreshToken) => {
-    const res = await fetch("https://api.servicefusion.com/oauth/access_token", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            "grant_type": "refresh_token",
-            "refresh_token": refreshToken
-        }),
-    });
-    if (!res.ok) {
-        return null;
-    }
-    return await res.json()
-};
 
-const fetchServiceFusionCheckIfCustomerExists = async (email, token) => {
-    const res = await fetch(`https://api.servicefusion.com/v1/customers?per-page=1&access_token=${token}&filters[email]=${email}`, {
-        method: "GET",
-        headers: {
-            'Accept': 'application/json'
-        },
-    });
-    if (!res.ok) {
-        return null;
-    }
-    return await res.json()
-};
+export async function POST(req) {
+    try {
+        await connectDB();
+        const serviceFusionCredentials = await Credentials.findById(process.env.MONGO_CREDENTIALS_ID);
+        const tokenResponse = await fetchServiceFusionAccessToken(serviceFusionCredentials.serviceFusionRefreshToken);
+        if (!tokenResponse.success) {
+            return new Response(tokenResponse.message, {status: 500});
+        }
+        const { access_token, refresh_token } = tokenResponse.data;
+        serviceFusionCredentials.serviceFusionRefreshToken = refresh_token;
+        serviceFusionCredentials.serviceFusionAccessToken = access_token;
+        await serviceFusionCredentials.save();
+        const { frequency, services, serviceDetails, serviceContact, serviceNotes, serviceSource } = await req.json();
+        const { firstName, lastName, email, phone, cleaningAddress } = serviceContact;
+        const { rooms, size, extras } = serviceDetails;
+        let estimateCustomerName;
 
-const fetchServiceFusionCreateNewCustomer = async (customer, token) => {
-    const res = await fetch('https://api.servicefusion.com/v1/customers', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(customer),
-    });
-    if (!res.ok && res.status === 500) {
-        return 500;
-    }
-    if (!res.ok) {
-        // const msg = await res.text();
-        // console.log(msg)
-        return null;
-    }
-    return await res.json()
-};
+        const checkResponse = await fetchServiceFusionCheckIfCustomerExists(email, access_token);
+        if (!checkResponse.success) {
+            return new Response(checkResponse.message, {status: 500});
+        }
+        if (checkResponse.message === "Customer found") {
+            estimateCustomerName = checkResponse.data;
+        }
+        if (checkResponse.message === "Customer not found") {
+            const newCustomerPayload = {
+                customer_name: `${firstName} ${lastName}`,
+                contacts: [
+                    {
+                        fname: firstName,
+                        lname: lastName,
+                        phones: [{phone: phone, type: "Mobile"}],
+                        emails: [{email: email, class: "Personal"}],
+                        is_primary: "true"
+                    }
+                ],
+                locations: [{
+                    street_1: cleaningAddress.address1,
+                    street_2: cleaningAddress.address2,
+                    city: cleaningAddress.city,
+                    state_prov: "Texas",
+                    postal_code: cleaningAddress.zipCode,
+                }],
+                referral_source: "susyqonline",
+                is_taxable: true,
+            };
+            if (cleaningAddress.address1.length === 0) {
+                delete newCustomerPayload.locations;
+            }
+            const createCustomerResponse = await fetchServiceFusionCreateNewCustomer(newCustomerPayload, access_token);
+            if (!createCustomerResponse.success) {
+                return new Response(createCustomerResponse.message, {status: 500});
+            }
+            estimateCustomerName = createCustomerResponse.data;
+        }
+        const estimateTimestamp = getFormattedCurrentDateTime();
+        const estimateServices = getServices(rooms.bedroom, rooms.bathroom, frequency, serviceDetails.frequency, services, extras);
+        const estimateNotes = getNotes(frequency, serviceDetails.frequency, services[0], rooms.bedroom, rooms.bathroom, size, extras, serviceSource, phone, serviceNotes);
+        const estimateDescription = getDescription(frequency, services[0]);
+        const estimateCustomFields = [{ name: "Bedrooms", value: parseInt(rooms.bedroom) }, { name: "Bathrooms", value: parseInt(rooms.bathroom) }];
+        const newEstimatePayload = {
+            created_at: estimateTimestamp,
+            customer_name: estimateCustomerName,
+            description: estimateDescription,
+            notes: estimateNotes,
+            contact_first_name: firstName,
+            contact_last_name: lastName,
+            status: "Estimate Requested",
+            street_1: cleaningAddress.address1 ? cleaningAddress.address1 : "",
+            street_2: cleaningAddress.address2 ? cleaningAddress.address2 : "",
+            city: cleaningAddress.city ? cleaningAddress.city : "",
+            state_prov: cleaningAddress.city ? "Texas" : "",
+            postal_code: cleaningAddress.zipCode ? cleaningAddress.zipCode : "",
+            source: "susyqonline",
+            opportunity_owner: "Dalia Ballard",
+            services: estimateServices,
+            custom_fields: estimateCustomFields,
+        };
+        const createEstimateResponse = await fetchServiceFusionCreateNewEstimate(newEstimatePayload, access_token);
+        if (!createEstimateResponse.success) {
+            return new Response(createEstimateResponse.message, {status: 500});
+        }
+        return new Response(createEstimateResponse.message);
 
-const fetchServiceFusionCreateNewEstimate = async (estimate, token) => {
-    const res = await fetch('https://api.servicefusion.com/v1/estimates', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(estimate),
-    });
-    // const msg = await res.text();
-    // console.log(msg)
-    if (!res.ok && res.status === 500) {
-        return 500;
+    } catch (error) {
+        console.error("API Error:", error.message);
+        return new Response(`Error: ${error.message}`, {status: 500});
     }
-    if (!res.ok) {
-        return null;
-    }
-    return await res.json()
-};
+}
+
+// Helper functions
 
 const getFormattedCurrentDateTime = () => {
     const now = new Date();
@@ -89,8 +115,6 @@ const getFormattedCurrentDateTime = () => {
 const getServices = (bedrooms, bathrooms, frequency, frequencyRate, servicesArray, extras) => {
     let services = [];
     const serviceName = servicesArray[0];
-
-    // Regardless of combination return commercial service
     if (serviceName === "Commercial Cleaning") {
         const service = {
             service: "Office Cleaning",
@@ -99,7 +123,6 @@ const getServices = (bedrooms, bathrooms, frequency, frequencyRate, servicesArra
         services.push(service);
         return services;
     }
-
     const standardCombinations = [
         "1 bd, 1 ba",
         "1 bd, 1.5 ba",
@@ -147,7 +170,6 @@ const getServices = (bedrooms, bathrooms, frequency, frequencyRate, servicesArra
         "5 bds, 2 ba",
         "5 bds, 2.5 ba",
     ];
-
     const bedStr = bedrooms + (parseInt(bedrooms) === 1 ? " bd" : " bds");
     const bathStr = bathrooms + " ba";
 
@@ -160,7 +182,6 @@ const getServices = (bedrooms, bathrooms, frequency, frequencyRate, servicesArra
     const unusualMatchStr = unusualCombinations.find(combo => {
         return combo.startsWith(bedStr) && combo.endsWith(bathStr);
     });
-
     if (standardMatchStr) {
         let serviceStr1 = standardMatchStr;
         let serviceStr2 = "Deep Clean";
@@ -190,7 +211,6 @@ const getServices = (bedrooms, bathrooms, frequency, frequencyRate, servicesArra
         }
         services.push(service);
     }
-
     if (extras.length > 0 && !xlMatchStr && !unusualMatchStr) {
         const extraServices = extras.map((serviceName) => {
             return {
@@ -239,121 +259,3 @@ const getDescription = (frequency, serviceName) => {
     }
     return "Thank you for reaching out to Susy Q Cleaning! We're excited to assist you with your cleaning needs.";
 };
-
-export async function POST(req) {
-    await connectDB();
-    const credentials = await Credentials.findById("66dad17f465d12d0ab01513d");
-    const updatedServiceFusionAccessTokens = await fetchServiceFusionAccessToken(credentials.serviceFusionRefreshToken);
-    if (!updatedServiceFusionAccessTokens) {
-        return new Response("Something went wrong (/access_token)", {status: 404});
-    } else {
-        const { access_token, refresh_token } = updatedServiceFusionAccessTokens;
-        credentials.serviceFusionRefreshToken = refresh_token;
-        credentials.serviceFusionAccessToken = access_token;
-        await credentials.save();
-        const { frequency, services, serviceDetails, serviceContact, serviceNotes, serviceSource } = await req.json();
-        const { firstName, lastName, email, phone, cleaningAddress } = serviceContact;
-        const { rooms, size, extras } = serviceDetails;
-        const existingCustomer = await fetchServiceFusionCheckIfCustomerExists(email, access_token);
-        if (!existingCustomer) {
-            return new Response("Something went wrong (/customer/get)", {status: 404});
-        } else {
-           const estimateTimestamp = getFormattedCurrentDateTime();
-           const estimateServices = getServices(rooms.bedroom, rooms.bathroom, frequency, serviceDetails.frequency, services, extras);
-           const estimateNotes = getNotes(frequency, serviceDetails.frequency, services[0], rooms.bedroom, rooms.bathroom, size, extras, serviceSource, phone, serviceNotes);
-           const estimateDescription = getDescription(frequency, services[0]);
-           const estimateCustomFields = [{ name: "Bedrooms", value: parseInt(rooms.bedroom) }, { name: "Bathrooms", value: parseInt(rooms.bathroom) }];
-            if (existingCustomer.items.length !== 0) {
-                const newEstimateBody = {
-                    // created_at: "2014-09-08T20:42:04+00:00",
-                    created_at: estimateTimestamp,
-                    customer_name: existingCustomer.items[0].customer_name,
-                    description: estimateDescription,
-                    notes: estimateNotes,
-                    contact_first_name: firstName,
-                    contact_last_name: lastName,
-                    status: "Estimate Requested",
-                    street_1: cleaningAddress.address1 ? cleaningAddress.address1 : "",
-                    street_2: cleaningAddress.address2 ? cleaningAddress.address2 : "",
-                    city: cleaningAddress.city ? cleaningAddress.city : "",
-                    state_prov: cleaningAddress.city ? "Texas" : "",
-                    postal_code: cleaningAddress.zipCode ? cleaningAddress.zipCode : "",
-                    source: "susyqonline",
-                    opportunity_owner: "Dalia Ballard",
-                    services: estimateServices,
-                    custom_fields: estimateCustomFields,
-                };
-                const newEstimate = await fetchServiceFusionCreateNewEstimate(newEstimateBody, access_token);
-                if (!newEstimate) {
-                    return new Response("Something went wrong (/estimates)", {status: 404});
-                } else {
-                    if (newEstimate === 500) {
-                        return new Response("500");
-                    }
-                    return new Response("Estimated created!");
-                }
-            } else {
-                let newCustomerBody = {
-                    customer_name: `${firstName} ${lastName}`,
-                    contacts: [{
-                        fname: firstName,
-                        lname: lastName,
-                        phones: [{
-                            phone: phone,
-                            type: "Mobile"
-                        }],
-                        emails: [{
-                            email: email,
-                            class: "Personal"
-                        }],
-                        is_primary: "true"
-                    }],
-                    locations: [{
-                        street_1: cleaningAddress.address1,
-                        street_2: cleaningAddress.address2,
-                        city: cleaningAddress.city,
-                        state_prov: "Texas",
-                        postal_code: cleaningAddress.zipCode,
-                    }],
-                    referral_source: "susyqonline",
-                    is_taxable: true,
-                };
-                if (cleaningAddress.address1.length === 0) {
-                    delete newCustomerBody.locations;
-                }
-                const newCustomer = await fetchServiceFusionCreateNewCustomer(newCustomerBody, access_token);
-                if (!newCustomer) {
-                    return new Response("Something went wrong (/customer/post)", {status: 404});
-                } else {
-                    const newEstimateBody = {
-                        created_at: estimateTimestamp,
-                        customer_name: newCustomer === 500 ? `${firstName} ${lastName}` : newCustomer.customer_name,
-                        description: estimateDescription,
-                        notes: estimateNotes,
-                        contact_first_name: firstName,
-                        contact_last_name: lastName,
-                        status: "Estimate Requested",
-                        street_1: cleaningAddress.address1 ? cleaningAddress.address1 : "",
-                        street_2: cleaningAddress.address2 ? cleaningAddress.address2 : "",
-                        city: cleaningAddress.city ? cleaningAddress.city : "",
-                        state_prov: cleaningAddress.city ? "Texas" : "",
-                        postal_code: cleaningAddress.zipCode ? cleaningAddress.zipCode : "",
-                        source: "susyqonline",
-                        opportunity_owner: "Dalia Ballard",
-                        services: estimateServices,
-                        custom_fields: estimateCustomFields,
-                    };
-                    const newEstimate = await fetchServiceFusionCreateNewEstimate(newEstimateBody, access_token);
-                    if (!newEstimate) {
-                        return new Response("Something went wrong (/estimates/services!!!!!went wrong)", {status: 404});
-                    } else {
-                        if (newEstimate === 500) {
-                            return new Response("500");
-                        }
-                        return new Response("Estimated created!");
-                    }
-                }
-            }
-        }
-    }
-}
