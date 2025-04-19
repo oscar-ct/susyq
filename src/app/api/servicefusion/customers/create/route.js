@@ -9,10 +9,10 @@ import {
 export async function POST(req) {
     try {
         await connectDB();
-        const serviceFusionCredentials = await Credentials.findById("66dad17f465d12d0ab01513d");
+        const serviceFusionCredentials = await Credentials.findById(process.env.MONGO_CREDENTIALS_ID);
         const tokenResponse = await fetchServiceFusionAccessToken(serviceFusionCredentials.serviceFusionRefreshToken);
         if (!tokenResponse.success) {
-            return new Response(tokenResponse.message, {status: 505});
+            return new Response(tokenResponse.message, {status: 500});
         }
         const { access_token, refresh_token } = tokenResponse.data;
         serviceFusionCredentials.serviceFusionRefreshToken = refresh_token;
@@ -23,8 +23,8 @@ export async function POST(req) {
         if (!checkResponse.success) {
             return new Response(checkResponse.message, {status: 500});
         }
-        if (checkResponse.message !== "Customer not found") {
-            return new Response(checkResponse.message);
+        if (checkResponse.message === "Customer found") {
+            return new Response(`${checkResponse.data} was found as an existing contact in Service Fusion`);
         }
         const newCustomerPayload = {
             customer_name: `${firstName} ${lastName}`,
@@ -44,7 +44,7 @@ export async function POST(req) {
         if (!createResponse.success) {
             return new Response(createResponse.message, {status: 500});
         }
-        return new Response(createResponse.message);
+        return new Response(`A new contact for ${createResponse.data} has been created in Service Fusion`);
     } catch (error) {
         console.error("API Error:", error.message);
         return new Response(`Error: ${error.message}`, {status: 500});
