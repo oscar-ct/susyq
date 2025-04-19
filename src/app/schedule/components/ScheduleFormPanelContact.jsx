@@ -5,128 +5,117 @@ import GlobalContext from "@/context/GlobalContext";
 const ScheduleFormPanelContact = () => {
     const { dispatch, serviceContact } = useContext(GlobalContext);
 
-    const [errorFirstName, setErrorFirstName] = useState(false);
-    const [errorFirstNameMsg, setErrorFirstNameMsg] = useState("");
-    const [errorLastName, setErrorLastName] = useState(false);
-    const [errorLastNameMsg, setErrorLastNameMsg] = useState("");
-    const [errorEmail, setErrorEmail] = useState(false);
-    const [errorEmailMsg, setErrorEmailMsg] = useState("");
-    const [errorPhone, setErrorPhone] = useState(false);
-    const [errorPhoneMsg, setErrorPhoneMsg] = useState("");
+    const [errors, setErrors] = useState({
+        firstName: false,
+        lastName: false,
+        email: false,
+        phone: false,
+    });
 
-    const dispatchContact = (data) => {
+    const dispatchContact = useCallback((data) => {
         dispatch({
             type: "SET_SERVICE_CONTACT",
             payload: data
         });
-    };
-    const dispatchSetLocalStorage = () => {
+    }, [dispatch]);
+    const dispatchSetLocalStorage = useCallback(() => {
         dispatch({ type: "SET_LS" });
-    };
-    const validateEmailCallback = useCallback((str) => {
-        if (!isValidEmail(str)) {
-            setErrorEmail(true);
-            setErrorEmailMsg("Please enter a valid email");
-        } else {
-            setErrorEmail(false);
-            setErrorEmailMsg("");
+    }, [dispatch]);
+    const validateField = useCallback((field, value) => {
+        switch (field) {
+            case "firstName":
+            case "lastName":
+                return !isValidName(value);
+            case "email":
+                return !isValidEmail(value);
+            case "phone":
+                return value.length !== 12;
+            default:
+                return false;
         }
     }, []);
-    const validateFirstNameCallback = useCallback((str) => {
-        if (!isValidName(str)) {
-            setErrorFirstName(true);
-            setErrorFirstNameMsg("Please enter a valid name");
-        } else {
-            setErrorFirstName(false);
-            setErrorFirstNameMsg("");
-        }
-    }, []);
-    const validateLastNameCallback = useCallback((str) => {
-        if (!isValidName(str)) {
-            setErrorLastName(true);
-            setErrorLastNameMsg("Please enter a valid name");
-        } else {
-            setErrorLastName(false);
-            setErrorLastNameMsg("");
-        }
-    }, []);
-    const validatePhoneCallback = useCallback((str) => {
-        if (str.length !== 12) {
-            setErrorPhone(true);
-            setErrorPhoneMsg("Please enter a valid phone number");
-        } else {
-            setErrorPhone(false);
-            setErrorPhoneMsg("");
-        }
-    }, []);
-    useEffect(() => {
-        const { firstName, lastName, email, phone } = serviceContact;
-        if (serviceContact.validating) {
-            validateEmailCallback(email);
-            validateFirstNameCallback(firstName);
-            validateLastNameCallback(lastName);
-            validatePhoneCallback(phone);
-        }
-    }, [serviceContact.validating, serviceContact, validateEmailCallback, validatePhoneCallback, validateFirstNameCallback, validateLastNameCallback]);
 
-    const validateAll = (contactDetails) => {
-        const { firstName, lastName, email, phone } = contactDetails;
+    const validateAll = useCallback(({ firstName, lastName, email, phone }) => {
         return isValidName(firstName) && isValidName(lastName) && isValidEmail(email) && phone.length === 12;
-    };
-    const setGlobalStateValidation = (data) => {
-        const validated = validateAll(data);
-        if (validated) {
-            const details = {...data, validated: true}
-            dispatch({type: "SET_TAB_STATUS", payload: {id: 4, disabled: "false"}});
-            dispatchContact(details);
-        } else {
-            const details = {...data, validated: false}
-            dispatch({type: "SET_TAB_STATUS", payload: {id: 4, disabled: "true"}});
-            dispatchContact(details);
-        }
-    };
+    }, []);
 
-    const setFirstName = (e) => {
+    const setGlobalStateValidation = useCallback((data) => {
+        const validated = validateAll(data);
+        dispatch({type: "SET_TAB_STATUS", payload: {id: 4, disabled: validated ? "false" : "true"}});
+        dispatchContact({...data, validated: validated});
+    }, [dispatch, dispatchContact, validateAll]);
+
+    const handleInputChange = useCallback((field, value, updateDetails) => {
+            setErrors((prev) => ({ ...prev, [field]: validateField(field, value) }));
+            updateDetails();
+        }, [validateField]);
+
+    const setFirstName = useCallback((e) => {
         const val = e.target.value;
         const details = {...serviceContact, firstName: val}
-        dispatchContact(details);
-        setGlobalStateValidation(details);
-    };
-    const setLastName = (e) => {
+        handleInputChange("firstName", val, () => setGlobalStateValidation(details));
+    }, [serviceContact, handleInputChange, setGlobalStateValidation]);
+
+    const setLastName = useCallback((e) => {
         const val = e.target.value;
         const details = {...serviceContact, lastName: val}
-        dispatchContact(details);
-        setGlobalStateValidation(details);
-    };
-    const setEmailAddress = (e) => {
+        handleInputChange("lastName", val, () => setGlobalStateValidation(details));
+    }, [serviceContact, handleInputChange, setGlobalStateValidation]);
+
+    const setEmailAddress = useCallback((e) => {
         const val = e.target.value;
         const details = {...serviceContact, email: val}
-        dispatchContact(details);
-        setGlobalStateValidation(details);
-    };
-    const setPhone = (e) => {
+        handleInputChange("email", val, () => setGlobalStateValidation(details));
+    }, [serviceContact, handleInputChange, setGlobalStateValidation]);
+
+    const setPhone = useCallback((e) => {
         const val = phoneNumberAutoFormat(e.target.value);
         const details = {...serviceContact, phone: val}
-        dispatchContact(details);
-        setGlobalStateValidation(details);
-    };
+        handleInputChange("phone", val, () => setGlobalStateValidation(details));
+    }, [serviceContact, handleInputChange, setGlobalStateValidation]);
 
-    const setAddress1 = (e) => {
+
+    const setAddress1 = useCallback((e) => {
         const details = {...serviceContact, cleaningAddress: { ...serviceContact.cleaningAddress, address1: e.target.value }}
         dispatchContact(details);
-    };
-    const setAddress2 = (e) => {
+    }, [serviceContact, dispatchContact]);
+
+    const setAddress2 = useCallback((e) => {
         const details = {...serviceContact, cleaningAddress: { ...serviceContact.cleaningAddress, address2: e.target.value }}
         dispatchContact(details);
-    };
-    const setCity = (e) => {
+    }, [serviceContact, dispatchContact]);
+
+    const setCity = useCallback((e) => {
         const details = {...serviceContact, cleaningAddress: { ...serviceContact.cleaningAddress, city: e.target.value }}
         dispatchContact(details);
-    };
-    const setZipCode = (e) => {
+    }, [serviceContact, dispatchContact]);
+
+    const setZipCode = useCallback((e) => {
         const details = {...serviceContact, cleaningAddress: { ...serviceContact.cleaningAddress, zipCode: e.target.value }}
         dispatchContact(details);
-    };
+    }, [serviceContact, dispatchContact]);
+    const handleZipKeyPress = useCallback((e) => {
+        if (!/[0-9]/.test(e.key)) {
+            e.preventDefault();
+        }
+    }, []);
+
+    useEffect(() => {
+        if (serviceContact.validating) {
+            const { firstName, lastName, email, phone } = serviceContact;
+            setErrors({
+                firstName: validateField("firstName", firstName),
+                lastName: validateField("lastName", lastName),
+                email: validateField("email", email),
+                phone: validateField("phone", phone),
+            });
+        }
+    }, [serviceContact.validating, validateField]);
+
+    const INPUT_CLASS =
+        "block appearance-none w-full bg-stone-100 border border-stone-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-stone-200 focus:border-cyan-600";
+    const ERROR_INPUT_CLASS = "border-red-600 focus:border-red-600";
+    const ERROR_TEXT_CLASS = "text-center text-red-500 md:text-start text-sm";
 
     return (
         <div className={"px-2 py-8 md:p-8 flex flex-col-reverse md:flex-col"}>
@@ -140,24 +129,24 @@ const ScheduleFormPanelContact = () => {
                             <div className="relative w-full md:w-9/12">
                                 <input
                                     autoComplete="address-line1"
-                                    className="block appearance-none w-full bg-stone-100 border border-stone-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-stone-200"
+                                    className={INPUT_CLASS}
                                     id="address1"
                                     type={"text"}
                                     placeholder={"Street Address"}
                                     onChange={setAddress1}
-                                    value={serviceContact.cleaningAddress.address1}
+                                    value={serviceContact.cleaningAddress.address1 || ""}
                                     onBlur={dispatchSetLocalStorage}
                                 />
                             </div>
                             <div className="relative w-full md:w-3/12">
                                 <input
                                     autoComplete="address-line2"
-                                    className="block appearance-none w-full bg-stone-100 border border-stone-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-stone-200"
+                                    className={INPUT_CLASS}
                                     id="address2"
                                     type={"text"}
                                     placeholder={"Apt/Suite #"}
                                     onChange={setAddress2}
-                                    value={serviceContact.cleaningAddress.address2}
+                                    value={serviceContact.cleaningAddress.address2 || ""}
                                     onBlur={dispatchSetLocalStorage}
                                 />
                             </div>
@@ -166,12 +155,12 @@ const ScheduleFormPanelContact = () => {
                             <div className="relative w-full md:w-8/12">
                                 <input
                                     autoComplete="locality"
-                                    className="block appearance-none w-full bg-stone-100 border border-stone-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-stone-200"
+                                    className={INPUT_CLASS}
                                     id="city"
                                     type={"text"}
                                     placeholder={"City"}
                                     onChange={setCity}
-                                    value={serviceContact.cleaningAddress.city}
+                                    value={serviceContact.cleaningAddress.city || ""}
                                     onBlur={dispatchSetLocalStorage}
                                 />
                             </div>
@@ -179,21 +168,25 @@ const ScheduleFormPanelContact = () => {
                                 <div className="relative w-full md:w-6/12">
                                     <input
                                         disabled={true}
-                                        className="block appearance-none w-full bg-stone-200 border border-stone-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight cursor-not-allowed"
+                                        className={`${INPUT_CLASS} bg-stone-200 cursor-not-allowed`}
                                         id="state"
                                         type={"text"}
                                         placeholder={"Texas"}
+                                        value="Texas"
                                     />
                                 </div>
                                 <div className="relative w-full md:w-6/12">
                                     <input
-                                        className="block appearance-none w-full bg-stone-100 border border-stone-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-stone-200"
+                                        className={INPUT_CLASS}
                                         id="postalCode"
                                         type={"text"}
-                                        placeholder={"Zip Code"}
+                                        placeholder={"5-digit ZIP"}
                                         autoComplete={"postal-code"}
+                                        pattern="[0-9]{5}"
+                                        maxLength={5}
+                                        onKeyDown={handleZipKeyPress}
                                         onChange={setZipCode}
-                                        value={serviceContact.cleaningAddress.zipCode}
+                                        value={serviceContact.cleaningAddress.zipCode || ""}
                                         onBlur={dispatchSetLocalStorage}
                                     />
                                 </div>
@@ -204,7 +197,7 @@ const ScheduleFormPanelContact = () => {
             </div>
             <div className={"border-b pb-8 md:pb-3 md:pt-8 md:border-none"}>
                 <p className={"text-center pb-8 text-gray-500"}>
-                    This information will only be used to contact you about your cleaning
+                    Enter your details to schedule a sparkling clean! We&apos;ll only use this to contact you about your cleaning.
                 </p>
                 <div className={"flex flex-col gap-4"}>
                     <div className={"flex flex-col md:flex-row gap-4 items-center"}>
@@ -217,18 +210,18 @@ const ScheduleFormPanelContact = () => {
                                     <input
                                         id={"firstName"}
                                         autoComplete={"given name"}
-                                        className={`${ errorFirstName && errorFirstNameMsg ? "bg-red-300 focus:border-red-500" : "bg-stone-100 focus:bg-stone-200 text-gray-700"} block appearance-none w-full border border-stone-200 py-3 px-4 pr-8 rounded leading-tight focus:outline-none `}
+                                        className={`${INPUT_CLASS} ${errors.firstName ? ERROR_INPUT_CLASS : ""}`}
                                         type={"text"}
                                         placeholder={"First Name"}
                                         onChange={setFirstName}
-                                        value={serviceContact.firstName}
+                                        value={serviceContact.firstName || ""}
                                         onBlur={dispatchSetLocalStorage}
                                     />
                                 </div>
                                 {
-                                    errorFirstName && errorFirstNameMsg && (
-                                        <div className={"text-center text-red-500 font-semibold md:text-start text-sm"}>
-                                            {errorFirstNameMsg}
+                                    errors.firstName && (
+                                        <div id="firstName-error" className={ERROR_TEXT_CLASS}>
+                                            Please enter a valid first name
                                         </div>
                                     )
                                 }
@@ -238,18 +231,18 @@ const ScheduleFormPanelContact = () => {
                                     <input
                                         id={"lastName"}
                                         autoComplete={"family name"}
-                                        className={`${ errorLastName && errorLastNameMsg ? "bg-red-300 focus:border-red-500" : "bg-stone-100 focus:bg-stone-200 text-gray-700"} block appearance-none w-full border border-stone-200 py-3 px-4 pr-8 rounded leading-tight focus:outline-none `}
+                                        className={`${INPUT_CLASS} ${errors.lastName ? ERROR_INPUT_CLASS : ""}`}
                                         type={"text"}
                                         placeholder={"Last Name"}
                                         onChange={setLastName}
-                                        value={serviceContact.lastName}
+                                        value={serviceContact.lastName || ""}
                                         onBlur={dispatchSetLocalStorage}
                                     />
                                 </div>
                                 {
-                                    errorLastName && errorLastNameMsg && (
-                                        <div className={"text-center text-red-500 font-semibold md:text-start text-sm"}>
-                                            {errorLastNameMsg}
+                                    errors.lastName && (
+                                        <div id="lastName-error" className={ERROR_TEXT_CLASS}>
+                                            Please enter a valid last name
                                         </div>
                                     )
                                 }
@@ -265,18 +258,18 @@ const ScheduleFormPanelContact = () => {
                                 <input
                                     id={"email"}
                                     autoComplete={"email"}
-                                    className={`${ errorEmail && errorEmailMsg ? "bg-red-300 focus:border-red-500" : "bg-stone-100 focus:bg-stone-200 text-gray-700"} block appearance-none w-full border border-stone-200 py-3 px-4 pr-8 rounded leading-tight focus:outline-none `}
+                                    className={`${INPUT_CLASS} ${errors.email ? ERROR_INPUT_CLASS : ""}`}
                                     type={"email"}
                                     placeholder={"Email Address"}
-                                    value={serviceContact.email}
+                                    value={serviceContact.email || ""}
                                     onChange={setEmailAddress}
                                     onBlur={dispatchSetLocalStorage}
                                 />
                             </div>
                             {
-                                errorEmail && errorEmailMsg && (
-                                    <div className={"text-center text-red-500 font-semibold md:text-start text-sm"}>
-                                        {errorEmailMsg}
+                                errors.email && (
+                                    <div id="email-error" className={ERROR_TEXT_CLASS}>
+                                        Please enter a valid email
                                     </div>
                                 )
                             }
@@ -291,19 +284,19 @@ const ScheduleFormPanelContact = () => {
                                 <input
                                     id={"phone"}
                                     autoComplete={"tel"}
-                                    className={`${ errorPhone && errorPhoneMsg ? "bg-red-300 focus:border-red-500" : "bg-stone-100 focus:bg-stone-200 text-gray-700"} block appearance-none w-full border border-stone-200 py-3 px-4 pr-8 rounded leading-tight focus:outline-none `}
+                                    className={`${INPUT_CLASS} ${errors.phone ? ERROR_INPUT_CLASS : ""}`}
                                     type={"tel"}
-                                    placeholder={"Phone Number"}
+                                    placeholder="123-456-7890"
                                     maxLength={12}
                                     onChange={setPhone}
-                                    value={serviceContact.phone}
+                                    value={serviceContact.phone || ""}
                                     onBlur={dispatchSetLocalStorage}
                                 />
                             </div>
                             {
-                                errorPhone && errorPhoneMsg && (
-                                    <div className={"text-center text-red-500 font-semibold md:text-start text-sm"}>
-                                        {errorPhoneMsg}
+                                errors.phone && (
+                                    <div id="phone-error" className={ERROR_TEXT_CLASS}>
+                                        Please enter a valid phone number
                                     </div>
                                 )
                             }
