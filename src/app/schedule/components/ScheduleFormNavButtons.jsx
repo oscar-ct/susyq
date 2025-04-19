@@ -1,22 +1,15 @@
-import {useContext, useState} from "react";
+import {useCallback, useContext} from "react";
 import GlobalContext from "@/context/GlobalContext";
 import useNavTo from "@/hooks/useNavTo";
 
 const ScheduleFormNavButtons = () => {
 
-    const { frequency, services, activeTab, serviceDetails, serviceContact, serviceNotes, dispatch, hasSubmittedEstimateSuccessfully, tabs, isAttemptingToSubmitEstimate, serviceSource } = useContext(GlobalContext);
+    const { hasApiError, frequency, services, activeTab, serviceDetails, serviceContact, serviceNotes, dispatch, hasSubmittedEstimateSuccessfully, tabs, isAttemptingToSubmitEstimate, serviceSource } = useContext(GlobalContext);
     const { navToServices, navToServiceDetails, navToServiceContact, navToPrev, navToServiceNotes } = useNavTo();
-    const [btnLoading, setBtnLoading] = useState(false);
 
-    const clearLoadingStatus = () => {
-        dispatch({type: "SUBMIT_IN_PROGRESS", payload: false});
-        setBtnLoading(false);
-    };
-
-    const submitEstimate = async () => {
+    const submitEstimate = useCallback (async () => {
         dispatch({type: "SUBMIT_IN_PROGRESS", payload: true});
-        setBtnLoading(true);
-        const data = {
+        const payload = {
             frequency,
             services,
             serviceDetails,
@@ -24,42 +17,49 @@ const ScheduleFormNavButtons = () => {
             serviceNotes,
             serviceSource,
         };
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/servicefusion/estimates/create`, {
-            method: "POST",
-            body: JSON.stringify(data),
-        });
-        if (!res.ok) {
-            const message = await res.text();
-            dispatch({type: "SET_TAB_STATUS", payload: {id: 4, error: "true", errorMsg: message}});
+        const SUBMIT_TIMEOUT_MS = 10000;
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), SUBMIT_TIMEOUT_MS);
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/servicefusion/estimates/create`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+                signal: controller.signal,
+            });
+            clearTimeout(timeoutId);
+            if (!res.ok) {
+                const message = await res.text();
+                console.error(message);
+                dispatch({type: "SET_API_ERROR", payload: true});
+                return;
+            }
+            dispatch({type: "SUBMISSION_SUCCESS"});
+        } catch (e) {
+            console.error(e);
+            dispatch({type: "SET_API_ERROR", payload: true});
+        } finally {
+            dispatch({ type: "SUBMIT_IN_PROGRESS", payload: false });
             dispatch({ type: "SET_LS" });
-            clearLoadingStatus();
-            return;
         }
-        const response = await res.text();
-        if (response === "500") {
-            console.log("Internal Service Error, Status: 500");
-        }
-        clearLoadingStatus();
-        if (tabs[4].error) {
-            dispatch({type: "SET_TAB_STATUS", payload: {id: 4, error: "false"}});
-        }
-        dispatch({type: "SUBMISSION_SUCCESS"});
-        dispatch({ type: "SET_LS" });
-        // setTimeout(() => {
-        //     dispatch({type: "SUBMIT_IN_PROGRESS", payload: false});
-        //     setBtnLoading(false);
-        // }, 3000)
-    };
+    }, [frequency, services, serviceDetails, serviceContact, serviceNotes, serviceSource, dispatch]);
+
+
+    const ACTIVE_BUTTON_CLASS = "bg-susy hover:bg-susy text-white py-2 px-4 rounded";
+    const DISABLED_BUTTON_CLASS = "bg-stone-200 text-gray-600 opacity-60 cursor-not-allowed py-2 px-4 rounded";
 
     return (
         <div className={"flex gap-4"}>
             {
                 activeTab === 0 && (
                     <>
-                        <button className="bg-stone-200 text-gray-600 opacity-60 py-2 px-4 rounded cursor-not-allowed">
+                        <button className={DISABLED_BUTTON_CLASS} disabled>
                             Previous
                         </button>
-                        <button onClick={navToServices} className={`py-2 px-4 rounded ${frequency.length !== 0 ? "bg-susy hover:bg-susy text-white" : "bg-stone-200 text-gray-600 cursor-not-allowed opacity-70"}`}>
+                        <button
+                            onClick={navToServices}
+                            className={frequency.length ? ACTIVE_BUTTON_CLASS : DISABLED_BUTTON_CLASS}
+                        >
                             Next
                         </button>
                     </>
@@ -68,10 +68,16 @@ const ScheduleFormNavButtons = () => {
             {
                 activeTab === 1 && (
                     <>
-                        <button className={`bg-susy hover:bg-susy text-white py-2 px-4 rounded`} onClick={navToPrev}>
+                        <button
+                            className={ACTIVE_BUTTON_CLASS}
+                            onClick={navToPrev}
+                        >
                             Previous
                         </button>
-                        <button onClick={navToServiceDetails} className={`py-2 px-4 rounded ${services.length !== 0 ? "bg-susy hover:bg-susy text-white" : "bg-stone-200 text-gray-600 cursor-not-allowed opacity-70"}`}>
+                        <button
+                            onClick={navToServiceDetails}
+                            className={services.length ? ACTIVE_BUTTON_CLASS : DISABLED_BUTTON_CLASS}
+                        >
                             Next
                         </button>
                     </>
@@ -80,10 +86,15 @@ const ScheduleFormNavButtons = () => {
             {
                 activeTab === 2 && (
                     <>
-                        <button className={`bg-susy hover:bg-susy text-white py-2 px-4 rounded`} onClick={navToPrev}>
+                        <button
+                            className={ACTIVE_BUTTON_CLASS}
+                            onClick={navToPrev}
+                        >
                             Previous
                         </button>
-                        <button onClick={navToServiceContact} className={`bg-susy hover:bg-susy text-white py-2 px-4 rounded`}>
+                        <button
+                            onClick={navToServiceContact}
+                            className={ACTIVE_BUTTON_CLASS}>
                             Next
                         </button>
                     </>
@@ -92,35 +103,38 @@ const ScheduleFormNavButtons = () => {
             {
                 activeTab === 3 && (
                     <>
-                        <button className={`bg-susy hover:bg-susy text-white py-2 px-4 rounded`} onClick={navToPrev}>
+                        <button
+                            className={ACTIVE_BUTTON_CLASS}
+                            onClick={navToPrev}
+                        >
                             Previous
                         </button>
-                        <button onClick={navToServiceNotes} className={`py-2 px-4 rounded ${serviceContact.validated ? "bg-susy hover:bg-susy text-white" : "bg-stone-200 text-gray-600 cursor-not-allowed opacity-70"}`}>
+                        <button
+                            onClick={navToServiceNotes}
+                            className={serviceContact.validated ? ACTIVE_BUTTON_CLASS : DISABLED_BUTTON_CLASS}
+                        >
                             Next
                         </button>
                     </>
                 )
             }
             {
-                activeTab === 4 && !hasSubmittedEstimateSuccessfully && (
+                activeTab === 4 && !hasSubmittedEstimateSuccessfully && !hasApiError && (
                     <div className={"flex flex-col items-center md:items-end"}>
                         <div className={"flex gap-4"}>
                             <button
-                                className={`${isAttemptingToSubmitEstimate ? "bg-stone-200 text-gray-600 opacity-60 cursor-not-allowed" : "bg-susy hover:bg-susy text-white"} py-2 px-4 rounded`}
-                                onClick={navToPrev}>
+                                className={isAttemptingToSubmitEstimate ? DISABLED_BUTTON_CLASS : ACTIVE_BUTTON_CLASS}
+                                onClick={navToPrev}
+                            >
                                 Previous
                             </button>
-                            <button onClick={submitEstimate} disabled={btnLoading}
-                                    className={`bg-cyan-700 text-white button py-2 px-4 rounded ${!btnLoading ? "hover:bg-susy" : "opacity-60 cursor-not-allowed"}`}>
+                            <button
+                                onClick={submitEstimate}
+                                disabled={isAttemptingToSubmitEstimate}
+                                className={`${ACTIVE_BUTTON_CLASS} ${isAttemptingToSubmitEstimate ? "opacity-60 cursor-not-allowed" : "hover:bg-susy"}`}                            >
                                 <div className={"flex items-center"}>
-                                    {
-                                        isAttemptingToSubmitEstimate ? "Processing" : "Finish"
-                                    }
-                                    {
-                                        btnLoading && (
-                                            <span className={"ml-[6px] loading"}/>
-                                        )
-                                    }
+                                    {isAttemptingToSubmitEstimate ? "Processing" : "Finish"}
+                                    {isAttemptingToSubmitEstimate && <span className={"ml-[6px] loading"}/>}
                                 </div>
                             </button>
                         </div>
