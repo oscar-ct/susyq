@@ -4,7 +4,7 @@ import useNavTo from "@/hooks/useNavTo";
 
 const ScheduleFormNavButtons = () => {
 
-    const { hasApiError, frequency, services, activeTab, serviceDetails, serviceContact, serviceNotes, dispatch, hasSubmittedEstimateSuccessfully, tabs, isAttemptingToSubmitEstimate, serviceSource } = useContext(GlobalContext);
+    const { hasApiError, frequency, services, activeTab, serviceDetails, serviceContact, serviceNotes, dispatch, hasSubmittedEstimateSuccessfully, isAttemptingToSubmitEstimate, serviceSource } = useContext(GlobalContext);
     const { navToServices, navToServiceDetails, navToServiceContact, navToPrev, navToServiceNotes } = useNavTo();
 
     const submitEstimate = useCallback (async () => {
