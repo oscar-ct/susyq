@@ -16,27 +16,27 @@ const ScheduleFormTab = () => {
     const {navToServices, navToServiceDetails, navToServiceContact, navToServiceNotes} = useNavToServiceDetails();
 
     const handleNavToAction = (id) => {
-        if (id === 0 && !hasSubmittedEstimateSuccessfully && !isAttemptingToSubmitEstimate) {
-            dispatch({
-                type: "SET_ACTIVE_TAB",
-                payload: id
-            });
-            dispatch({ type: "SET_LS" });
-        }
-        if (id === 1) {
-            navToServices();
-            return;
-        }
-        if (id === 2) {
-            navToServiceDetails();
-            return;
-        }
-        if (id === 3) {
-            navToServiceContact();
-            return;
-        }
-        if (id === 4) {
-            navToServiceNotes();
+        switch (id) {
+            case 0:
+                if (!hasSubmittedEstimateSuccessfully && !isAttemptingToSubmitEstimate) {
+                    dispatch({ type: "SET_ACTIVE_TAB", payload: id });
+                    dispatch({ type: "SET_LS" });
+                }
+                break;
+            case 1:
+                navToServices();
+                break;
+            case 2:
+                navToServiceDetails();
+                break;
+            case 3:
+                navToServiceContact();
+                break;
+            case 4:
+                navToServiceNotes();
+                break;
+            default:
+                console.warn(`navigation ID error: ${id}`);
         }
     };
 
@@ -69,17 +69,23 @@ const ScheduleFormTab = () => {
                     <>
                         {
                             tabs.map((tab, index) => (
-                                <div key={index} className={` ${activeTab === tab.id ? "w-1/4" : "w-1/5"} md:w-1/5`}>
+                                <div
+                                    key={index}
+                                    className={` ${activeTab === tab.id ? "w-1/4" : "w-1/5"} md:w-1/5`}
+                                >
                                     {/*Mobile Tabs*/}
-                                    <div key={index} onClick={() => handleNavToAction(tab.id)}
-                                         className={`gap-2 h-min flex flex-col items-center justify-center md:hidden ${tab.disabled ? "cursor-not-allowed" : "cursor-pointer"} ${activeTab === tab.id && !tab.disabled ? "opacity-100" : "opacity-60"} ${hasSubmittedEstimateSuccessfully || isAttemptingToSubmitEstimate ? "!cursor-not-allowed" : ""}`}
+                                    <div
+                                        key={index}
+                                        onClick={() => handleNavToAction(tab.id)}
+                                        className={`gap-2 h-min flex flex-col items-center justify-center md:hidden ${tab.disabled ? "cursor-not-allowed" : "cursor-pointer"} ${activeTab === tab.id && !tab.disabled ? "opacity-100" : "opacity-60"} ${hasSubmittedEstimateSuccessfully || isAttemptingToSubmitEstimate ? "!cursor-not-allowed" : ""}`}
                                     >
                                         <span className={`${activeTab === tab.id ? "text-base md:text-xl" : "text-xs md:text-base"}`}>{tab.name}</span>
                                         <div className={`h-1 w-full rounded-full ${tab.disabled ? "bg-stone-300" : "bg-susy"} ${tab.error ? "!bg-red-500" : ""}`}/>
                                     </div>
                                     {/*Desktop Tabs*/}
-                                    <div onClick={() => handleNavToAction(tab.id)}
-                                         className={`hidden w-full h-full rounded md:flex items-center justify-center ${tab.disabled ? "bg-stone-200 text-gray-600 cursor-not-allowed" : "bg-susy text-white cursor-pointer"} ${activeTab === tab.id && !tab.disabled ? "opacity-100" : "opacity-60"} ${tab.error ? "!bg-red-500" : ""}  ${hasSubmittedEstimateSuccessfully || isAttemptingToSubmitEstimate ? "!cursor-not-allowed" : ""}`}
+                                    <div
+                                        onClick={() => handleNavToAction(tab.id)}
+                                        className={`hidden w-full h-full rounded md:flex items-center justify-center ${tab.disabled ? "bg-stone-200 text-gray-600 cursor-not-allowed" : "bg-susy text-white cursor-pointer"} ${activeTab === tab.id && !tab.disabled ? "opacity-100" : "opacity-60"} ${tab.error ? "!bg-red-500" : ""}  ${hasSubmittedEstimateSuccessfully || isAttemptingToSubmitEstimate ? "!cursor-not-allowed" : ""}`}
                                     >
                                         <span className={"text-xs sm:text-base"}>{tab.name}</span>
                                     </div>
