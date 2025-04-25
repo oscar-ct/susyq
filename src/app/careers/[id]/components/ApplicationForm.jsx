@@ -2,7 +2,7 @@
 
 import {useState} from "react";
 import {phoneNumberAutoFormat, isValidEmail} from "@/utils/validation";
-import * as emailjs from "@emailjs/browser";
+// import * as emailjs from "@emailjs/browser";
 
 const ApplicationForm = ( { title, lang = 'en' } ) => {
     const [loading, setLoading] = useState(false);
@@ -64,24 +64,25 @@ const ApplicationForm = ( { title, lang = 'en' } ) => {
     };
 
     const submitEmailToAPI = async () => {
-        const emailData = {
-            title: title,
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-        }
-        try {
-            const res = await emailjs.send(
-                process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-                process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_2,
-                emailData,
-                process.env.NEXT_PUBLIC_EMAILJS_KEY);
-            // console.log("EmailJS Response:", res);
-            return res.status === 200;
-        } catch (error) {
-            // console.error("EmailJS Error:", error);
-            return false;
-        }
+        return true;
+        // const emailData = {
+        //     title: title,
+        //     name: formData.name,
+        //     email: formData.email,
+        //     phone: formData.phone,
+        // }
+        // try {
+        //     const res = await emailjs.send(
+        //         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+        //         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_2,
+        //         emailData,
+        //         process.env.NEXT_PUBLIC_EMAILJS_KEY);
+        //     // console.log("EmailJS Response:", res);
+        //     return res.status === 200;
+        // } catch (error) {
+        //     // console.error("EmailJS Error:", error);
+        //     return false;
+        // }
     };
 
     const handleSubmit = async (e) => {
@@ -115,7 +116,7 @@ const ApplicationForm = ( { title, lang = 'en' } ) => {
                 email: "",
                 phone: "",
                 resume: null,
-            })
+            });
         }
     };
 
@@ -136,7 +137,8 @@ const ApplicationForm = ( { title, lang = 'en' } ) => {
         submitButton: "Enviar Solicitud",
         submittingButton: "Enviando Solicitud",
         apiError: "Algo salió mal, por favor intenta de nuevo más tarde.",
-        thankYou: "Gracias por enviar tu solicitud. Nuestro equipo revisará tus detalles pronto y se pondrá en contacto contigo lo antes posible."
+        thankYou: "Gracias por enviar tu solicitud. Desafortunadamente, nuestro sistema está temporalmente fuera de servicio, por favor llámanos al (512) 640-6264.",
+        // thankYou: "Gracias por enviar tu solicitud. Nuestro equipo revisará tus detalles pronto y se pondrá en contacto contigo lo antes posible."
     } : {
         title: "Apply Now",
         nameLabel: "Full Name*",
@@ -154,7 +156,8 @@ const ApplicationForm = ( { title, lang = 'en' } ) => {
         submitButton: "Submit Application",
         submittingButton: "Submitting Application",
         apiError: "Something went wrong, please try again later.",
-        thankYou: "Thank you for submitting your application. Our team will review your details shortly and reach out to you as soon as possible."
+        thankYou: "Thank you for submitting your application.  Unfortunately, our system is temporarily down, please call us at (512) 640-6264.",
+        // thankYou: "Thank you for submitting your application. Our team will review your details shortly and reach out to you as soon as possible."
     };
 
     return (
