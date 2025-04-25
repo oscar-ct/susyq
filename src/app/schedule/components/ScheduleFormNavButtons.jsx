@@ -1,11 +1,31 @@
 import {useCallback, useContext} from "react";
 import GlobalContext from "@/context/GlobalContext";
 import useNavTo from "@/hooks/useNavTo";
+import * as emailjs from "@emailjs/browser";
 
 const ScheduleFormNavButtons = () => {
 
     const { hasApiError, frequency, services, activeTab, serviceDetails, serviceContact, serviceNotes, dispatch, hasSubmittedEstimateSuccessfully, isAttemptingToSubmitEstimate, serviceSource } = useContext(GlobalContext);
     const { navToServices, navToServiceDetails, navToServiceContact, navToPrev, navToServiceNotes } = useNavTo();
+
+    const submitMessageToEmailJS = useCallback(async () => {
+        const service = getService(frequency, serviceDetails.frequency, services[0], serviceDetails.rooms.bedroom, serviceDetails.rooms.bathroom, serviceDetails.size, serviceDetails.size, serviceSource)
+        try {
+            await emailjs.send(
+                process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+                process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_3,
+                {
+                    name: `${serviceContact.firstName} ${serviceContact.lastName}`,
+                    email: serviceContact.email,
+                    phone: serviceContact.phone,
+                    service: service
+                },
+                process.env.NEXT_PUBLIC_EMAILJS_KEY
+            );
+        } catch (e) {
+            console.error("EmailJS Error:", e.message || e.text);
+        }
+    }, [serviceContact, frequency, serviceDetails, services, serviceSource]);
 
     const submitEstimate = useCallback (async () => {
         dispatch({type: "SUBMIT_IN_PROGRESS", payload: true});
@@ -35,6 +55,7 @@ const ScheduleFormNavButtons = () => {
                 return;
             }
             dispatch({type: "SUBMISSION_SUCCESS"});
+            await submitMessageToEmailJS();
         } catch (e) {
             console.error(e);
             dispatch({type: "SET_API_ERROR", payload: true});
@@ -42,10 +63,21 @@ const ScheduleFormNavButtons = () => {
             dispatch({ type: "SUBMIT_IN_PROGRESS", payload: false });
             dispatch({ type: "SET_LS" });
         }
-    }, [frequency, services, serviceDetails, serviceContact, serviceNotes, serviceSource, dispatch]);
+    }, [dispatch, frequency, services, serviceDetails, serviceContact, serviceNotes, serviceSource, submitMessageToEmailJS]);
 
 
-    const ACTIVE_BUTTON_CLASS = "bg-susy hover:bg-susy text-white py-2 px-4 rounded";
+    const getService = (frequency, frequencyRate, services, bedrooms, bathrooms, size, extrasArray, source, phone) => {
+        const frequencyStr = `Frequency: ${frequency.charAt(0).toUpperCase()}${frequency.slice(1)} ${frequencyRate ? "(" + frequencyRate + ")" : ""}`;
+        const serviceStr = `Service: ${services}`;
+        const bedroomsStr = `Bedrooms: ${bedrooms}`;
+        const bathroomsStr = `Bathrooms: ${bathrooms}`;
+        const sqftStr = `Sqft: ${size ? size : "not provided"}`;
+        const extrasStr = `Extras: ${extrasArray.length !== 0 ? extrasArray.toString() : "not provided"}`;
+        const sourceStr = `Source: ${source ? source : "not provided"}`;
+        return `${frequencyStr} --- ${serviceStr} --- ${bedroomsStr} --- ${bathroomsStr} --- ${sqftStr} --- ${extrasStr} --- ${sourceStr}`;
+    };
+
+    const ACTIVE_BUTTON_CLASS = "bg-susy hover:bg-susy/90 text-white py-2 px-4 rounded";
     const DISABLED_BUTTON_CLASS = "bg-stone-200 text-gray-600 opacity-60 cursor-not-allowed py-2 px-4 rounded";
 
     return (
