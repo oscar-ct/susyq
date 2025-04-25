@@ -66,7 +66,7 @@ const ScheduleFormNavButtons = () => {
     }, [dispatch, frequency, services, serviceDetails, serviceContact, serviceNotes, serviceSource, submitMessageToEmailJS]);
 
 
-    const getService = (frequency, frequencyRate, services, bedrooms, bathrooms, size, extrasArray, source, phone) => {
+    const getService = (frequency, frequencyRate, services, bedrooms, bathrooms, size, extrasArray, source) => {
         const frequencyStr = `Frequency: ${frequency.charAt(0).toUpperCase()}${frequency.slice(1)} ${frequencyRate ? "(" + frequencyRate + ")" : ""}`;
         const serviceStr = `Service: ${services}`;
         const bedroomsStr = `Bedrooms: ${bedrooms}`;
