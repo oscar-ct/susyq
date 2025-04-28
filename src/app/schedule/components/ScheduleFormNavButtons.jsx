@@ -9,7 +9,7 @@ const ScheduleFormNavButtons = () => {
     const { navToServices, navToServiceDetails, navToServiceContact, navToPrev, navToServiceNotes } = useNavTo();
 
     const submitMessageToEmailJS = useCallback(async () => {
-        const service = getService(frequency, serviceDetails.frequency, services[0], serviceDetails.rooms.bedroom, serviceDetails.rooms.bathroom, serviceDetails.size, serviceDetails.size, serviceSource)
+        const service = getService(frequency, serviceDetails.frequency, services[0], serviceDetails.rooms.bedroom, serviceDetails.rooms.bathroom, serviceDetails.size, serviceDetails.extras, serviceSource)
         try {
             await emailjs.send(
                 process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
